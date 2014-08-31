@@ -1,0 +1,27 @@
+Can't find member of namespace, class, struct, or union named "pa01.c154"
+Hint: try 'pa01.c154<TAB> or 'pa01.c154<ESC-?>
+(Note leading single quote.)
+Make breakpoint pending on future shared library load? (y or [n]) Breakpoint 1 at 0x400adf: file pa01.c, line 154.
+Breakpoint 2 at 0x400ae9: file pa01.c, line 155.
+Breakpoint 3 at 0x400af3: file pa01.c, line 156.
+Breakpoint 4 at 0x400afd: file pa01.c, line 157.
+Starting program: /home/shay/a/vmanja/ECE264/solutions/demo/PA01/pa01 
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffe518) at pa01.c:154
+154	    test_00_arraySum();
+Missing separate debuginfos, use: debuginfo-install glibc-2.12-1.132.el6_5.3.x86_64
+$1 = 1
+
+Breakpoint 2, main (argc=1, argv=0x7fffffffe518) at pa01.c:155
+155	    test_01_arrayCountNegative();
+
+Breakpoint 3, main (argc=1, argv=0x7fffffffe518) at pa01.c:156
+156	    test_02_arrayIsIncreasing();
+
+Breakpoint 4, main (argc=1, argv=0x7fffffffe518) at pa01.c:158
+158	    return EXIT_SUCCESS;
+The program being debugged has been started already.
+Start it from the beginning? (y or n) Program not restarted.
+Continuing.
+
+Program exited normally.
