@@ -1,0 +1,25 @@
+Breakpoint 1 at 0x400546: file pa02.c, line 30.
+No line 85 in file "pa02.c".
+Breakpoint 2 at 0x4006c0: file pa02.c, line 45.
+Note: breakpoint 2 also set at pc 0x4006c0.
+Breakpoint 3 at 0x4006c0: file pa02.c, line 48.
+Starting program: /home/shay/a/vmanja/ECE264/solutions/demo/PA02/pa02 
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffe518) at pa02.c:30
+30	    char  s5[50] = "What";
+$1 = 1
+$2 = 1
+$3 = 1
+31	    const char * s6 = " -24hi";
+34	    printf("my_strlen(\"%s\") = %d\n", s1, (int) my_strlen(s1));
+Continuing.
+
+Breakpoint 2, main (argc=1, argv=0x7fffffffe518) at pa02.c:48
+48	    printf("my_strchr(\"%s\", 'l') = %s\n", s1, my_strchr(s1, 'l'));
+49	    printf("my_strchr(\"%s\", 'o') = %s\n", s2, my_strchr(s2, 'o'));
+50	    printf("my_strchr(\"%s\", nullC) = %s\n\n", s3, my_strchr(s3, '\0'));
+Continuing.
+
+Program exited normally.
+The program is not being run.
+The program is not being run.
