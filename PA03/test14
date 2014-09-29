@@ -1,0 +1,3915 @@
+Script started on Sun 28 Sep 2014 08:45:42 PM EDT
+]0;~/ECE264/solutions/demo/PA03
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA03[0m
+$ p[K./tester answer03.c
+   ---------------------------------------------------------------------------
+   Welcome to the PA03 testing program. This program takes a _long_ time
+   to execute. There is a reason for this. You should not rely on this
+   program to test your code as you go. Instead, you should think about
+   what your code should be doing, and what inputs should produce what
+   outputs for each of your functions.
+   
+        YOU SHOULD THEN TEST EVERY PIECE OF CODE AS YOU WRITE IT 
+   
+                                 AND 
+   
+                        FIX MISTAKES AS YOU GO.
+   
+   When you are convinced that you have the entire assignment 100%% correct,
+   then you can use this testing program to test it. 
+   
+   This will give you your mark assuming that you submit it correctly, and 
+   there are no other irregularities.
+   ---------------------------------------------------------------------------
+
+test 01 :: passing NULL to strcat_ex()
+
+   const char * z2 = "How did it get so late so soon?";
+   char * s1 = NULL;
+   int n;
+   char * s2 = strcat_ex(&s1, &n, z2);
+   // s1 = 0x4c3c040: "How did it get so late so soon?"
+   // s2 = 0x4c3c040
+   // n = 63
+   (pass.)
+
+test 02 :: passing NULL to strcat_ex()
+
+   const char * z0 = "";
+   char * s1 = NULL;
+   int n;
+   char * s2 = strcat_ex(&s1, &n, z0);
+   // s1 = 0x4c3c040: ""
+   // s2 = 0x4c3c040
+   // n = 1
+   (pass.)
+
+test 03 :: no reallocate
+
+   const char * z2 = "How did it get so late so soon?";
+   int n = 2048;
+   char * s1 = malloc(n);
+   char * s3 = s1; // keep a copy
+   s1[0] = '\0';
+   char * s2 = strcat_ex(&s1, &n, z2);
+   // s1 = 0x4c3c040: "How did it get so late so soon?"
+   // s2 = 0x4c3c040
+   // s3 = 0x4c3c040
+   // n = 2048
+   (pass.)
+
+test 04 :: force reallocate
+
+   const char * z2 = "How did it get so late so soon?";
+   const char * s0 = "Hal, ";
+   char * s1 = strdup(s0);
+   int n = strlen(s0);
+   char * s2 = strcat_ex(&s1, &n, z2);
+   // s1 = 0x4c3c090: "Hal, How did it get so late so soon?"
+   // s2 = 0x4c3c090
+   // n = 73
+   (pass.)
+
+test 5 :: explode(...)
+
+   const char * str = "The\nTuring test";
+   const char * delims = " \n";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+
+
+ 
+N = 2
+ strArr[0] is The
+ strArr[1] is Turing
+ strArr[2] is test
+   // strArr[0] is "The"
+   // strArr[1] is "Turing"
+   // strArr[2] is "test"
+   (pass.)
+
+test 6 :: explode(...)
+
+   const char * str = "lady beatle brew";
+   const char * delims = " ";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+ 
+ 
+N = 2
+ strArr[0] is lady
+ strArr[1] is beatle
+ strArr[2] is brew
+   // strArr[0] is "lady"
+   // strArr[1] is "beatle"
+   // strArr[2] is "brew"
+   (pass.)
+
+test 7 :: explode(...)
+
+   const char * str = "The\nTuring test";
+   const char * delims = "";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+N = 0
+ strArr[0] is The
+Turing test
+   // strArr[0] is "The\nTuring test"
+   (pass.)
+
+test 8 :: explode(...)
+
+   const char * str = "The\nTuring test";
+   const char * delims = "\n";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+
+
+N = 1
+ strArr[0] is The
+ strArr[1] is Turing test
+   // strArr[0] is "The"
+   // strArr[1] is "Turing test"
+   (pass.)
+
+test 9 :: explode(...)
+
+   const char * str = "The\nTuring test";
+   const char * delims = "Tt";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+T
+T
+t
+t
+N = 4
+ strArr[0] is 
+ strArr[1] is he
+
+ strArr[2] is uring 
+ strArr[3] is es
+ strArr[4] is 
+   // strArr[0] is ""
+   // strArr[1] is "he\n"
+   // strArr[2] is "uring "
+   // strArr[3] is "es"
+   // strArr[4] is ""
+   (pass.)
+
+test 10 :: explode(...)
+
+   const char * str = "";
+   const char * delims = "Tt";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+N = 0
+ strArr[0] is 
+   // strArr[0] is ""
+   (pass.)
+
+test 11 :: explode(...)
+
+   const char * str = "";
+   const char * delims = "";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+N = 0
+ strArr[0] is 
+   // strArr[0] is ""
+   (pass.)
+
+test 12 :: explode(...)
+
+   const char * str = "The more that you read, the more things you will know. The more that you learn, the more places you\'ll go.";
+   const char * delims = " ,;.";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+ 
+ 
+ 
+ 
+,
+ 
+ 
+ 
+ 
+ 
+ 
+.
+ 
+ 
+ 
+ 
+ 
+,
+ 
+ 
+ 
+ 
+ 
+.
+N = 24
+ strArr[0] is The
+ strArr[1] is more
+ strArr[2] is that
+ strArr[3] is you
+ strArr[4] is read
+ strArr[5] is 
+ strArr[6] is the
+ strArr[7] is more
+ strArr[8] is things
+ strArr[9] is you
+ strArr[10] is will
+ strArr[11] is know
+ strArr[12] is 
+ strArr[13] is The
+ strArr[14] is more
+ strArr[15] is that
+ strArr[16] is you
+ strArr[17] is learn
+ strArr[18] is 
+ strArr[19] is the
+ strArr[20] is more
+ strArr[21] is places
+ strArr[22] is you'll
+ strArr[23] is go
+ strArr[24] is 
+   // strArr[0] is "The"
+   // strArr[1] is "more"
+   // strArr[2] is "that"
+   // strArr[3] is "you"
+   // strArr[4] is "read"
+   // strArr[5] is ""
+   // strArr[6] is "the"
+   // strArr[7] is "more"
+   // strArr[8] is "things"
+   // strArr[9] is "you"
+   // strArr[10] is "will"
+   // strArr[11] is "know"
+   // strArr[12] is ""
+   // strArr[13] is "The"
+   // strArr[14] is "more"
+   // strArr[15] is "that"
+   // strArr[16] is "you"
+   // strArr[17] is "learn"
+   // strArr[18] is ""
+   // strArr[19] is "the"
+   // strArr[20] is "more"
+   // strArr[21] is "places"
+   // strArr[22] is "you\'ll"
+   // strArr[23] is "go"
+   // strArr[24] is ""
+   (pass.)
+
+test 13 :: explode(...)
+
+   const char * str = "Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\nBeware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\nHe took his vorpal sword in hand:\nLong time the manxome foe he sought --\nSo rested he by the Tumtum tree,\nAnd stood awhile in thought.\n\nAnd, as in uffish thought he stood,\nThe Jabberwock, with eyes of flame,\nCame whiffling through the tulgey wood,\nAnd burbled as it came!\n\nOne, two! One, two! And through and through\nThe vorpal blade went snicker-snack!\nHe left it dead, and with its head\nHe went galumphing back.\n\nAnd, has thou slain the Jabberwock?\nCome to my arms, my beamish boy!\nO frabjous day! Callooh! Callay!\nHe chortled in his joy.\n\nTwas brillig, and the slithy toves\nDid gyre and gimble in the wabe;\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n";
+   const char * delims = "\n";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N = 1650553480
+ strArr[0] is Twas brillig, and the slithy toves
+ strArr[1] is Did gyre and gimble in the wabe:
+ strArr[2] is All mimsy were the borogoves,
+ strArr[3] is And the mome raths outgrabe.
+ strArr[4] is 
+ strArr[5] is Beware the Jabberwock, my son!
+ strArr[6] is The jaws that bite, the claws that catch!
+ strArr[7] is Beware the Jubjub bird, and shun
+ strArr[8] is The frumious Bandersnatch!
+ strArr[9] is 
+ strArr[10] is He took his vorpal sword in hand:
+ strArr[11] is Long time the manxome foe he sought --
+ strArr[12] is So rested he by the Tumtum tree,
+ strArr[13] is And stood awhile in thought.
+ strArr[14] is 
+ strArr[15] is And, as in uffish thought he stood,
+ strArr[16] is The Jabberwock, with eyes of flame,
+ strArr[17] is Came whiffling through the tulgey wood,
+ strArr[18] is And burbled as it came!
+ strArr[19] is 
+ strArr[20] is One, two! One, two! And through and through
+ strArr[21] is The vorpal blade went snicker-snack!
+ strArr[22] is He left it dead, and with its head
+ strArr[23] is He went galumphing back.
+ strArr[24] is 
+ strArr[25] is And, has thou slain the Jabberwock?
+ strArr[26] is Come to my arms, my beamish boy!
+ strArr[27] is O frabjous day! Callooh! Callay!
+ strArr[28] is He chortled in his joy.
+ strArr[29] is 
+ strArr[30] is Twas brillig, and the slithy toves
+ strArr[31] is Did gyre and gimble in the wabe;
+ strArr[32] is All mimsy were the borogoves,
+ strArr[33] is And the mome raths outgrabe.
+ strArr[34] is 
+ strArr[35] is 
+ strArr[36] is 
+ strArr[37] is 
+ strArr[38] is 
+ strArr[39] is 
+ strArr[40] is test 01 :: passing NULL to strcat_ex()
+ strArr[41] is 
+ strArr[42] is    const char * z2 = "%s";
+ strArr[43] is 
+ strArr[44] is    char * s1 = NULL;
+ strArr[45] is    int n;
+ strArr[46] is 
+ strArr[47] is 
+ strArr[48] is 
+ strArr[49] is 
+ strArr[50] is    char * s2 = strcat_ex(&s1, &n, z2);
+ strArr[51] is    // s1 = %p: "%s"
+ strArr[52] is 
+ strArr[53] is    // s2 = %p
+ strArr[54] is 
+ strArr[55] is    // n = %d
+ strArr[56] is 
+ strArr[57] is    // Error, %s
+ strArr[58] is 
+ strArr[59] is s1 is still NULL
+ strArr[60] is s1 != s2
+ strArr[61] is    // Error, %s :: 
+ strArr[62] is strcmp(s1, z2) should be 0
+ strArr[63] is s1 = "%s", z2 = "%s"
+ strArr[64] is 
+ strArr[65] is 
+ strArr[66] is 
+ strArr[67] is 
+ strArr[68] is 
+ strArr[69] is 
+ strArr[70] is 
+ strArr[71] is 
+ strArr[72] is n should be 1 + 2 * strlen(z2)
+ strArr[73] is    Testcase FAILED
+ strArr[74] is    (pass.)
+ strArr[75] is 
+ strArr[76] is 
+ strArr[77] is 
+ strArr[78] is 
+ strArr[79] is test 02 :: passing NULL to strcat_ex()
+ strArr[80] is 
+ strArr[81] is    const char * z0 = "";
+ strArr[82] is 
+ strArr[83] is 
+ strArr[84] is 
+ strArr[85] is 
+ strArr[86] is 
+ strArr[87] is 
+ strArr[88] is    char * s2 = strcat_ex(&s1, &n, z0);
+ strArr[89] is strcmp(s1, z0) should be 0
+ strArr[90] is s1 = "%s", z0 = "%s"
+ strArr[91] is 
+ strArr[92] is n should be 1 + 2 * strlen(z0)
+ strArr[93] is 
+ strArr[94] is test 03 :: no reallocate
+ strArr[95] is 
+ strArr[96] is 
+ strArr[97] is 
+ strArr[98] is 
+ strArr[99] is 
+ strArr[100] is 
+ strArr[101] is 
+ strArr[102] is    int n = 2048;
+ strArr[103] is    char * s1 = malloc(n);
+ strArr[104] is    char * s3 = s1; // keep a copy
+ strArr[105] is    s1[0] = '\0';
+ strArr[106] is    char * s2 = strcat_ex(&s1, &n, z2);
+ strArr[107] is    // s3 = %p
+ strArr[108] is 
+ strArr[109] is 
+ strArr[110] is 
+ strArr[111] is 
+ strArr[112] is 
+ strArr[113] is s1 changed in strcat_ex(...) when it shouldn't have
+ strArr[114] is n should not change
+ strArr[115] is 
+ strArr[116] is test 04 :: force reallocate
+ strArr[117] is 
+ strArr[118] is Hal, 
+ strArr[119] is    const char * s0 = "%s";
+ strArr[120] is 
+ strArr[121] is    char * s1 = strdup(s0);
+ strArr[122] is    int n = strlen(s0);
+ strArr[123] is    char * s2 = strcat_ex(&s1, &n, z2);
+ strArr[124] is 
+ strArr[125] is 
+ strArr[126] is 
+ strArr[127] is 
+ strArr[128] is 
+ strArr[129] is 
+ strArr[130] is 
+ strArr[131] is n should be 1 + 2 * (strlen(s0) + strlen(z2))
+ strArr[132] is 
+ strArr[133] is 
+ strArr[134] is strncmp(s1, s0, strlen(s0)) should be 0
+ strArr[135] is s1 = "%s", s0 = "%s"
+ strArr[136] is 
+ strArr[137] is 
+ strArr[138] is 
+ strArr[139] is strcmp(s1 + strlen(s0), z2) should be 0
+ strArr[140] is s1+strlen(s0) = "%s", z2 = "%s"
+ strArr[141] is 
+ strArr[142] is    
+ strArr[143] is 
+ strArr[144] is test %0d :: explode(...)
+ strArr[145] is 
+ strArr[146] is 
+ strArr[147] is %sconst char * str = "
+ strArr[148] is ";
+ strArr[149] is %sconst char * delims = "
+ strArr[150] is %sint n;
+ strArr[151] is 
+ strArr[152] is 
+ strArr[153] is %schar * * strArr = explode(std, delims, &n);
+ strArr[154] is 
+ strArr[155] is 
+ strArr[156] is %s// Error, n = %d, but expected %d
+ strArr[157] is 
+ strArr[158] is %s// strArr[%d] is "
+ strArr[159] is "
+ strArr[160] is %s(pass.)
+ strArr[161] is 
+ strArr[162] is 
+ strArr[163] is %sTestcase FAILED. Printing Solution:
+ strArr[164] is 
+ strArr[165] is 
+ strArr[166] is %sstrArr[%d] = "%s". (correct.)
+ strArr[167] is 
+ strArr[168] is 
+ strArr[169] is 
+ strArr[170] is 
+ strArr[171] is 
+ strArr[172] is 
+ strArr[173] is 
+ strArr[174] is 
+ strArr[175] is %sstrArr[%d] = "%s". Should be "%s"
+ strArr[176] is 
+ strArr[177] is 
+ strArr[178] is 
+ strArr[179] is 
+ strArr[180] is %sstrArr[%d] = "%s"; however, the solution has no such index
+ strArr[181] is 
+ strArr[182] is 
+ strArr[183] is 
+ strArr[184] is %sstrArr has no index %d; however, the %dth element should be "%s"
+ strArr[185] is 
+ strArr[186] is 
+ strArr[187] is test %0d :: implode(...)
+ strArr[188] is 
+ strArr[189] is 
+ strArr[190] is %sint len = %d
+ strArr[191] is 
+ strArr[192] is %schar * * strArr = malloc(len * sizeof(char*));
+ strArr[193] is 
+ strArr[194] is %sstrArr[%d] = strdup("
+ strArr[195] is ");
+ strArr[196] is %sconst char * glue = "
+ strArr[197] is 
+ strArr[198] is 
+ strArr[199] is %schar * s = implode(strArr, len, glue);
+ strArr[200] is 
+ strArr[201] is %s// s is "
+ strArr[202] is %sFAIL
+ strArr[203] is 
+ strArr[204] is 
+ strArr[205] is 
+ strArr[206] is %s// The memory in strArr has been corrupted!
+ strArr[207] is 
+ strArr[208] is %s// expected: "
+ strArr[209] is 
+ strArr[210] is test %0d :: sortStringArray(...)
+ strArr[211] is 
+ strArr[212] is 
+ strArr[213] is 
+ strArr[214] is 
+ strArr[215] is 
+ strArr[216] is 
+ strArr[217] is %ssortStringArray(strArr, len);
+ strArr[218] is 
+ strArr[219] is , ERROR, expected "
+ strArr[220] is 
+ strArr[221] is 
+ strArr[222] is 
+ strArr[223] is 
+ strArr[224] is test %0d :: sortStringCharacters(...)
+ strArr[225] is 
+ strArr[226] is 
+ strArr[227] is %schar * s1 = strdup("
+ strArr[228] is %ssortStringCharacters(s1)
+ strArr[229] is 
+ strArr[230] is %s// s1 is now "
+ strArr[231] is 
+ strArr[232] is 
+ strArr[233] is 
+ strArr[234] is 
+ strArr[235] is test %0d :: destroyStringArray(...)
+ strArr[236] is 
+ strArr[237] is 
+ strArr[238] is 
+ strArr[239] is %sdestroyStringArray(NULL, 0);
+ strArr[240] is 
+ strArr[241] is %sdestroyStringArray(strArr, len);
+ strArr[242] is 
+ strArr[243] is 
+ strArr[244] is 
+ strArr[245] is 
+ strArr[246] is 
+ strArr[247] is %s// Pass conditional on no memory errors
+ strArr[248] is 
+ strArr[249] is %d
+ strArr[250] is 
+ strArr[251] is  
+ strArr[252] is 
+ strArr[253] is The
+ strArr[254] is Turing test
+ strArr[255] is  
+ strArr[256] is lady beatle brew
+ strArr[257] is 
+ strArr[258] is 
+ strArr[259] is Tt
+ strArr[260] is  ,;.
+ strArr[261] is a
+ strArr[262] is aaaaa
+ strArr[263] is {newline}
+ strArr[264] is Z
+ strArr[265] is  -- 
+ strArr[266] is ;
+ strArr[267] is 
+ strArr[268] is , 
+ strArr[269] is 1a2a3a4a5a6
+ strArr[270] is 
+ strArr[271] is 
+ strArr[272] is 
+ strArr[273] is 
+ strArr[274] is 
+ strArr[275] is 
+ strArr[276] is Internal error, this should never happend. Please report this error to the course professor.
+ strArr[277] is 
+ strArr[278] is 
+ strArr[279] is 
+ strArr[280] is Ï#@
+ strArr[281] is 
+ strArr[282] is 
+ strArr[283] is 
+ strArr[284] is 
+ strArr[285] is ˚#@
+ strArr[286] is 
+ strArr[287] is 
+ strArr[288] is 
+ strArr[289] is 
+ strArr[290] is 
+ strArr[291] is $@
+ strArr[292] is 
+ strArr[293] is 
+ strArr[294] is 
+ strArr[295] is 
+ strArr[296] is $@
+ strArr[297] is 
+ strArr[298] is 
+ strArr[299] is 
+ strArr[300] is 
+ strArr[301] is ($@
+ strArr[302] is 
+ strArr[303] is 
+ strArr[304] is 
+ strArr[305] is 
+ strArr[306] is A$@
+ strArr[307] is 
+ strArr[308] is 
+ strArr[309] is 
+ strArr[310] is 
+ strArr[311] is Z$@
+ strArr[312] is 
+ strArr[313] is 
+ strArr[314] is 
+ strArr[315] is 
+ strArr[316] is s$@
+ strArr[317] is 
+ strArr[318] is 
+ strArr[319] is 
+ strArr[320] is 
+ strArr[321] is å$@
+ strArr[322] is 
+ strArr[323] is 
+ strArr[324] is 
+ strArr[325] is 
+ strArr[326] is •$@
+ strArr[327] is 
+ strArr[328] is 
+ strArr[329] is 
+ strArr[330] is 
+ strArr[331] is æ$@
+ strArr[332] is 
+ strArr[333] is 
+ strArr[334] is 
+ strArr[335] is 
+ strArr[336] is ◊$@
+ strArr[337] is 
+ strArr[338] is 
+ strArr[339] is 
+ strArr[340] is 
+ strArr[341] is ı$@
+ strArr[342] is 
+ strArr[343] is 
+ strArr[344] is 
+ strArr[345] is 
+ strArr[346] is %@
+ strArr[347] is 
+ strArr[348] is 
+ strArr[349] is 
+ strArr[350] is 
+ strArr[351] is ,%@
+ strArr[352] is 
+ strArr[353] is 
+ strArr[354] is 
+ strArr[355] is 
+ strArr[356] is J%@
+ strArr[357] is 
+ strArr[358] is 
+ strArr[359] is 
+ strArr[360] is 
+ strArr[361] is h%@
+ strArr[362] is 
+ strArr[363] is 
+ strArr[364] is 
+ strArr[365] is 
+ strArr[366] is Ü%@
+ strArr[367] is 
+ strArr[368] is 
+ strArr[369] is 
+ strArr[370] is 
+ strArr[371] is §%@
+ strArr[372] is 
+ strArr[373] is 
+ strArr[374] is 
+ strArr[375] is 
+ strArr[376] is ¬%@
+ strArr[377] is 
+ strArr[378] is 
+ strArr[379] is 
+ strArr[380] is 
+ strArr[381] is Â%@
+ strArr[382] is 
+ strArr[383] is 
+ strArr[384] is 
+ strArr[385] is 
+ strArr[386] is &@
+ strArr[387] is 
+ strArr[388] is 
+ strArr[389] is 
+ strArr[390] is 
+ strArr[391] is &&@
+ strArr[392] is 
+ strArr[393] is 
+ strArr[394] is 
+ strArr[395] is 
+ strArr[396] is ?&@
+ strArr[397] is 
+ strArr[398] is 
+ strArr[399] is 
+ strArr[400] is 
+ strArr[401] is X&@
+ strArr[402] is 
+ strArr[403] is 
+ strArr[404] is 
+ strArr[405] is 
+ strArr[406] is v&@
+ strArr[407] is 
+ strArr[408] is 
+ strArr[409] is 
+ strArr[410] is 
+ strArr[411] is è&@
+ strArr[412] is 
+ strArr[413] is 
+ strArr[414] is 
+ strArr[415] is 
+ strArr[416] is ®&@
+ strArr[417] is 
+ strArr[418] is 
+ strArr[419] is 
+ strArr[420] is 
+ strArr[421] is æ&@
+ strArr[422] is 
+ strArr[423] is 
+ strArr[424] is 
+ strArr[425] is 
+ strArr[426] is œ&@
+ strArr[427] is 
+ strArr[428] is 
+ strArr[429] is 
+ strArr[430] is 
+ strArr[431] is Â&@
+ strArr[432] is 
+ strArr[433] is 
+ strArr[434] is 
+ strArr[435] is 
+ strArr[436] is ˚&@
+ strArr[437] is 
+ strArr[438] is 
+ strArr[439] is 
+ strArr[440] is 
+ strArr[441] is %c
+ strArr[442] is 
+ strArr[443] is N = %d
+ strArr[444] is 
+ strArr[445] is  strArr[%d] is %s
+ strArr[446] is 
+ strArr[447] is 
+ strArr[448] is ;Ù
+ strArr[449] is 
+ strArr[450] is 
+ strArr[451] is 
+ strArr[452] is 
+ strArr[453] is 
+ strArr[454] is Ù…ˇˇ
+ strArr[455] is 
+ strArr[456] is ÑÀˇˇ0
+ strArr[457] is 
+ strArr[458] is {ÃˇˇP
+ strArr[459] is 
+ strArr[460] is RŒˇˇx
+ strArr[461] is 
+ strArr[462] is œŒˇˇò
+ strArr[463] is 
+ strArr[464] is ˙Œˇˇ∏
+ strArr[465] is 
+ strArr[466] is 0œˇˇÿ
+ strArr[467] is 
+ strArr[468] is Xœˇˇ¯
+ strArr[469] is 
+ strArr[470] is îœˇˇ
+ strArr[471] is 
+ strArr[472] is Ëœˇˇ8
+ strArr[473] is 
+ strArr[474] is €—ˇˇ`
+ strArr[475] is 
+ strArr[476] is º”ˇˇà
+ strArr[477] is 
+ strArr[478] is ﬁ’ˇˇ®
+ strArr[479] is 
+ strArr[480] is ôÿˇˇ–
+ strArr[481] is 
+ strArr[482] is ‹ˇˇ¯
+ strArr[483] is 
+ strArr[484] is Âﬁˇˇ
+ strArr[485] is 
+ strArr[486] is C·ˇˇ8
+ strArr[487] is 
+ strArr[488] is ë‚ˇˇX
+ strArr[489] is 
+ strArr[490] is È„ˇˇx
+ strArr[491] is 
+ strArr[492] is úÁˇˇò
+ strArr[493] is 
+ strArr[494] is @Èˇˇ¿
+ strArr[495] is 
+ strArr[496] is §ÎˇˇË
+ strArr[497] is 
+ strArr[498] is ºÎˇˇ
+ strArr[499] is 
+ strArr[500] is Ïˇˇ(
+ strArr[501] is 
+ strArr[502] is =ÏˇˇH
+ strArr[503] is 
+ strArr[504] is eÏˇˇh
+ strArr[505] is 
+ strArr[506] is °Ïˇˇà
+ strArr[507] is 
+ strArr[508] is Ïˇˇ®
+ strArr[509] is 
+ strArr[510] is 
+ strArr[511] is Ìˇˇ¿
+ strArr[512] is 
+ strArr[513] is 
+ strArr[514] is 
+ strArr[515] is 
+ strArr[516] is 
+ strArr[517] is 
+ strArr[518] is 
+ strArr[519] is 
+ strArr[520] is 
+ strArr[521] is 
+ strArr[522] is 
+ strArr[523] is 
+ strArr[524] is zR
+ strArr[525] is xê
+ strArr[526] is 
+ strArr[527] is 
+ strArr[528] is 
+ strArr[529] is 
+ strArr[530] is 
+ strArr[531] is 
+ strArr[532] is 
+ strArr[533] is ‹»ˇˇê
+ strArr[534] is 
+ strArr[535] is 
+ strArr[536] is AÜCã
+ strArr[537] is 
+ strArr[538] is 
+ strArr[539] is 
+ strArr[540] is <
+ strArr[541] is 
+ strArr[542] is 
+ strArr[543] is L ˇˇ˜
+ strArr[544] is 
+ strArr[545] is 
+ strArr[546] is 
+ strArr[547] is AÜCÚ
+ strArr[548] is 
+ strArr[549] is $
+ strArr[550] is 
+ strArr[551] is 
+ strArr[552] is \
+ strArr[553] is 
+ strArr[554] is 
+ strArr[555] is #Àˇˇ◊
+ strArr[556] is 
+ strArr[557] is 
+ strArr[558] is AÜCeÉ≠
+ strArr[559] is 
+ strArr[560] is 
+ strArr[561] is 
+ strArr[562] is 
+ strArr[563] is 
+ strArr[564] is 
+ strArr[565] is 
+ strArr[566] is 
+ strArr[567] is Ñ
+ strArr[568] is 
+ strArr[569] is 
+ strArr[570] is “Ãˇˇ}
+ strArr[571] is 
+ strArr[572] is 
+ strArr[573] is 
+ strArr[574] is AÜCx
+ strArr[575] is 
+ strArr[576] is 
+ strArr[577] is 
+ strArr[578] is 
+ strArr[579] is §
+ strArr[580] is 
+ strArr[581] is 
+ strArr[582] is /Õˇˇ+
+ strArr[583] is 
+ strArr[584] is 
+ strArr[585] is 
+ strArr[586] is AÜCf
+ strArr[587] is 
+ strArr[588] is 
+ strArr[589] is 
+ strArr[590] is 
+ strArr[591] is 
+ strArr[592] is ƒ
+ strArr[593] is 
+ strArr[594] is 
+ strArr[595] is :Õˇˇ6
+ strArr[596] is 
+ strArr[597] is 
+ strArr[598] is 
+ strArr[599] is AÜCRÉ_
+ strArr[600] is 
+ strArr[601] is 
+ strArr[602] is ‰
+ strArr[603] is 
+ strArr[604] is 
+ strArr[605] is PÕˇˇ(
+ strArr[606] is 
+ strArr[607] is 
+ strArr[608] is 
+ strArr[609] is AÜCc
+ strArr[610] is 
+ strArr[611] is 
+ strArr[612] is 
+ strArr[613] is 
+ strArr[614] is 
+ strArr[615] is 
+ strArr[616] is 
+ strArr[617] is XÕˇˇ<
+ strArr[618] is 
+ strArr[619] is 
+ strArr[620] is 
+ strArr[621] is AÜCPÉg
+ strArr[622] is 
+ strArr[623] is 
+ strArr[624] is $
+ strArr[625] is 
+ strArr[626] is tÕˇˇT
+ strArr[627] is 
+ strArr[628] is 
+ strArr[629] is 
+ strArr[630] is AÜCO
+ strArr[631] is 
+ strArr[632] is $
+ strArr[633] is 
+ strArr[634] is 
+ strArr[635] is D
+ strArr[636] is 
+ strArr[637] is ®ÕˇˇÛ
+ strArr[638] is 
+ strArr[639] is 
+ strArr[640] is AÜCQÉ›
+ strArr[641] is 
+ strArr[642] is 
+ strArr[643] is 
+ strArr[644] is 
+ strArr[645] is 
+ strArr[646] is $
+ strArr[647] is 
+ strArr[648] is 
+ strArr[649] is l
+ strArr[650] is 
+ strArr[651] is sœˇˇ·
+ strArr[652] is 
+ strArr[653] is 
+ strArr[654] is AÜCQÉÀ
+ strArr[655] is 
+ strArr[656] is 
+ strArr[657] is 
+ strArr[658] is 
+ strArr[659] is 
+ strArr[660] is 
+ strArr[661] is 
+ strArr[662] is 
+ strArr[663] is î
+ strArr[664] is 
+ strArr[665] is ,—ˇˇ"
+ strArr[666] is 
+ strArr[667] is 
+ strArr[668] is AÜC
+ strArr[669] is $
+ strArr[670] is 
+ strArr[671] is 
+ strArr[672] is ¥
+ strArr[673] is 
+ strArr[674] is .”ˇˇª
+ strArr[675] is 
+ strArr[676] is 
+ strArr[677] is AÜCSÉå£
+ strArr[678] is 
+ strArr[679] is 
+ strArr[680] is 
+ strArr[681] is $
+ strArr[682] is 
+ strArr[683] is 
+ strArr[684] is ‹
+ strArr[685] is 
+ strArr[686] is ¡’ˇˇÉ
+ strArr[687] is 
+ strArr[688] is 
+ strArr[689] is AÜCqÉM
+ strArr[690] is 
+ strArr[691] is 
+ strArr[692] is 
+ strArr[693] is 
+ strArr[694] is 
+ strArr[695] is 
+ strArr[696] is 
+ strArr[697] is 
+ strArr[698] is 
+ strArr[699] is 
+ strArr[700] is Ÿˇˇ…
+ strArr[701] is 
+ strArr[702] is 
+ strArr[703] is AÜCƒ
+ strArr[704] is 
+ strArr[705] is 
+ strArr[706] is 
+ strArr[707] is $
+ strArr[708] is 
+ strArr[709] is ≈€ˇˇ^
+ strArr[710] is 
+ strArr[711] is 
+ strArr[712] is AÜCY
+ strArr[713] is 
+ strArr[714] is 
+ strArr[715] is 
+ strArr[716] is D
+ strArr[717] is 
+ strArr[718] is ﬁˇˇN
+ strArr[719] is 
+ strArr[720] is 
+ strArr[721] is AÜCI
+ strArr[722] is 
+ strArr[723] is 
+ strArr[724] is 
+ strArr[725] is d
+ strArr[726] is 
+ strArr[727] is 1ﬂˇˇX
+ strArr[728] is 
+ strArr[729] is 
+ strArr[730] is AÜCS
+ strArr[731] is 
+ strArr[732] is 
+ strArr[733] is 
+ strArr[734] is Ñ
+ strArr[735] is 
+ strArr[736] is i‡ˇˇ≥
+ strArr[737] is 
+ strArr[738] is 
+ strArr[739] is AÜCÆ
+ strArr[740] is $
+ strArr[741] is 
+ strArr[742] is 
+ strArr[743] is §
+ strArr[744] is 
+ strArr[745] is ¸„ˇˇ§
+ strArr[746] is 
+ strArr[747] is 
+ strArr[748] is AÜC]ÉÇ
+ strArr[749] is 
+ strArr[750] is 
+ strArr[751] is 
+ strArr[752] is 
+ strArr[753] is 
+ strArr[754] is $
+ strArr[755] is 
+ strArr[756] is 
+ strArr[757] is Ã
+ strArr[758] is 
+ strArr[759] is xÂˇˇd
+ strArr[760] is 
+ strArr[761] is 
+ strArr[762] is AÜCyÉ&
+ strArr[763] is 
+ strArr[764] is 
+ strArr[765] is 
+ strArr[766] is 
+ strArr[767] is 
+ strArr[768] is 
+ strArr[769] is 
+ strArr[770] is 
+ strArr[771] is Ù
+ strArr[772] is 
+ strArr[773] is ¥Áˇˇ
+ strArr[774] is 
+ strArr[775] is 
+ strArr[776] is 
+ strArr[777] is AÜCS
+ strArr[778] is 
+ strArr[779] is 
+ strArr[780] is 
+ strArr[781] is 
+ strArr[782] is 
+ strArr[783] is 
+ strArr[784] is 
+ strArr[785] is ¨ÁˇˇK
+ strArr[786] is 
+ strArr[787] is 
+ strArr[788] is 
+ strArr[789] is AÜCF
+ strArr[790] is 
+ strArr[791] is 
+ strArr[792] is 
+ strArr[793] is 
+ strArr[794] is 4
+ strArr[795] is 
+ strArr[796] is ◊Áˇˇ6
+ strArr[797] is 
+ strArr[798] is 
+ strArr[799] is 
+ strArr[800] is AÜCRÉ_
+ strArr[801] is 
+ strArr[802] is 
+ strArr[803] is T
+ strArr[804] is 
+ strArr[805] is ÌÁˇˇ(
+ strArr[806] is 
+ strArr[807] is 
+ strArr[808] is 
+ strArr[809] is AÜCc
+ strArr[810] is 
+ strArr[811] is 
+ strArr[812] is 
+ strArr[813] is 
+ strArr[814] is 
+ strArr[815] is t
+ strArr[816] is 
+ strArr[817] is ıÁˇˇ<
+ strArr[818] is 
+ strArr[819] is 
+ strArr[820] is 
+ strArr[821] is AÜCPÉg
+ strArr[822] is 
+ strArr[823] is 
+ strArr[824] is î
+ strArr[825] is 
+ strArr[826] is ËˇˇJ
+ strArr[827] is 
+ strArr[828] is 
+ strArr[829] is 
+ strArr[830] is AÜCE
+ strArr[831] is 
+ strArr[832] is 
+ strArr[833] is 
+ strArr[834] is 
+ strArr[835] is ¥
+ strArr[836] is 
+ strArr[837] is @Ëˇˇ
+ strArr[838] is 
+ strArr[839] is 
+ strArr[840] is 
+ strArr[841] is 
+ strArr[842] is 
+ strArr[843] is 
+ strArr[844] is 
+ strArr[845] is 
+ strArr[846] is 
+ strArr[847] is 
+ strArr[848] is $
+ strArr[849] is 
+ strArr[850] is 
+ strArr[851] is Ã
+ strArr[852] is 
+ strArr[853] is 8Ëˇˇâ
+ strArr[854] is 
+ strArr[855] is 
+ strArr[856] is 
+ strArr[857] is QåÜ_@ÉèéçX
+ strArr[858] is 
+ strArr[859] is 
+ strArr[860] is 
+ strArr[861] is 
+ strArr[862] is 
+ strArr[863] is 
+ strArr[864] is 
+ strArr[865] is 
+ strArr[866] is 
+ strArr[867] is 
+ strArr[868] is ˇˇˇˇˇˇˇˇ
+ strArr[869] is 
+ strArr[870] is 
+ strArr[871] is 
+ strArr[872] is 
+ strArr[873] is 
+ strArr[874] is 
+ strArr[875] is 
+ strArr[876] is ˇˇˇˇˇˇˇˇ
+ strArr[877] is 
+ strArr[878] is 
+ strArr[879] is 
+ strArr[880] is 
+ strArr[881] is 
+ strArr[882] is 
+ strArr[883] is 
+ strArr[884] is 
+ strArr[885] is 
+ strArr[886] is 
+ strArr[887] is 
+ strArr[888] is 
+ strArr[889] is 
+ strArr[890] is 
+ strArr[891] is 
+ strArr[892] is 
+ strArr[893] is 
+ strArr[894] is 
+ strArr[895] is 
+ strArr[896] is 
+ strArr[897] is 
+ strArr[898] is 
+ strArr[899] is 
+ strArr[900] is 
+ strArr[901] is 
+ strArr[902] is 
+ strArr[903] is 
+ strArr[904] is 
+ strArr[905] is 
+ strArr[906] is 
+ strArr[907] is 
+ strArr[908] is 
+ strArr[909] is 
+ strArr[910] is 
+ strArr[911] is 
+ strArr[912] is 
+ strArr[913] is `@
+ strArr[914] is 
+ strArr[915] is 
+ strArr[916] is 
+ strArr[917] is 
+ strArr[918] is 
+ strArr[919] is 
+ strArr[920] is 
+ strArr[921] is 
+ strArr[922] is 
+ strArr[923] is 
+ strArr[924] is 
+ strArr[925] is h-@
+ strArr[926] is 
+ strArr[927] is 
+ strArr[928] is 
+ strArr[929] is 
+ strArr[930] is ı˛ˇo
+ strArr[931] is 
+ strArr[932] is 
+ strArr[933] is 
+ strArr[934] is `@
+ strArr[935] is 
+ strArr[936] is 
+ strArr[937] is 
+ strArr[938] is 
+ strArr[939] is 
+ strArr[940] is 
+ strArr[941] is 
+ strArr[942] is 
+ strArr[943] is 
+ strArr[944] is 
+ strArr[945] is 
+ strArr[946] is Ä@
+ strArr[947] is 
+ strArr[948] is 
+ strArr[949] is 
+ strArr[950] is 
+ strArr[951] is 
+ strArr[952] is 
+ strArr[953] is 
+ strArr[954] is 
+ strArr[955] is 
+ strArr[956] is 
+ strArr[957] is 
+ strArr[958] is à@
+ strArr[959] is 
+ strArr[960] is 
+ strArr[961] is 
+ strArr[962] is 
+ strArr[963] is 
+ strArr[964] is 
+ strArr[965] is 
+ strArr[966] is 
+ strArr[967] is 
+ strArr[968] is 
+ strArr[969] is 
+ strArr[970] is 
+ strArr[971] is ±
+ strArr[972] is 
+ strArr[973] is 
+ strArr[974] is 
+ strArr[975] is 
+ strArr[976] is 
+ strArr[977] is 
+ strArr[978] is 
+ strArr[979] is 
+ strArr[980] is 
+ strArr[981] is 
+ strArr[982] is 
+ strArr[983] is 
+ strArr[984] is 
+ strArr[985] is 
+ strArr[986] is 
+ strArr[987] is 
+ strArr[988] is 
+ strArr[989] is 
+ strArr[990] is 
+ strArr[991] is 
+ strArr[992] is 
+ strArr[993] is 
+ strArr[994] is 
+ strArr[995] is 
+ strArr[996] is 
+ strArr[997] is 
+ strArr[998] is 
+ strArr[999] is 
+ strArr[1000] is 
+ strArr[1001] is 
+ strArr[1002] is 
+ strArr[1003] is 
+ strArr[1004] is 
+ strArr[1005] is 
+ strArr[1006] is 
+ strArr[1007] is 
+ strArr[1008] is 
+ strArr[1009] is 
+ strArr[1010] is 
+ strArr[1011] is 
+ strArr[1012] is 
+ strArr[1013] is 
+ strArr[1014] is PF`
+ strArr[1015] is 
+ strArr[1016] is 
+ strArr[1017] is 
+ strArr[1018] is 
+ strArr[1019] is 
+ strArr[1020] is 
+ strArr[1021] is 
+ strArr[1022] is 
+ strArr[1023] is 
+ strArr[1024] is 
+ strArr[1025] is 
+ strArr[1026] is ∞
+ strArr[1027] is 
+ strArr[1028] is 
+ strArr[1029] is 
+ strArr[1030] is 
+ strArr[1031] is 
+ strArr[1032] is 
+ strArr[1033] is 
+ strArr[1034] is 
+ strArr[1035] is 
+ strArr[1036] is 
+ strArr[1037] is 
+ strArr[1038] is 
+ strArr[1039] is 
+ strArr[1040] is 
+ strArr[1041] is 
+ strArr[1042] is 
+ strArr[1043] is 
+ strArr[1044] is 
+ strArr[1045] is 
+ strArr[1046] is 
+ strArr[1047] is 
+ strArr[1048] is 
+ strArr[1049] is 
+ strArr[1050] is 
+ strArr[1051] is 
+ strArr[1052] is 
+ strArr[1053] is ∞@
+ strArr[1054] is 
+ strArr[1055] is 
+ strArr[1056] is 
+ strArr[1057] is 
+ strArr[1058] is 
+ strArr[1059] is 
+ strArr[1060] is 
+ strArr[1061] is 
+ strArr[1062] is 
+ strArr[1063] is 
+ strArr[1064] is 
+ strArr[1065] is Ä@
+ strArr[1066] is 
+ strArr[1067] is 
+ strArr[1068] is 
+ strArr[1069] is 
+ strArr[1070] is 
+ strArr[1071] is 
+ strArr[1072] is 
+ strArr[1073] is 
+ strArr[1074] is 
+ strArr[1075] is 
+ strArr[1076] is 
+ strArr[1077] is 0
+ strArr[1078] is 
+ strArr[1079] is 
+ strArr[1080] is 
+ strArr[1081] is 
+ strArr[1082] is 
+ strArr[1083] is 
+ strArr[1084] is 	
+ strArr[1085] is 
+ strArr[1086] is 
+ strArr[1087] is 
+ strArr[1088] is 
+ strArr[1089] is 
+ strArr[1090] is 
+ strArr[1091] is 
+ strArr[1092] is 
+ strArr[1093] is 
+ strArr[1094] is 
+ strArr[1095] is 
+ strArr[1096] is 
+ strArr[1097] is 
+ strArr[1098] is ˛ˇˇo
+ strArr[1099] is 
+ strArr[1100] is 
+ strArr[1101] is 
+ strArr[1102] is `@
+ strArr[1103] is 
+ strArr[1104] is 
+ strArr[1105] is 
+ strArr[1106] is 
+ strArr[1107] is ˇˇˇo
+ strArr[1108] is 
+ strArr[1109] is 
+ strArr[1110] is 
+ strArr[1111] is 
+ strArr[1112] is 
+ strArr[1113] is 
+ strArr[1114] is 
+ strArr[1115] is 
+ strArr[1116] is 
+ strArr[1117] is 
+ strArr[1118] is ˇˇo
+ strArr[1119] is 
+ strArr[1120] is 
+ strArr[1121] is 
+ strArr[1122] is 2@
+ strArr[1123] is 
+ strArr[1124] is 
+ strArr[1125] is 
+ strArr[1126] is 
+ strArr[1127] is 
+ strArr[1128] is 
+ strArr[1129] is 
+ strArr[1130] is 
+ strArr[1131] is 
+ strArr[1132] is 
+ strArr[1133] is 
+ strArr[1134] is 
+ strArr[1135] is 
+ strArr[1136] is 
+ strArr[1137] is 
+ strArr[1138] is 
+ strArr[1139] is 
+ strArr[1140] is 
+ strArr[1141] is 
+ strArr[1142] is 
+ strArr[1143] is 
+ strArr[1144] is 
+ strArr[1145] is 
+ strArr[1146] is 
+ strArr[1147] is 
+ strArr[1148] is 
+ strArr[1149] is 
+ strArr[1150] is 
+ strArr[1151] is 
+ strArr[1152] is 
+ strArr[1153] is 
+ strArr[1154] is 
+ strArr[1155] is 
+ strArr[1156] is 
+ strArr[1157] is 
+ strArr[1158] is 
+ strArr[1159] is 
+ strArr[1160] is 
+ strArr[1161] is 
+ strArr[1162] is 
+ strArr[1163] is 
+ strArr[1164] is 
+ strArr[1165] is 
+ strArr[1166] is 
+ strArr[1167] is 
+ strArr[1168] is 
+ strArr[1169] is 
+ strArr[1170] is 
+ strArr[1171] is 
+ strArr[1172] is 
+ strArr[1173] is 
+ strArr[1174] is 
+ strArr[1175] is 
+ strArr[1176] is 
+ strArr[1177] is 
+ strArr[1178] is 
+ strArr[1179] is 
+ strArr[1180] is 
+ strArr[1181] is 
+ strArr[1182] is 
+ strArr[1183] is 
+ strArr[1184] is 
+ strArr[1185] is 
+ strArr[1186] is 
+ strArr[1187] is 
+ strArr[1188] is 
+ strArr[1189] is 
+ strArr[1190] is 
+ strArr[1191] is 
+ strArr[1192] is 
+ strArr[1193] is 
+ strArr[1194] is 
+ strArr[1195] is 
+ strArr[1196] is 
+ strArr[1197] is 
+ strArr[1198] is 
+ strArr[1199] is 
+ strArr[1200] is 
+ strArr[1201] is 
+ strArr[1202] is 
+ strArr[1203] is 
+ strArr[1204] is 
+ strArr[1205] is 
+ strArr[1206] is 
+ strArr[1207] is 
+ strArr[1208] is 
+ strArr[1209] is 
+ strArr[1210] is 
+ strArr[1211] is 
+ strArr[1212] is 
+ strArr[1213] is 
+ strArr[1214] is 
+ strArr[1215] is 
+ strArr[1216] is 
+ strArr[1217] is 
+ strArr[1218] is 
+ strArr[1219] is 
+ strArr[1220] is 
+ strArr[1221] is 
+ strArr[1222] is 
+ strArr[1223] is 
+ strArr[1224] is 
+ strArr[1225] is 
+ strArr[1226] is 
+ strArr[1227] is 
+ strArr[1228] is 
+ strArr[1229] is 
+ strArr[1230] is 
+ strArr[1231] is ∏D`
+ strArr[1232] is 
+ strArr[1233] is 
+ strArr[1234] is 
+ strArr[1235] is 
+ strArr[1236] is 
+ strArr[1237] is 
+ strArr[1238] is 
+ strArr[1239] is 
+ strArr[1240] is 
+ strArr[1241] is 
+ strArr[1242] is 
+ strArr[1243] is 
+ strArr[1244] is 
+ strArr[1245] is 
+ strArr[1246] is 
+ strArr[1247] is 
+ strArr[1248] is 
+ strArr[1249] is 
+ strArr[1250] is 
+ strArr[1251] is 
+ strArr[1252] is é@
+ strArr[1253] is 
+ strArr[1254] is 
+ strArr[1255] is 
+ strArr[1256] is 
+ strArr[1257] is û@
+ strArr[1258] is 
+ strArr[1259] is 
+ strArr[1260] is 
+ strArr[1261] is 
+ strArr[1262] is Æ@
+ strArr[1263] is 
+ strArr[1264] is 
+ strArr[1265] is 
+ strArr[1266] is 
+ strArr[1267] is æ@
+ strArr[1268] is 
+ strArr[1269] is 
+ strArr[1270] is 
+ strArr[1271] is 
+ strArr[1272] is Œ@
+ strArr[1273] is 
+ strArr[1274] is 
+ strArr[1275] is 
+ strArr[1276] is 
+ strArr[1277] is ﬁ@
+ strArr[1278] is 
+ strArr[1279] is 
+ strArr[1280] is 
+ strArr[1281] is 
+ strArr[1282] is Ó@
+ strArr[1283] is 
+ strArr[1284] is 
+ strArr[1285] is 
+ strArr[1286] is 
+ strArr[1287] is ˛@
+ strArr[1288] is 
+ strArr[1289] is 
+ strArr[1290] is 
+ strArr[1291] is 
+ strArr[1292] is @
+ strArr[1293] is 
+ strArr[1294] is 
+ strArr[1295] is 
+ strArr[1296] is 
+ strArr[1297] is @
+ strArr[1298] is 
+ strArr[1299] is 
+ strArr[1300] is 
+ strArr[1301] is 
+ strArr[1302] is .@
+ strArr[1303] is 
+ strArr[1304] is 
+ strArr[1305] is 
+ strArr[1306] is 
+ strArr[1307] is >@
+ strArr[1308] is 
+ strArr[1309] is 
+ strArr[1310] is 
+ strArr[1311] is 
+ strArr[1312] is N@
+ strArr[1313] is 
+ strArr[1314] is 
+ strArr[1315] is 
+ strArr[1316] is 
+ strArr[1317] is ^@
+ strArr[1318] is 
+ strArr[1319] is 
+ strArr[1320] is 
+ strArr[1321] is 
+ strArr[1322] is n@
+ strArr[1323] is 
+ strArr[1324] is 
+ strArr[1325] is 
+ strArr[1326] is 
+ strArr[1327] is ~@
+ strArr[1328] is 
+ strArr[1329] is 
+ strArr[1330] is 
+ strArr[1331] is 
+ strArr[1332] is é@
+ strArr[1333] is 
+ strArr[1334] is 
+ strArr[1335] is 
+ strArr[1336] is 
+ strArr[1337] is û@
+ strArr[1338] is 
+ strArr[1339] is 
+ strArr[1340] is 
+ strArr[1341] is 
+ strArr[1342] is 
+ strArr[1343] is 
+ strArr[1344] is 
+ strArr[1345] is 
+ strArr[1346] is 
+ strArr[1347] is 
+ strArr[1348] is 
+ strArr[1349] is 
+ strArr[1350] is ò0@
+ strArr[1351] is 
+ strArr[1352] is 
+ strArr[1353] is 
+ strArr[1354] is 
+ strArr[1355] is †0@
+ strArr[1356] is 
+ strArr[1357] is 
+ strArr[1358] is 
+ strArr[1359] is 
+ strArr[1360] is 1@
+ strArr[1361] is 
+ strArr[1362] is 
+ strArr[1363] is 
+ strArr[1364] is 
+ strArr[1365] is 01@
+ strArr[1366] is 
+ strArr[1367] is 
+ strArr[1368] is 
+ strArr[1369] is 
+ strArr[1370] is GCC: (GNU) 4.4.7 20120313 (Red Hat 4.4.7-4)
+ strArr[1371] is ,
+ strArr[1372] is 
+ strArr[1373] is 
+ strArr[1374] is 
+ strArr[1375] is 
+ strArr[1376] is 
+ strArr[1377] is 
+ strArr[1378] is 
+ strArr[1379] is 
+ strArr[1380] is 
+ strArr[1381] is 
+ strArr[1382] is 
+ strArr[1383] is 
+ strArr[1384] is î	@
+ strArr[1385] is 
+ strArr[1386] is 
+ strArr[1387] is 
+ strArr[1388] is 
+ strArr[1389] is ®
+ strArr[1390] is 
+ strArr[1391] is 
+ strArr[1392] is 
+ strArr[1393] is 
+ strArr[1394] is 
+ strArr[1395] is 
+ strArr[1396] is 
+ strArr[1397] is 
+ strArr[1398] is 
+ strArr[1399] is 
+ strArr[1400] is 
+ strArr[1401] is 
+ strArr[1402] is 
+ strArr[1403] is 
+ strArr[1404] is 
+ strArr[1405] is 
+ strArr[1406] is 
+ strArr[1407] is 
+ strArr[1408] is 
+ strArr[1409] is 
+ strArr[1410] is 
+ strArr[1411] is ,
+ strArr[1412] is 
+ strArr[1413] is 
+ strArr[1414] is 
+ strArr[1415] is |
+ strArr[1416] is 
+ strArr[1417] is 
+ strArr[1418] is 
+ strArr[1419] is 
+ strArr[1420] is 
+ strArr[1421] is 
+ strArr[1422] is <'@
+ strArr[1423] is 
+ strArr[1424] is 
+ strArr[1425] is 
+ strArr[1426] is 
+ strArr[1427] is O
+ strArr[1428] is 
+ strArr[1429] is 
+ strArr[1430] is 
+ strArr[1431] is 
+ strArr[1432] is 
+ strArr[1433] is 
+ strArr[1434] is 
+ strArr[1435] is 
+ strArr[1436] is 
+ strArr[1437] is 
+ strArr[1438] is 
+ strArr[1439] is 
+ strArr[1440] is 
+ strArr[1441] is 
+ strArr[1442] is 
+ strArr[1443] is 
+ strArr[1444] is 
+ strArr[1445] is 
+ strArr[1446] is 
+ strArr[1447] is 
+ strArr[1448] is 
+ strArr[1449] is ‰
+ strArr[1450] is 
+ strArr[1451] is 
+ strArr[1452] is 
+ strArr[1453] is 
+ strArr[1454] is 
+ strArr[1455] is 
+ strArr[1456] is 
+ strArr[1457] is |
+ strArr[1458] is 
+ strArr[1459] is ®
+ strArr[1460] is 
+ strArr[1461] is test_01
+ strArr[1462] is 
+ strArr[1463] is 
+ strArr[1464] is test_02
+ strArr[1465] is ñ
+ strArr[1466] is 
+ strArr[1467] is test_03
+ strArr[1468] is 
+ strArr[1469] is 
+ strArr[1470] is test_04
+ strArr[1471] is ™
+ strArr[1472] is 
+ strArr[1473] is test_explode_XX
+ strArr[1474] is ¢
+ strArr[1475] is 
+ strArr[1476] is test_implode_XX
+ strArr[1477] is †	
+ strArr[1478] is 
+ strArr[1479] is test_sortStringArray_XX
+ strArr[1480] is ^
+ strArr[1481] is 
+ strArr[1482] is 
+ strArr[1483] is test_sortStringCharacters
+ strArr[1484] is €
+ strArr[1485] is 
+ strArr[1486] is 
+ strArr[1487] is test_destroyStringArray_XX
+ strArr[1488] is ã
+ strArr[1489] is 
+ strArr[1490] is main
+ strArr[1491] is '
+ strArr[1492] is 
+ strArr[1493] is z0
+ strArr[1494] is <
+ strArr[1495] is 
+ strArr[1496] is z1
+ strArr[1497] is Q
+ strArr[1498] is 
+ strArr[1499] is z2
+ strArr[1500] is f
+ strArr[1501] is 
+ strArr[1502] is z3
+ strArr[1503] is 
+ strArr[1504] is 
+ strArr[1505] is 
+ strArr[1506] is 
+ strArr[1507] is x
+ strArr[1508] is 
+ strArr[1509] is 
+ strArr[1510] is 
+ strArr[1511] is |
+ strArr[1512] is 
+ strArr[1513] is ñ
+ strArr[1514] is 
+ strArr[1515] is ò
+ strArr[1516] is 
+ strArr[1517] is 
+ strArr[1518] is strcat_ex
+ strArr[1519] is ˘
+ strArr[1520] is 
+ strArr[1521] is 
+ strArr[1522] is explode
+ strArr[1523] is ‡
+ strArr[1524] is 
+ strArr[1525] is implode
+ strArr[1526] is 9
+ strArr[1527] is 
+ strArr[1528] is sortStringArray
+ strArr[1529] is Ë
+ strArr[1530] is 
+ strArr[1531] is sortStringCharacters
+ strArr[1532] is Q
+ strArr[1533] is 
+ strArr[1534] is destroyStringArray
+ strArr[1535] is 
+ strArr[1536] is 
+ strArr[1537] is 
+ strArr[1538] is 
+ strArr[1539] is x
+ strArr[1540] is 
+ strArr[1541] is 
+ strArr[1542] is 
+ strArr[1543] is 
+ strArr[1544] is 
+ strArr[1545] is 
+ strArr[1546] is [
+ strArr[1547] is 
+ strArr[1548] is Â
+ strArr[1549] is 
+ strArr[1550] is î	@
+ strArr[1551] is 
+ strArr[1552] is 
+ strArr[1553] is 
+ strArr[1554] is 
+ strArr[1555] is <'@
+ strArr[1556] is 
+ strArr[1557] is 
+ strArr[1558] is 
+ strArr[1559] is 
+ strArr[1560] is 
+ strArr[1561] is 
+ strArr[1562] is 
+ strArr[1563] is 
+ strArr[1564] is E
+ strArr[1565] is 
+ strArr[1566] is 
+ strArr[1567] is ”4
+ strArr[1568] is 
+ strArr[1569] is 
+ strArr[1570] is ÷
+ strArr[1571] is 
+ strArr[1572] is 
+ strArr[1573] is int
+ strArr[1574] is €
+ strArr[1575] is 
+ strArr[1576] is 
+ strArr[1577] is ;
+ strArr[1578] is 
+ strArr[1579] is 
+ strArr[1580] is »
+ strArr[1581] is 
+ strArr[1582] is 
+ strArr[1583] is √
+ strArr[1584] is 
+ strArr[1585] is 
+ strArr[1586] is W
+ strArr[1587] is 
+ strArr[1588] is æ
+ strArr[1589] is 
+ strArr[1590] is Y
+ strArr[1591] is 
+ strArr[1592] is ;
+ strArr[1593] is 
+ strArr[1594] is 
+ strArr[1595] is ›
+ strArr[1596] is 
+ strArr[1597] is çO
+ strArr[1598] is 
+ strArr[1599] is 
+ strArr[1600] is ¨
+ strArr[1601] is 
+ strArr[1602] is éO
+ strArr[1603] is 
+ strArr[1604] is 
+ strArr[1605] is ó
+ strArr[1606] is 
+ strArr[1607] is 
+ strArr[1608] is `
+ strArr[1609] is 
+ strArr[1610] is —
+ strArr[1611] is 
+ strArr[1612] is 
+ strArr[1613] is ´
+ strArr[1614] is 
+ strArr[1615] is 
+ strArr[1616] is ≤
+ strArr[1617] is 
+ strArr[1618] is 
+ strArr[1619] is ó
+ strArr[1620] is 
+ strArr[1621] is 
+ strArr[1622] is 	
+ strArr[1623] is 
+ strArr[1624] is 
+ strArr[1625] is ÿS
+ strArr[1626] is 
+ strArr[1627] is 
+ strArr[1628] is Q
+ strArr[1629] is 
+ strArr[1630] is 
+ strArr[1631] is ;
+ strArr[1632] is 
+ strArr[1633] is 
+ strArr[1634] is 
+ strArr[1635] is 
+ strArr[1636] is ≈
+ strArr[1637] is 
+ strArr[1638] is ë
+ strArr[1639] is 
+ strArr[1640] is 
+ strArr[1641] is 
+ strArr[1642] is ó
+ strArr[1643] is 
+ strArr[1644] is ë
+ strArr[1645] is 
+ strArr[1646] is 
+ strArr[1647] is 
+ strArr[1648] is ,
+ strArr[1649] is 
+ strArr[1650] is ë
+ strArr[1651] is 
+ strArr[1652] is 
+ strArr[1653] is 
+ strArr[1654] is ™
+ strArr[1655] is 
+ strArr[1656] is ë
+ strArr[1657] is 
+ strArr[1658] is 
+ strArr[1659] is  
+ strArr[1660] is â
+ strArr[1661] is 
+ strArr[1662] is ë
+ strArr[1663] is 
+ strArr[1664] is 
+ strArr[1665] is (
+ strArr[1666] is ó
+ strArr[1667] is 
+ strArr[1668] is ë
+ strArr[1669] is 
+ strArr[1670] is 
+ strArr[1671] is 0
+ strArr[1672] is 
+ strArr[1673] is 
+ strArr[1674] is ë
+ strArr[1675] is 
+ strArr[1676] is 
+ strArr[1677] is 8
+ strArr[1678] is “
+ strArr[1679] is 
+ strArr[1680] is ë
+ strArr[1681] is 
+ strArr[1682] is 
+ strArr[1683] is ¿
+ strArr[1684] is 
+ strArr[1685] is v
+ strArr[1686] is 
+ strArr[1687] is ë
+ strArr[1688] is 
+ strArr[1689] is 
+ strArr[1690] is »
+ strArr[1691] is 
+ strArr[1692] is ˚
+ strArr[1693] is 
+ strArr[1694] is ë
+ strArr[1695] is 
+ strArr[1696] is 
+ strArr[1697] is –
+ strArr[1698] is 
+ strArr[1699] is .
+ strArr[1700] is 
+ strArr[1701] is 
+ strArr[1702] is  ë
+ strArr[1703] is 
+ strArr[1704] is 
+ strArr[1705] is ÿ
+ strArr[1706] is 
+ strArr[1707] is y
+ strArr[1708] is 
+ strArr[1709] is 
+ strArr[1710] is "ã
+ strArr[1711] is 
+ strArr[1712] is ‡
+ strArr[1713] is 
+ strArr[1714] is —
+ strArr[1715] is 
+ strArr[1716] is $ë
+ strArr[1717] is 
+ strArr[1718] is Ë
+ strArr[1719] is 
+ strArr[1720] is ∂
+ strArr[1721] is 
+ strArr[1722] is &;
+ strArr[1723] is 
+ strArr[1724] is 
+ strArr[1725] is 
+ strArr[1726] is 
+ strArr[1727] is 
+ strArr[1728] is 
+ strArr[1729] is *;
+ strArr[1730] is 
+ strArr[1731] is 
+ strArr[1732] is Ù
+ strArr[1733] is 
+ strArr[1734] is D
+ strArr[1735] is 
+ strArr[1736] is ,y
+ strArr[1737] is 
+ strArr[1738] is 
+ strArr[1739] is ¯
+ strArr[1740] is 
+ strArr[1741] is 
+ strArr[1742] is 
+ strArr[1743] is 0d
+ strArr[1744] is 
+ strArr[1745] is 
+ strArr[1746] is Ä
+ strArr[1747] is A
+ strArr[1748] is 
+ strArr[1749] is 1k
+ strArr[1750] is 
+ strArr[1751] is 
+ strArr[1752] is Ç
+ strArr[1753] is †
+ strArr[1754] is 
+ strArr[1755] is 2ó
+ strArr[1756] is 
+ strArr[1757] is É
+ strArr[1758] is 
+ strArr[1759] is 
+ strArr[1760] is 
+ strArr[1761] is 6ß
+ strArr[1762] is 
+ strArr[1763] is à
+ strArr[1764] is H
+ strArr[1765] is 
+ strArr[1766] is ?Ñ
+ strArr[1767] is 
+ strArr[1768] is 
+ strArr[1769] is ê
+ strArr[1770] is 
+ strArr[1771] is 
+ strArr[1772] is Hè
+ strArr[1773] is 
+ strArr[1774] is 
+ strArr[1775] is ò
+ strArr[1776] is &
+ strArr[1777] is 
+ strArr[1778] is Iè
+ strArr[1779] is 
+ strArr[1780] is 
+ strArr[1781] is †
+ strArr[1782] is e
+ strArr[1783] is 
+ strArr[1784] is Jè
+ strArr[1785] is 
+ strArr[1786] is 
+ strArr[1787] is ®
+ strArr[1788] is 3
+ strArr[1789] is 
+ strArr[1790] is Kè
+ strArr[1791] is 
+ strArr[1792] is 
+ strArr[1793] is ∞
+ strArr[1794] is :
+ strArr[1795] is 
+ strArr[1796] is L)
+ strArr[1797] is 
+ strArr[1798] is 
+ strArr[1799] is ∏
+ strArr[1800] is &
+ strArr[1801] is 
+ strArr[1802] is N;
+ strArr[1803] is 
+ strArr[1804] is 
+ strArr[1805] is ¿
+ strArr[1806] is P
+ strArr[1807] is 
+ strArr[1808] is P≠
+ strArr[1809] is 
+ strArr[1810] is ƒ
+ strArr[1811] is ¿
+ strArr[1812] is 
+ strArr[1813] is ¥ï
+ strArr[1814] is 
+ strArr[1815] is ∫ã
+ strArr[1816] is 
+ strArr[1817] is -
+ strArr[1818] is 
+ strArr[1819] is ªã
+ strArr[1820] is 
+ strArr[1821] is 
+ strArr[1822] is >
+ strArr[1823] is 
+ strArr[1824] is ºë
+ strArr[1825] is 
+ strArr[1826] is *
+ strArr[1827] is 
+ strArr[1828] is ¿;
+ strArr[1829] is 
+ strArr[1830] is 
+ strArr[1831] is 
+ strArr[1832] is Z
+ strArr[1833] is 
+ strArr[1834] is ∑
+ strArr[1835] is 
+ strArr[1836] is 
+ strArr[1837] is ó
+ strArr[1838] is 
+ strArr[1839] is 
+ strArr[1840] is ß
+ strArr[1841] is 
+ strArr[1842] is 4
+ strArr[1843] is 
+ strArr[1844] is 
+ strArr[1845] is 
+ strArr[1846] is 
+ strArr[1847] is S
+ strArr[1848] is 
+ strArr[1849] is ó
+ strArr[1850] is 
+ strArr[1851] is 
+ strArr[1852] is Ω
+ strArr[1853] is 
+ strArr[1854] is 4
+ strArr[1855] is 
+ strArr[1856] is 
+ strArr[1857] is 
+ strArr[1858] is Ç
+ strArr[1859] is 
+ strArr[1860] is 
+ strArr[1861] is î	@
+ strArr[1862] is 
+ strArr[1863] is 
+ strArr[1864] is 
+ strArr[1865] is 
+ strArr[1866] is $@
+ strArr[1867] is 
+ strArr[1868] is 
+ strArr[1869] is 
+ strArr[1870] is 
+ strArr[1871] is úË
+ strArr[1872] is 
+ strArr[1873] is s
+ strArr[1874] is ¨
+ strArr[1875] is 
+ strArr[1876] is 
+ strArr[1877] is ëh
+ strArr[1878] is k
+ strArr[1879] is 
+ strArr[1880] is 
+ strArr[1881] is 'ë
+ strArr[1882] is 
+ strArr[1883] is 
+ strArr[1884] is $@
+ strArr[1885] is 
+ strArr[1886] is 
+ strArr[1887] is 
+ strArr[1888] is 
+ strArr[1889] is @
+ strArr[1890] is 
+ strArr[1891] is 
+ strArr[1892] is 
+ strArr[1893] is 
+ strArr[1894] is úo
+ strArr[1895] is 
+ strArr[1896] is ÿ
+ strArr[1897] is 
+ strArr[1898] is 'o
+ strArr[1899] is 
+ strArr[1900] is ëXn
+ strArr[1901] is 'I
+ strArr[1902] is 
+ strArr[1903] is 
+ strArr[1904] is ëPsrc
+ strArr[1905] is '¨
+ strArr[1906] is 
+ strArr[1907] is 
+ strArr[1908] is ëHc
+ strArr[1909] is 
+ strArr[1910] is 
+ strArr[1911] is );
+ strArr[1912] is 
+ strArr[1913] is 
+ strArr[1914] is ë`
+ strArr[1915] is 
+ strArr[1916] is *;
+ strArr[1917] is 
+ strArr[1918] is 
+ strArr[1919] is ëdé@
+ strArr[1920] is 
+ strArr[1921] is 
+ strArr[1922] is 
+ strArr[1923] is 
+ strArr[1924] is ¸@
+ strArr[1925] is 
+ strArr[1926] is 
+ strArr[1927] is 
+ strArr[1928] is 
+ strArr[1929] is §
+ strArr[1930] is 
+ strArr[1931] is .ë
+ strArr[1932] is 
+ strArr[1933] is 
+ strArr[1934] is ëh
+ strArr[1935] is 
+ strArr[1936] is ë
+ strArr[1937] is 
+ strArr[1938] is 
+ strArr[1939] is "
+ strArr[1940] is 
+ strArr[1941] is 
+ strArr[1942] is 9o
+ strArr[1943] is 
+ strArr[1944] is @
+ strArr[1945] is 
+ strArr[1946] is 
+ strArr[1947] is 
+ strArr[1948] is 
+ strArr[1949] is Ú@
+ strArr[1950] is 
+ strArr[1951] is 
+ strArr[1952] is 
+ strArr[1953] is 
+ strArr[1954] is ú
+ strArr[1955] is 
+ strArr[1956] is str
+ strArr[1957] is 9¨
+ strArr[1958] is 
+ strArr[1959] is 
+ strArr[1960] is ë∏7
+ strArr[1961] is 
+ strArr[1962] is 9¨
+ strArr[1963] is 
+ strArr[1964] is 
+ strArr[1965] is ë∞•
+ strArr[1966] is 
+ strArr[1967] is 9I
+ strArr[1968] is 
+ strArr[1969] is 
+ strArr[1970] is ë®itr
+ strArr[1971] is <¨
+ strArr[1972] is 
+ strArr[1973] is 
+ strArr[1974] is ë@¿
+ strArr[1975] is 
+ strArr[1976] is <¨
+ strArr[1977] is 
+ strArr[1978] is 
+ strArr[1979] is ëHarr
+ strArr[1980] is Ho
+ strArr[1981] is 
+ strArr[1982] is ëPP
+ strArr[1983] is 
+ strArr[1984] is K;
+ strArr[1985] is 
+ strArr[1986] is 
+ strArr[1987] is ëXlen
+ strArr[1988] is L;
+ strArr[1989] is 
+ strArr[1990] is 
+ strArr[1991] is ë\
+ strArr[1992] is À
+ strArr[1993] is 
+ strArr[1994] is dë
+ strArr[1995] is 
+ strArr[1996] is 
+ strArr[1997] is Ú@
+ strArr[1998] is 
+ strArr[1999] is 
+ strArr[2000] is 
+ strArr[2001] is 
+ strArr[2002] is o@
+ strArr[2003] is 
+ strArr[2004] is 
+ strArr[2005] is 
+ strArr[2006] is 
+ strArr[2007] is úÅ
+ strArr[2008] is 
+ strArr[2009] is :
+ strArr[2010] is 
+ strArr[2011] is do
+ strArr[2012] is 
+ strArr[2013] is ëHlen
+ strArr[2014] is d;
+ strArr[2015] is 
+ strArr[2016] is 
+ strArr[2017] is ëDl
+ strArr[2018] is 
+ strArr[2019] is d¨
+ strArr[2020] is 
+ strArr[2021] is 
+ strArr[2022] is ë∏ret
+ strArr[2023] is fë
+ strArr[2024] is 
+ strArr[2025] is 
+ strArr[2026] is ë`n
+ strArr[2027] is g;
+ strArr[2028] is 
+ strArr[2029] is 
+ strArr[2030] is ë\ind
+ strArr[2031] is h;
+ strArr[2032] is 
+ strArr[2033] is 
+ strArr[2034] is ël
+ strArr[2035] is X
+ strArr[2036] is 
+ strArr[2037] is 
+ strArr[2038] is q;
+ strArr[2039] is 
+ strArr[2040] is 
+ strArr[2041] is o@
+ strArr[2042] is 
+ strArr[2043] is 
+ strArr[2044] is 
+ strArr[2045] is 
+ strArr[2046] is ö@
+ strArr[2047] is 
+ strArr[2048] is 
+ strArr[2049] is 
+ strArr[2050] is 
+ strArr[2051] is úº
+ strArr[2052] is 
+ strArr[2053] is a
+ strArr[2054] is q•
+ strArr[2055] is 
+ strArr[2056] is 
+ strArr[2057] is ëhb
+ strArr[2058] is q•
+ strArr[2059] is 
+ strArr[2060] is 
+ strArr[2061] is ë`
+ strArr[2062] is ¨
+ strArr[2063] is 
+ strArr[2064] is vö@
+ strArr[2065] is 
+ strArr[2066] is 
+ strArr[2067] is 
+ strArr[2068] is 
+ strArr[2069] is –@
+ strArr[2070] is 
+ strArr[2071] is 
+ strArr[2072] is 
+ strArr[2073] is 
+ strArr[2074] is ú˜
+ strArr[2075] is 
+ strArr[2076] is q
+ strArr[2077] is 
+ strArr[2078] is vo
+ strArr[2079] is 
+ strArr[2080] is ëXlen
+ strArr[2081] is v;
+ strArr[2082] is 
+ strArr[2083] is 
+ strArr[2084] is ëT
+ strArr[2085] is ã
+ strArr[2086] is 
+ strArr[2087] is {;
+ strArr[2088] is 
+ strArr[2089] is 
+ strArr[2090] is –@
+ strArr[2091] is 
+ strArr[2092] is 
+ strArr[2093] is 
+ strArr[2094] is 
+ strArr[2095] is ¯@
+ strArr[2096] is 
+ strArr[2097] is 
+ strArr[2098] is 
+ strArr[2099] is 
+ strArr[2100] is ú2
+ strArr[2101] is 
+ strArr[2102] is a
+ strArr[2103] is {•
+ strArr[2104] is 
+ strArr[2105] is 
+ strArr[2106] is ëhb
+ strArr[2107] is {•
+ strArr[2108] is 
+ strArr[2109] is 
+ strArr[2110] is ë`
+ strArr[2111] is 
+ strArr[2112] is 
+ strArr[2113] is 
+ strArr[2114] is 
+ strArr[2115] is Ä¯@
+ strArr[2116] is 
+ strArr[2117] is 
+ strArr[2118] is 
+ strArr[2119] is 
+ strArr[2120] is 4@
+ strArr[2121] is 
+ strArr[2122] is 
+ strArr[2123] is 
+ strArr[2124] is 
+ strArr[2125] is ú_
+ strArr[2126] is 
+ strArr[2127] is str
+ strArr[2128] is Äë
+ strArr[2129] is 
+ strArr[2130] is 
+ strArr[2131] is ëX
+ strArr[2132] is è
+ strArr[2133] is 
+ strArr[2134] is 
+ strArr[2135] is Ö4@
+ strArr[2136] is 
+ strArr[2137] is 
+ strArr[2138] is 
+ strArr[2139] is 
+ strArr[2140] is à@
+ strArr[2141] is 
+ strArr[2142] is 
+ strArr[2143] is 
+ strArr[2144] is 
+ strArr[2145] is ú®
+ strArr[2146] is 
+ strArr[2147] is :
+ strArr[2148] is 
+ strArr[2149] is Öo
+ strArr[2150] is 
+ strArr[2151] is ëXlen
+ strArr[2152] is Ö;
+ strArr[2153] is 
+ strArr[2154] is 
+ strArr[2155] is ëTind
+ strArr[2156] is à;
+ strArr[2157] is 
+ strArr[2158] is 
+ strArr[2159] is ël
+ strArr[2160] is ˇ
+ strArr[2161] is 
+ strArr[2162] is ø;
+ strArr[2163] is 
+ strArr[2164] is 
+ strArr[2165] is à@
+ strArr[2166] is 
+ strArr[2167] is 
+ strArr[2168] is 
+ strArr[2169] is 
+ strArr[2170] is {@
+ strArr[2171] is 
+ strArr[2172] is 
+ strArr[2173] is 
+ strArr[2174] is 
+ strArr[2175] is ú
+ strArr[2176] is 
+ strArr[2177] is ∞
+ strArr[2178] is 
+ strArr[2179] is 
+ strArr[2180] is ¡;
+ strArr[2181] is 
+ strArr[2182] is 
+ strArr[2183] is ëP¢@
+ strArr[2184] is 
+ strArr[2185] is 
+ strArr[2186] is 
+ strArr[2187] is 
+ strArr[2188] is q@
+ strArr[2189] is 
+ strArr[2190] is 
+ strArr[2191] is 
+ strArr[2192] is 
+ strArr[2193] is Ú
+ strArr[2194] is 
+ strArr[2195] is ƒ;
+ strArr[2196] is 
+ strArr[2197] is 
+ strArr[2198] is ëTs1
+ strArr[2199] is …ë
+ strArr[2200] is 
+ strArr[2201] is 
+ strArr[2202] is ëHn
+ strArr[2203] is  ;
+ strArr[2204] is 
+ strArr[2205] is 
+ strArr[2206] is ëDs2
+ strArr[2207] is Àë
+ strArr[2208] is 
+ strArr[2209] is 
+ strArr[2210] is ëX
+ strArr[2211] is 
+ strArr[2212] is 
+ strArr[2213] is 
+ strArr[2214] is ‹;
+ strArr[2215] is 
+ strArr[2216] is 
+ strArr[2217] is {@
+ strArr[2218] is 
+ strArr[2219] is 
+ strArr[2220] is 
+ strArr[2221] is 
+ strArr[2222] is \@
+ strArr[2223] is 
+ strArr[2224] is 
+ strArr[2225] is 
+ strArr[2226] is 
+ strArr[2227] is úñ
+ strArr[2228] is 
+ strArr[2229] is ∞
+ strArr[2230] is 
+ strArr[2231] is 
+ strArr[2232] is ﬁ;
+ strArr[2233] is 
+ strArr[2234] is 
+ strArr[2235] is ëPï@
+ strArr[2236] is 
+ strArr[2237] is 
+ strArr[2238] is 
+ strArr[2239] is 
+ strArr[2240] is R@
+ strArr[2241] is 
+ strArr[2242] is 
+ strArr[2243] is 
+ strArr[2244] is 
+ strArr[2245] is Ú
+ strArr[2246] is 
+ strArr[2247] is ·;
+ strArr[2248] is 
+ strArr[2249] is 
+ strArr[2250] is ëTs1
+ strArr[2251] is Êë
+ strArr[2252] is 
+ strArr[2253] is 
+ strArr[2254] is ëHn
+ strArr[2255] is Á;
+ strArr[2256] is 
+ strArr[2257] is 
+ strArr[2258] is ëDs2
+ strArr[2259] is Ëë
+ strArr[2260] is 
+ strArr[2261] is 
+ strArr[2262] is ëX
+ strArr[2263] is 
+ strArr[2264] is 
+ strArr[2265] is 
+ strArr[2266] is ˘;
+ strArr[2267] is 
+ strArr[2268] is 
+ strArr[2269] is \@
+ strArr[2270] is 
+ strArr[2271] is 
+ strArr[2272] is 
+ strArr[2273] is 
+ strArr[2274] is ~@
+ strArr[2275] is 
+ strArr[2276] is 
+ strArr[2277] is 
+ strArr[2278] is 
+ strArr[2279] is ú
+ strArr[2280] is 
+ strArr[2281] is ∞
+ strArr[2282] is 
+ strArr[2283] is 
+ strArr[2284] is ˚;
+ strArr[2285] is 
+ strArr[2286] is 
+ strArr[2287] is ëXu@
+ strArr[2288] is 
+ strArr[2289] is 
+ strArr[2290] is 
+ strArr[2291] is 
+ strArr[2292] is y@
+ strArr[2293] is 
+ strArr[2294] is 
+ strArr[2295] is 
+ strArr[2296] is 
+ strArr[2297] is Ú
+ strArr[2298] is 
+ strArr[2299] is ˛;
+ strArr[2300] is 
+ strArr[2301] is 
+ strArr[2302] is ë\n
+ strArr[2303] is ;
+ strArr[2304] is 
+ strArr[2305] is 
+Memory errors detected, testcase failed.
+==11696== Memcheck, a memory error detector
+==11696== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==11696== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==11696== Command: /tmp/.qi99Zq/a.out 12
+==11696== Parent PID: 11686
+==11696== 
+--11696-- 
+--11696-- Valgrind options:
+--11696--    --tool=memcheck
+--11696--    --leak-check=full
+--11696--    --verbose
+--11696--    --log-file=memcheck.log
+--11696-- Contents of /proc/version:
+--11696--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--11696-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--11696-- Page sizes: currently 4096, max supported 4096
+--11696-- Valgrind library directory: /usr/lib64/valgrind
+--11696-- Reading syms from /tmp/.qi99Zq/a.out
+--11696-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--11696--    object doesn't have a dynamic symbol table
+--11696-- Reading syms from /lib64/ld-2.12.so
+--11696--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--11696--   .. build-id is valid
+--11696-- Scheduler: using generic scheduler lock implementation.
+--11696-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==11696== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-11696-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==11696== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-11696-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==11696== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-11696-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==11696== 
+==11696== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==11696== don't want to do, unless you know exactly what you're doing,
+==11696== or are doing some strange experiment):
+==11696==   /usr/lib64/valgrind/../../bin/vgdb --pid=11696 ...command...
+==11696== 
+==11696== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==11696==   /path/to/gdb /tmp/.qi99Zq/a.out
+==11696== and then give GDB the following command
+==11696==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=11696
+==11696== --pid is optional if only one valgrind process is running
+==11696== 
+--11696-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--11696-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--11696-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--11696-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--11696-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--11696-- Reading syms from /lib64/libc-2.12.so
+--11696--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--11696--   .. build-id is valid
+--11696-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--11696-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--11696-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--11696-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--11696-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--11696-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--11696-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--11696-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--11696-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--11696-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--11696-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--11696-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--11696-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+==11696== Warning: set address range perms: large range [0x3aeed040, 0x34dfa6488) (undefined)
+==11696== Invalid read of size 1
+==11696==    at 0x402A2D: explode (answer03.c:88)
+==11696==    by 0x401934: test_explode_XX (<stdin>:338)
+==11696==    by 0x40250D: main (<stdin>:579)
+==11696==  Address 0x405000 is not stack'd, malloc'd or (recently) free'd
+==11696== 
+==11696== 
+==11696== Process terminating with default action of signal 11 (SIGSEGV)
+==11696==  Access not within mapped region at address 0x405000
+==11696==    at 0x402A2D: explode (answer03.c:88)
+==11696==    by 0x401934: test_explode_XX (<stdin>:338)
+==11696==    by 0x40250D: main (<stdin>:579)
+==11696==  If you believe this happened as a result of a stack
+==11696==  overflow in your program's main thread (unlikely but
+==11696==  possible), you can try to increase the size of the
+==11696==  main thread stack using the --main-stacksize= flag.
+==11696==  The main thread stack size used in this run was 10485760.
+==11696== 
+==11696== HEAP SUMMARY:
+==11696==     in use at exit: 13,204,436,947 bytes in 2,343 blocks
+==11696==   total heap usage: 2,343 allocs, 0 frees, 13,204,436,947 bytes allocated
+==11696== 
+==11696== Searching for pointers to 2,343 not-freed blocks
+==11696== Checked 88,784 bytes
+==11696== 
+==11696== LEAK SUMMARY:
+==11696==    definitely lost: 0 bytes in 0 blocks
+==11696==    indirectly lost: 0 bytes in 0 blocks
+==11696==      possibly lost: 0 bytes in 0 blocks
+==11696==    still reachable: 13,204,436,947 bytes in 2,343 blocks
+==11696==         suppressed: 0 bytes in 0 blocks
+==11696== Reachable blocks (those to which a pointer was found) are not shown.
+==11696== To see them, rerun with: --leak-check=full --show-reachable=yes
+==11696== 
+==11696== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==11696== 
+==11696== 1 errors in context 1 of 1:
+==11696== Invalid read of size 1
+==11696==    at 0x402A2D: explode (answer03.c:88)
+==11696==    by 0x401934: test_explode_XX (<stdin>:338)
+==11696==    by 0x40250D: main (<stdin>:579)
+==11696==  Address 0x405000 is not stack'd, malloc'd or (recently) free'd
+==11696== 
+--11696-- 
+--11696-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--11696-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==11696== 
+==11696== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 14 :: explode(...)
+
+   const char * str = "aaaaa";
+   const char * delims = "a";
+   int n;
+   char * * strArr = explode(std, delims, &n);
+a
+a
+a
+a
+a
+N = 5
+ strArr[0] is 
+ strArr[1] is 
+ strArr[2] is 
+ strArr[3] is 
+ strArr[4] is 
+ strArr[5] is 
+   // strArr[0] is ""
+   // strArr[1] is ""
+   // strArr[2] is ""
+   // strArr[3] is ""
+   // strArr[4] is ""
+   // strArr[5] is ""
+   (pass.)
+
+test 15 :: implode(...)
+
+   int len = 3
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("The");
+   strArr[1] = strdup("Turing");
+   strArr[2] = strdup("test");
+   const char * glue = " ";
+   char * s = implode(strArr, len, glue);
+   // s is "The"
+   FAIL
+   // expected: "The Turing test"
+Memory errors detected, testcase failed.
+==4226== Memcheck, a memory error detector
+==4226== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==4226== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==4226== Command: /tmp/.qi99Zq/a.out 14
+==4226== Parent PID: 4223
+==4226== 
+--4226-- 
+--4226-- Valgrind options:
+--4226--    --tool=memcheck
+--4226--    --leak-check=full
+--4226--    --verbose
+--4226--    --log-file=memcheck.log
+--4226-- Contents of /proc/version:
+--4226--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--4226-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--4226-- Page sizes: currently 4096, max supported 4096
+--4226-- Valgrind library directory: /usr/lib64/valgrind
+--4226-- Reading syms from /tmp/.qi99Zq/a.out
+--4226-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--4226--    object doesn't have a dynamic symbol table
+--4226-- Reading syms from /lib64/ld-2.12.so
+--4226--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--4226--   .. build-id is valid
+--4226-- Scheduler: using generic scheduler lock implementation.
+--4226-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==4226== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-4226-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==4226== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-4226-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==4226== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-4226-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==4226== 
+==4226== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==4226== don't want to do, unless you know exactly what you're doing,
+==4226== or are doing some strange experiment):
+==4226==   /usr/lib64/valgrind/../../bin/vgdb --pid=4226 ...command...
+==4226== 
+==4226== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==4226==   /path/to/gdb /tmp/.qi99Zq/a.out
+==4226== and then give GDB the following command
+==4226==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=4226
+==4226== --pid is optional if only one valgrind process is running
+==4226== 
+--4226-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--4226-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--4226-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--4226-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--4226-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--4226-- Reading syms from /lib64/libc-2.12.so
+--4226--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--4226--   .. build-id is valid
+--4226-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--4226-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--4226-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--4226-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--4226-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--4226-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--4226-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--4226-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--4226-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--4226-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--4226-- REDIR: 0x3f79e80b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79f34000 (???) redirected to 0x4a07f90 (strcpy)
+--4226-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--4226-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4226-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==4226== Invalid free() / delete / delete[] / realloc()
+==4226==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4226==    by 0x401E67: test_implode_XX (<stdin>:437)
+==4226==    by 0x402544: main (<stdin>:581)
+==4226==  Address 0x4c3c0a0 is 0 bytes inside a block of size 4 free'd
+==4226==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4226==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==4226==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==4226==    by 0x402544: main (<stdin>:581)
+==4226== 
+==4226== 
+==4226== HEAP SUMMARY:
+==4226==     in use at exit: 0 bytes in 0 blocks
+==4226==   total heap usage: 7 allocs, 8 frees, 92 bytes allocated
+==4226== 
+==4226== All heap blocks were freed -- no leaks are possible
+==4226== 
+==4226== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==4226== 
+==4226== 1 errors in context 1 of 1:
+==4226== Invalid free() / delete / delete[] / realloc()
+==4226==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4226==    by 0x401E67: test_implode_XX (<stdin>:437)
+==4226==    by 0x402544: main (<stdin>:581)
+==4226==  Address 0x4c3c0a0 is 0 bytes inside a block of size 4 free'd
+==4226==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4226==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==4226==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==4226==    by 0x402544: main (<stdin>:581)
+==4226== 
+--4226-- 
+--4226-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--4226-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==4226== 
+==4226== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 16 :: implode(...)
+
+   int len = 2
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("The");
+   strArr[1] = strdup("Turing test");
+   const char * glue = "{newline}";
+   char * s = implode(strArr, len, glue);
+   // s is "The"
+   FAIL
+   // expected: "The{newline}Turing test"
+Memory errors detected, testcase failed.
+==12393== Memcheck, a memory error detector
+==12393== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==12393== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==12393== Command: /tmp/.qi99Zq/a.out 15
+==12393== Parent PID: 12387
+==12393== 
+--12393-- 
+--12393-- Valgrind options:
+--12393--    --tool=memcheck
+--12393--    --leak-check=full
+--12393--    --verbose
+--12393--    --log-file=memcheck.log
+--12393-- Contents of /proc/version:
+--12393--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--12393-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--12393-- Page sizes: currently 4096, max supported 4096
+--12393-- Valgrind library directory: /usr/lib64/valgrind
+--12393-- Reading syms from /tmp/.qi99Zq/a.out
+--12393-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--12393--    object doesn't have a dynamic symbol table
+--12393-- Reading syms from /lib64/ld-2.12.so
+--12393--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--12393--   .. build-id is valid
+--12393-- Scheduler: using generic scheduler lock implementation.
+--12393-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==12393== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-12393-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==12393== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-12393-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==12393== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-12393-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==12393== 
+==12393== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==12393== don't want to do, unless you know exactly what you're doing,
+==12393== or are doing some strange experiment):
+==12393==   /usr/lib64/valgrind/../../bin/vgdb --pid=12393 ...command...
+==12393== 
+==12393== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==12393==   /path/to/gdb /tmp/.qi99Zq/a.out
+==12393== and then give GDB the following command
+==12393==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=12393
+==12393== --pid is optional if only one valgrind process is running
+==12393== 
+--12393-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--12393-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--12393-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--12393-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--12393-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--12393-- Reading syms from /lib64/libc-2.12.so
+--12393--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--12393--   .. build-id is valid
+--12393-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--12393-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--12393-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--12393-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--12393-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--12393-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--12393-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--12393-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--12393-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--12393-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--12393-- REDIR: 0x3f79e80b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79f34000 (???) redirected to 0x4a07f90 (strcpy)
+--12393-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--12393-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12393-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==12393== Invalid free() / delete / delete[] / realloc()
+==12393==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12393==    by 0x401E67: test_implode_XX (<stdin>:437)
+==12393==    by 0x402562: main (<stdin>:582)
+==12393==  Address 0x4c3c090 is 0 bytes inside a block of size 4 free'd
+==12393==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12393==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==12393==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==12393==    by 0x402562: main (<stdin>:582)
+==12393== 
+==12393== 
+==12393== HEAP SUMMARY:
+==12393==     in use at exit: 0 bytes in 0 blocks
+==12393==   total heap usage: 6 allocs, 7 frees, 80 bytes allocated
+==12393== 
+==12393== All heap blocks were freed -- no leaks are possible
+==12393== 
+==12393== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==12393== 
+==12393== 1 errors in context 1 of 1:
+==12393== Invalid free() / delete / delete[] / realloc()
+==12393==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12393==    by 0x401E67: test_implode_XX (<stdin>:437)
+==12393==    by 0x402562: main (<stdin>:582)
+==12393==  Address 0x4c3c090 is 0 bytes inside a block of size 4 free'd
+==12393==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12393==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==12393==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==12393==    by 0x402562: main (<stdin>:582)
+==12393== 
+--12393-- 
+--12393-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--12393-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==12393== 
+==12393== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 17 :: implode(...)
+
+   int len = 5
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("");
+   strArr[1] = strdup("he\n");
+   strArr[2] = strdup("uring ");
+   strArr[3] = strdup("es");
+   strArr[4] = strdup("");
+   const char * glue = "";
+   char * s = implode(strArr, len, glue);
+   // s is ""
+   FAIL
+   // expected: "he\nuring es"
+Memory errors detected, testcase failed.
+==20630== Memcheck, a memory error detector
+==20630== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==20630== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==20630== Command: /tmp/.qi99Zq/a.out 16
+==20630== Parent PID: 20626
+==20630== 
+--20630-- 
+--20630-- Valgrind options:
+--20630--    --tool=memcheck
+--20630--    --leak-check=full
+--20630--    --verbose
+--20630--    --log-file=memcheck.log
+--20630-- Contents of /proc/version:
+--20630--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--20630-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--20630-- Page sizes: currently 4096, max supported 4096
+--20630-- Valgrind library directory: /usr/lib64/valgrind
+--20630-- Reading syms from /tmp/.qi99Zq/a.out
+--20630-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--20630--    object doesn't have a dynamic symbol table
+--20630-- Reading syms from /lib64/ld-2.12.so
+--20630--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--20630--   .. build-id is valid
+--20630-- Scheduler: using generic scheduler lock implementation.
+--20630-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==20630== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-20630-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==20630== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-20630-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==20630== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-20630-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==20630== 
+==20630== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==20630== don't want to do, unless you know exactly what you're doing,
+==20630== or are doing some strange experiment):
+==20630==   /usr/lib64/valgrind/../../bin/vgdb --pid=20630 ...command...
+==20630== 
+==20630== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==20630==   /path/to/gdb /tmp/.qi99Zq/a.out
+==20630== and then give GDB the following command
+==20630==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=20630
+==20630== --pid is optional if only one valgrind process is running
+==20630== 
+--20630-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--20630-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--20630-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--20630-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--20630-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--20630-- Reading syms from /lib64/libc-2.12.so
+--20630--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--20630--   .. build-id is valid
+--20630-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--20630-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--20630-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--20630-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--20630-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--20630-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--20630-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--20630-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--20630-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--20630-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--20630-- REDIR: 0x3f79e80b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79f34000 (???) redirected to 0x4a07f90 (strcpy)
+--20630-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--20630-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20630-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==20630== Invalid free() / delete / delete[] / realloc()
+==20630==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20630==    by 0x401E67: test_implode_XX (<stdin>:437)
+==20630==    by 0x402580: main (<stdin>:583)
+==20630==  Address 0x4c3c0b0 is 0 bytes inside a block of size 1 free'd
+==20630==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20630==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==20630==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==20630==    by 0x402580: main (<stdin>:583)
+==20630== 
+==20630== 
+==20630== HEAP SUMMARY:
+==20630==     in use at exit: 0 bytes in 0 blocks
+==20630==   total heap usage: 10 allocs, 11 frees, 123 bytes allocated
+==20630== 
+==20630== All heap blocks were freed -- no leaks are possible
+==20630== 
+==20630== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==20630== 
+==20630== 1 errors in context 1 of 1:
+==20630== Invalid free() / delete / delete[] / realloc()
+==20630==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20630==    by 0x401E67: test_implode_XX (<stdin>:437)
+==20630==    by 0x402580: main (<stdin>:583)
+==20630==  Address 0x4c3c0b0 is 0 bytes inside a block of size 1 free'd
+==20630==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20630==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==20630==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==20630==    by 0x402580: main (<stdin>:583)
+==20630== 
+--20630-- 
+--20630-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--20630-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==20630== 
+==20630== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 18 :: implode(...)
+
+   int len = 1
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("");
+   const char * glue = "Z";
+   char * s = implode(strArr, len, glue);
+   // s is ""
+   (pass.)
+Memory errors detected, testcase failed.
+==28699== Memcheck, a memory error detector
+==28699== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==28699== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==28699== Command: /tmp/.qi99Zq/a.out 17
+==28699== Parent PID: 28696
+==28699== 
+--28699-- 
+--28699-- Valgrind options:
+--28699--    --tool=memcheck
+--28699--    --leak-check=full
+--28699--    --verbose
+--28699--    --log-file=memcheck.log
+--28699-- Contents of /proc/version:
+--28699--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--28699-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--28699-- Page sizes: currently 4096, max supported 4096
+--28699-- Valgrind library directory: /usr/lib64/valgrind
+--28699-- Reading syms from /tmp/.qi99Zq/a.out
+--28699-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--28699--    object doesn't have a dynamic symbol table
+--28699-- Reading syms from /lib64/ld-2.12.so
+--28699--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--28699--   .. build-id is valid
+--28699-- Scheduler: using generic scheduler lock implementation.
+--28699-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==28699== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-28699-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28699== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-28699-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28699== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-28699-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28699== 
+==28699== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==28699== don't want to do, unless you know exactly what you're doing,
+==28699== or are doing some strange experiment):
+==28699==   /usr/lib64/valgrind/../../bin/vgdb --pid=28699 ...command...
+==28699== 
+==28699== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==28699==   /path/to/gdb /tmp/.qi99Zq/a.out
+==28699== and then give GDB the following command
+==28699==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=28699
+==28699== --pid is optional if only one valgrind process is running
+==28699== 
+--28699-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--28699-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--28699-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--28699-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--28699-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--28699-- Reading syms from /lib64/libc-2.12.so
+--28699--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--28699--   .. build-id is valid
+--28699-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28699-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28699-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--28699-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--28699-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--28699-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--28699-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--28699-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--28699-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--28699-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28699-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--28699-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--28699-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28699-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--28699-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28699-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==28699== Invalid free() / delete / delete[] / realloc()
+==28699==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28699==    by 0x401E67: test_implode_XX (<stdin>:437)
+==28699==    by 0x40259E: main (<stdin>:584)
+==28699==  Address 0x4c3c090 is 0 bytes inside a block of size 1 free'd
+==28699==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28699==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==28699==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==28699==    by 0x40259E: main (<stdin>:584)
+==28699== 
+==28699== 
+==28699== HEAP SUMMARY:
+==28699==     in use at exit: 0 bytes in 0 blocks
+==28699==   total heap usage: 4 allocs, 5 frees, 18 bytes allocated
+==28699== 
+==28699== All heap blocks were freed -- no leaks are possible
+==28699== 
+==28699== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==28699== 
+==28699== 1 errors in context 1 of 1:
+==28699== Invalid free() / delete / delete[] / realloc()
+==28699==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28699==    by 0x401E67: test_implode_XX (<stdin>:437)
+==28699==    by 0x40259E: main (<stdin>:584)
+==28699==  Address 0x4c3c090 is 0 bytes inside a block of size 1 free'd
+==28699==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28699==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==28699==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==28699==    by 0x40259E: main (<stdin>:584)
+==28699== 
+--28699-- 
+--28699-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--28699-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==28699== 
+==28699== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 19 :: implode(...)
+
+   int len = 1
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("");
+   const char * glue = "";
+   char * s = implode(strArr, len, glue);
+   // s is ""
+   (pass.)
+Memory errors detected, testcase failed.
+==4765== Memcheck, a memory error detector
+==4765== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==4765== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==4765== Command: /tmp/.qi99Zq/a.out 18
+==4765== Parent PID: 4759
+==4765== 
+--4765-- 
+--4765-- Valgrind options:
+--4765--    --tool=memcheck
+--4765--    --leak-check=full
+--4765--    --verbose
+--4765--    --log-file=memcheck.log
+--4765-- Contents of /proc/version:
+--4765--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--4765-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--4765-- Page sizes: currently 4096, max supported 4096
+--4765-- Valgrind library directory: /usr/lib64/valgrind
+--4765-- Reading syms from /tmp/.qi99Zq/a.out
+--4765-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--4765--    object doesn't have a dynamic symbol table
+--4765-- Reading syms from /lib64/ld-2.12.so
+--4765--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--4765--   .. build-id is valid
+--4765-- Scheduler: using generic scheduler lock implementation.
+--4765-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==4765== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-4765-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==4765== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-4765-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==4765== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-4765-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==4765== 
+==4765== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==4765== don't want to do, unless you know exactly what you're doing,
+==4765== or are doing some strange experiment):
+==4765==   /usr/lib64/valgrind/../../bin/vgdb --pid=4765 ...command...
+==4765== 
+==4765== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==4765==   /path/to/gdb /tmp/.qi99Zq/a.out
+==4765== and then give GDB the following command
+==4765==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=4765
+==4765== --pid is optional if only one valgrind process is running
+==4765== 
+--4765-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--4765-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--4765-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--4765-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--4765-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--4765-- Reading syms from /lib64/libc-2.12.so
+--4765--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--4765--   .. build-id is valid
+--4765-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4765-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4765-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--4765-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--4765-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--4765-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--4765-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--4765-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--4765-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--4765-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4765-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--4765-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--4765-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4765-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--4765-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--4765-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==4765== Invalid free() / delete / delete[] / realloc()
+==4765==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4765==    by 0x401E67: test_implode_XX (<stdin>:437)
+==4765==    by 0x4025BC: main (<stdin>:585)
+==4765==  Address 0x4c3c090 is 0 bytes inside a block of size 1 free'd
+==4765==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4765==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==4765==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==4765==    by 0x4025BC: main (<stdin>:585)
+==4765== 
+==4765== 
+==4765== HEAP SUMMARY:
+==4765==     in use at exit: 0 bytes in 0 blocks
+==4765==   total heap usage: 4 allocs, 5 frees, 18 bytes allocated
+==4765== 
+==4765== All heap blocks were freed -- no leaks are possible
+==4765== 
+==4765== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==4765== 
+==4765== 1 errors in context 1 of 1:
+==4765== Invalid free() / delete / delete[] / realloc()
+==4765==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4765==    by 0x401E67: test_implode_XX (<stdin>:437)
+==4765==    by 0x4025BC: main (<stdin>:585)
+==4765==  Address 0x4c3c090 is 0 bytes inside a block of size 1 free'd
+==4765==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==4765==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==4765==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==4765==    by 0x4025BC: main (<stdin>:585)
+==4765== 
+--4765-- 
+--4765-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--4765-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==4765== 
+==4765== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 20 :: implode(...)
+
+   int len = 25
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("The");
+   strArr[1] = strdup("more");
+   strArr[2] = strdup("that");
+   strArr[3] = strdup("you");
+   strArr[4] = strdup("read");
+   strArr[5] = strdup("");
+   strArr[6] = strdup("the");
+   strArr[7] = strdup("more");
+   strArr[8] = strdup("things");
+   strArr[9] = strdup("you");
+   strArr[10] = strdup("will");
+   strArr[11] = strdup("know");
+   strArr[12] = strdup("");
+   strArr[13] = strdup("The");
+   strArr[14] = strdup("more");
+   strArr[15] = strdup("that");
+   strArr[16] = strdup("you");
+   strArr[17] = strdup("learn");
+   strArr[18] = strdup("");
+   strArr[19] = strdup("the");
+   strArr[20] = strdup("more");
+   strArr[21] = strdup("places");
+   strArr[22] = strdup("you\'ll");
+   strArr[23] = strdup("go");
+   strArr[24] = strdup("");
+   const char * glue = " -- ";
+   char * s = implode(strArr, len, glue);
+   // s is "The"
+   FAIL
+   // expected: "The -- more -- that -- you -- read --  -- the -- more -- things -- you -- will -- know --  -- The -- more -- that -- you -- learn --  -- the -- more -- places -- you\'ll -- go -- "
+Memory errors detected, testcase failed.
+==12633== Memcheck, a memory error detector
+==12633== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==12633== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==12633== Command: /tmp/.qi99Zq/a.out 19
+==12633== Parent PID: 12630
+==12633== 
+--12633-- 
+--12633-- Valgrind options:
+--12633--    --tool=memcheck
+--12633--    --leak-check=full
+--12633--    --verbose
+--12633--    --log-file=memcheck.log
+--12633-- Contents of /proc/version:
+--12633--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--12633-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--12633-- Page sizes: currently 4096, max supported 4096
+--12633-- Valgrind library directory: /usr/lib64/valgrind
+--12633-- Reading syms from /tmp/.qi99Zq/a.out
+--12633-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--12633--    object doesn't have a dynamic symbol table
+--12633-- Reading syms from /lib64/ld-2.12.so
+--12633--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--12633--   .. build-id is valid
+--12633-- Scheduler: using generic scheduler lock implementation.
+--12633-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==12633== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-12633-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==12633== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-12633-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==12633== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-12633-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==12633== 
+==12633== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==12633== don't want to do, unless you know exactly what you're doing,
+==12633== or are doing some strange experiment):
+==12633==   /usr/lib64/valgrind/../../bin/vgdb --pid=12633 ...command...
+==12633== 
+==12633== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==12633==   /path/to/gdb /tmp/.qi99Zq/a.out
+==12633== and then give GDB the following command
+==12633==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=12633
+==12633== --pid is optional if only one valgrind process is running
+==12633== 
+--12633-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--12633-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--12633-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--12633-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--12633-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--12633-- Reading syms from /lib64/libc-2.12.so
+--12633--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--12633--   .. build-id is valid
+--12633-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--12633-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--12633-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--12633-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--12633-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--12633-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--12633-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--12633-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--12633-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--12633-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--12633-- REDIR: 0x3f79e80b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79f34000 (???) redirected to 0x4a07f90 (strcpy)
+--12633-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--12633-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--12633-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==12633== Invalid free() / delete / delete[] / realloc()
+==12633==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12633==    by 0x401E67: test_implode_XX (<stdin>:437)
+==12633==    by 0x4025DF: main (<stdin>:586)
+==12633==  Address 0x4c3c150 is 0 bytes inside a block of size 4 free'd
+==12633==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12633==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==12633==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==12633==    by 0x4025DF: main (<stdin>:586)
+==12633== 
+==12633== 
+==12633== HEAP SUMMARY:
+==12633==     in use at exit: 0 bytes in 0 blocks
+==12633==   total heap usage: 33 allocs, 34 frees, 1,059 bytes allocated
+==12633== 
+==12633== All heap blocks were freed -- no leaks are possible
+==12633== 
+==12633== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==12633== 
+==12633== 1 errors in context 1 of 1:
+==12633== Invalid free() / delete / delete[] / realloc()
+==12633==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12633==    by 0x401E67: test_implode_XX (<stdin>:437)
+==12633==    by 0x4025DF: main (<stdin>:586)
+==12633==  Address 0x4c3c150 is 0 bytes inside a block of size 4 free'd
+==12633==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==12633==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==12633==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==12633==    by 0x4025DF: main (<stdin>:586)
+==12633== 
+--12633-- 
+--12633-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--12633-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==12633== 
+==12633== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 21 :: implode(...)
+
+   int len = 35
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("Twas brillig, and the slithy toves");
+   strArr[1] = strdup("Did gyre and gimble in the wabe:");
+   strArr[2] = strdup("All mimsy were the borogoves,");
+   strArr[3] = strdup("And the mome raths outgrabe.");
+   strArr[4] = strdup("");
+   strArr[5] = strdup("Beware the Jabberwock, my son!");
+   strArr[6] = strdup("The jaws that bite, the claws that catch!");
+   strArr[7] = strdup("Beware the Jubjub bird, and shun");
+   strArr[8] = strdup("The frumious Bandersnatch!");
+   strArr[9] = strdup("");
+   strArr[10] = strdup("He took his vorpal sword in hand:");
+   strArr[11] = strdup("Long time the manxome foe he sought --");
+   strArr[12] = strdup("So rested he by the Tumtum tree,");
+   strArr[13] = strdup("And stood awhile in thought.");
+   strArr[14] = strdup("");
+   strArr[15] = strdup("And, as in uffish thought he stood,");
+   strArr[16] = strdup("The Jabberwock, with eyes of flame,");
+   strArr[17] = strdup("Came whiffling through the tulgey wood,");
+   strArr[18] = strdup("And burbled as it came!");
+   strArr[19] = strdup("");
+   strArr[20] = strdup("One, two! One, two! And through and through");
+   strArr[21] = strdup("The vorpal blade went snicker-snack!");
+   strArr[22] = strdup("He left it dead, and with its head");
+   strArr[23] = strdup("He went galumphing back.");
+   strArr[24] = strdup("");
+   strArr[25] = strdup("And, has thou slain the Jabberwock?");
+   strArr[26] = strdup("Come to my arms, my beamish boy!");
+   strArr[27] = strdup("O frabjous day! Callooh! Callay!");
+   strArr[28] = strdup("He chortled in his joy.");
+   strArr[29] = strdup("");
+   strArr[30] = strdup("Twas brillig, and the slithy toves");
+   strArr[31] = strdup("Did gyre and gimble in the wabe;");
+   strArr[32] = strdup("All mimsy were the borogoves,");
+   strArr[33] = strdup("And the mome raths outgrabe.");
+   strArr[34] = strdup("");
+   const char * glue = ";\n";
+   char * s = implode(strArr, len, glue);
+   // s is "Twas brillig, and the slithy toves"
+   FAIL
+   // expected: "Twas brillig, and the slithy toves;\nDid gyre and gimble in the wabe:;\nAll mimsy were the borogoves,;\nAnd the mome raths outgrabe.;\n;\nBeware the Jabberwock, my son!;\nThe jaws that bite, the claws that catch!;\nBeware the Jubjub bird, and shun;\nThe frumious Bandersnatch!;\n;\nHe took his vorpal sword in hand:;\nLong time the manxome foe he sought --;\nSo rested he by the Tumtum tree,;\nAnd stood awhile in thought.;\n;\nAnd, as in uffish thought he stood,;\nThe Jabberwock, with eyes of flame,;\nCame whiffling through the tulgey wood,;\nAnd burbled as it came!;\n;\nOne, two! One, two! And through and through;\nThe vorpal blade went snicker-snack!;\nHe left it dead, and with its head;\nHe went galumphing back.;\n;\nAnd, has thou slain the Jabberwock?;\nCome to my arms, my beamish boy!;\nO frabjous day! Callooh! Callay!;\nHe chortled in his joy.;\n;\nTwas brillig, and the slithy toves;\nDid gyre and gimble in the wabe;;\nAll mimsy were the borogoves,;\nAnd the mome raths outgrabe.;\n"
+Memory errors detected, testcase failed.
+==20358== Memcheck, a memory error detector
+==20358== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==20358== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==20358== Command: /tmp/.qi99Zq/a.out 20
+==20358== Parent PID: 20351
+==20358== 
+--20358-- 
+--20358-- Valgrind options:
+--20358--    --tool=memcheck
+--20358--    --leak-check=full
+--20358--    --verbose
+--20358--    --log-file=memcheck.log
+--20358-- Contents of /proc/version:
+--20358--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--20358-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--20358-- Page sizes: currently 4096, max supported 4096
+--20358-- Valgrind library directory: /usr/lib64/valgrind
+--20358-- Reading syms from /tmp/.qi99Zq/a.out
+--20358-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--20358--    object doesn't have a dynamic symbol table
+--20358-- Reading syms from /lib64/ld-2.12.so
+--20358--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--20358--   .. build-id is valid
+--20358-- Scheduler: using generic scheduler lock implementation.
+--20358-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==20358== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-20358-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==20358== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-20358-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==20358== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-20358-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==20358== 
+==20358== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==20358== don't want to do, unless you know exactly what you're doing,
+==20358== or are doing some strange experiment):
+==20358==   /usr/lib64/valgrind/../../bin/vgdb --pid=20358 ...command...
+==20358== 
+==20358== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==20358==   /path/to/gdb /tmp/.qi99Zq/a.out
+==20358== and then give GDB the following command
+==20358==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=20358
+==20358== --pid is optional if only one valgrind process is running
+==20358== 
+--20358-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--20358-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--20358-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--20358-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--20358-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--20358-- Reading syms from /lib64/libc-2.12.so
+--20358--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--20358--   .. build-id is valid
+--20358-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--20358-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--20358-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--20358-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--20358-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--20358-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--20358-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--20358-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--20358-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--20358-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--20358-- REDIR: 0x3f79e80b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79f34000 (???) redirected to 0x4a07f90 (strcpy)
+--20358-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--20358-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--20358-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==20358== Invalid free() / delete / delete[] / realloc()
+==20358==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20358==    by 0x401E67: test_implode_XX (<stdin>:437)
+==20358==    by 0x402602: main (<stdin>:587)
+==20358==  Address 0x4c3c1a0 is 0 bytes inside a block of size 35 free'd
+==20358==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20358==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==20358==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==20358==    by 0x402602: main (<stdin>:587)
+==20358== 
+==20358== 
+==20358== HEAP SUMMARY:
+==20358==     in use at exit: 0 bytes in 0 blocks
+==20358==   total heap usage: 42 allocs, 43 frees, 4,117 bytes allocated
+==20358== 
+==20358== All heap blocks were freed -- no leaks are possible
+==20358== 
+==20358== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==20358== 
+==20358== 1 errors in context 1 of 1:
+==20358== Invalid free() / delete / delete[] / realloc()
+==20358==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20358==    by 0x401E67: test_implode_XX (<stdin>:437)
+==20358==    by 0x402602: main (<stdin>:587)
+==20358==  Address 0x4c3c1a0 is 0 bytes inside a block of size 35 free'd
+==20358==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==20358==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==20358==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==20358==    by 0x402602: main (<stdin>:587)
+==20358== 
+--20358-- 
+--20358-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--20358-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==20358== 
+==20358== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 22 :: implode(...)
+
+   int len = 6
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("1");
+   strArr[1] = strdup("2");
+   strArr[2] = strdup("3");
+   strArr[3] = strdup("4");
+   strArr[4] = strdup("5");
+   strArr[5] = strdup("6");
+   const char * glue = ", ";
+   char * s = implode(strArr, len, glue);
+   // s is "1"
+   FAIL
+   // expected: "1, 2, 3, 4, 5, 6"
+Memory errors detected, testcase failed.
+==28315== Memcheck, a memory error detector
+==28315== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==28315== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==28315== Command: /tmp/.qi99Zq/a.out 21
+==28315== Parent PID: 28313
+==28315== 
+--28315-- 
+--28315-- Valgrind options:
+--28315--    --tool=memcheck
+--28315--    --leak-check=full
+--28315--    --verbose
+--28315--    --log-file=memcheck.log
+--28315-- Contents of /proc/version:
+--28315--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--28315-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--28315-- Page sizes: currently 4096, max supported 4096
+--28315-- Valgrind library directory: /usr/lib64/valgrind
+--28315-- Reading syms from /tmp/.qi99Zq/a.out
+--28315-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--28315--    object doesn't have a dynamic symbol table
+--28315-- Reading syms from /lib64/ld-2.12.so
+--28315--   Considering /usr/lib/debug/.build-id/57/bf668f99b7f5917b8d55fbb645173c9a644575.debug ..
+--28315--   .. build-id is valid
+--28315-- Scheduler: using generic scheduler lock implementation.
+--28315-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==28315== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-28315-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28315== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-28315-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28315== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-28315-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28315== 
+==28315== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==28315== don't want to do, unless you know exactly what you're doing,
+==28315== or are doing some strange experiment):
+==28315==   /usr/lib64/valgrind/../../bin/vgdb --pid=28315 ...command...
+==28315== 
+==28315== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==28315==   /path/to/gdb /tmp/.qi99Zq/a.out
+==28315== and then give GDB the following command
+==28315==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=28315
+==28315== --pid is optional if only one valgrind process is running
+==28315== 
+--28315-- REDIR: 0x3f79a17530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--28315-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--28315-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--28315-- REDIR: 0x3f79a173a0 (index) redirected to 0x4a07bf0 (index)
+--28315-- REDIR: 0x3f79a17420 (strcmp) redirected to 0x4a08530 (strcmp)
+--28315-- Reading syms from /lib64/libc-2.12.so
+--28315--   Considering /usr/lib/debug/.build-id/07/b5ce35eba864a01b697f5ca117e94b9248064f.debug ..
+--28315--   .. build-id is valid
+--28315-- REDIR: 0x3f79e84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79e86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79e82c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--28315-- REDIR: 0x3f79e7f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79f281e0 (__strchr_sse42) redirected to 0x4a07b00 (index)
+--28315-- REDIR: 0x3f79e7a640 (malloc) redirected to 0x4a0696c (malloc)
+--28315-- REDIR: 0x3f79e89670 (memcpy) redirected to 0x4a08b20 (memcpy)
+--28315-- REDIR: 0x3f79e8aaf0 (strchrnul) redirected to 0x4a09f10 (strchrnul)
+--28315-- REDIR: 0x3f79e7b520 (free) redirected to 0x4a06369 (free)
+--28315-- REDIR: 0x3f79e84500 (mempcpy) redirected to 0x4a09f80 (mempcpy)
+--28315-- REDIR: 0x3f79e81160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+--28315-- REDIR: 0x3f79e81120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79f33560 (__strlen_sse42) redirected to 0x4a07f50 (strlen)
+--28315-- REDIR: 0x3f79e7f470 (strcat) redirected to 0x4a07c20 (strcat)
+--28315-- REDIR: 0x3f79e80b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79f34000 (???) redirected to 0x4a07f90 (strcpy)
+--28315-- REDIR: 0x3f79e833d0 (bcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79f3e610 (__memcmp_sse4_1) redirected to 0x4a09630 (bcmp)
+--28315-- REDIR: 0x3f79e7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28315-- REDIR: 0x3f79f28290 (__strcmp_sse42) redirected to 0x4a08490 (strcmp)
+==28315== Invalid free() / delete / delete[] / realloc()
+==28315==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28315==    by 0x401E67: test_implode_XX (<stdin>:437)
+==28315==    by 0x402620: main (<stdin>:588)
+==28315==  Address 0x4c3c0b0 is 0 bytes inside a block of size 2 free'd
+==28315==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28315==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==28315==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==28315==    by 0x402620: main (<stdin>:588)
+==28315== 
+==28315== 
+==28315== HEAP SUMMARY:
+==28315==     in use at exit: 0 bytes in 0 blocks
+==28315==   total heap usage: 12 allocs, 13 frees, 164 bytes allocated
+==28315== 
+==28315== All heap blocks were freed -- no leaks are possible
+==28315== 
+==28315== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==28315== 
+==28315== 1 errors in context 1 of 1:
+==28315== Invalid free() / delete / delete[] / realloc()
+==28315==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28315==    by 0x401E67: test_implode_XX (<stdin>:437)
+==28315==    by 0x402620: main (<stdin>:588)
+==28315==  Address 0x4c3c0b0 is 0 bytes inside a block of size 2 free'd
+==28315==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==28315==    by 0x400F6A: destroyStringArray_sol (<stdin>:138)
+==28315==    by 0x401E5B: test_implode_XX (<stdin>:436)
+==28315==    by 0x402620: main (<stdin>:588)
+==28315== 
+--28315-- 
+--28315-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--28315-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==28315== 
+==28315== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 23 :: sortStringArray(...)
+
+   int len = 3
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("lady");
+   strArr[1] = strdup("beatle");
+   strArr[2] = strdup("brew");
+   sortStringArray(strArr, len);
+   // strArr[0] is "beatle"
+   // strArr[1] is "brew"
+   // strArr[2] is "lady"
+   (pass.)
+
+test 24 :: sortStringArray(...)
+
+   int len = 1
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("");
+   sortStringArray(strArr, len);
+   // strArr[0] is ""
+   (pass.)
+
+test 25 :: sortStringArray(...)
+
+   int len = 35
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("Twas brillig, and the slithy toves");
+   strArr[1] = strdup("Did gyre and gimble in the wabe:");
+   strArr[2] = strdup("All mimsy were the borogoves,");
+   strArr[3] = strdup("And the mome raths outgrabe.");
+   strArr[4] = strdup("");
+   strArr[5] = strdup("Beware the Jabberwock, my son!");
+   strArr[6] = strdup("The jaws that bite, the claws that catch!");
+   strArr[7] = strdup("Beware the Jubjub bird, and shun");
+   strArr[8] = strdup("The frumious Bandersnatch!");
+   strArr[9] = strdup("");
+   strArr[10] = strdup("He took his vorpal sword in hand:");
+   strArr[11] = strdup("Long time the manxome foe he sought --");
+   strArr[12] = strdup("So rested he by the Tumtum tree,");
+   strArr[13] = strdup("And stood awhile in thought.");
+   strArr[14] = strdup("");
+   strArr[15] = strdup("And, as in uffish thought he stood,");
+   strArr[16] = strdup("The Jabberwock, with eyes of flame,");
+   strArr[17] = strdup("Came whiffling through the tulgey wood,");
+   strArr[18] = strdup("And burbled as it came!");
+   strArr[19] = strdup("");
+   strArr[20] = strdup("One, two! One, two! And through and through");
+   strArr[21] = strdup("The vorpal blade went snicker-snack!");
+   strArr[22] = strdup("He left it dead, and with its head");
+   strArr[23] = strdup("He went galumphing back.");
+   strArr[24] = strdup("");
+   strArr[25] = strdup("And, has thou slain the Jabberwock?");
+   strArr[26] = strdup("Come to my arms, my beamish boy!");
+   strArr[27] = strdup("O frabjous day! Callooh! Callay!");
+   strArr[28] = strdup("He chortled in his joy.");
+   strArr[29] = strdup("");
+   strArr[30] = strdup("Twas brillig, and the slithy toves");
+   strArr[31] = strdup("Did gyre and gimble in the wabe;");
+   strArr[32] = strdup("All mimsy were the borogoves,");
+   strArr[33] = strdup("And the mome raths outgrabe.");
+   strArr[34] = strdup("");
+   sortStringArray(strArr, len);
+   // strArr[0] is ""
+   // strArr[1] is ""
+   // strArr[2] is ""
+   // strArr[3] is ""
+   // strArr[4] is ""
+   // strArr[5] is ""
+   // strArr[6] is ""
+   // strArr[7] is "All mimsy were the borogoves,"
+   // strArr[8] is "All mimsy were the borogoves,"
+   // strArr[9] is "And burbled as it came!"
+   // strArr[10] is "And stood awhile in thought."
+   // strArr[11] is "And the mome raths outgrabe."
+   // strArr[12] is "And the mome raths outgrabe."
+   // strArr[13] is "And, as in uffish thought he stood,"
+   // strArr[14] is "And, has thou slain the Jabberwock?"
+   // strArr[15] is "Beware the Jabberwock, my son!"
+   // strArr[16] is "Beware the Jubjub bird, and shun"
+   // strArr[17] is "Came whiffling through the tulgey wood,"
+   // strArr[18] is "Come to my arms, my beamish boy!"
+   // strArr[19] is "Did gyre and gimble in the wabe:"
+   // strArr[20] is "Did gyre and gimble in the wabe;"
+   // strArr[21] is "He chortled in his joy."
+   // strArr[22] is "He left it dead, and with its head"
+   // strArr[23] is "He took his vorpal sword in hand:"
+   // strArr[24] is "He went galumphing back."
+   // strArr[25] is "Long time the manxome foe he sought --"
+   // strArr[26] is "O frabjous day! Callooh! Callay!"
+   // strArr[27] is "One, two! One, two! And through and through"
+   // strArr[28] is "So rested he by the Tumtum tree,"
+   // strArr[29] is "The Jabberwock, with eyes of flame,"
+   // strArr[30] is "The frumious Bandersnatch!"
+   // strArr[31] is "The jaws that bite, the claws that catch!"
+   // strArr[32] is "The vorpal blade went snicker-snack!"
+   // strArr[33] is "Twas brillig, and the slithy toves"
+   // strArr[34] is "Twas brillig, and the slithy toves"
+   (pass.)
+
+test 26 :: sortStringCharacters(...)
+
+   char * s1 = strdup("The more that you read, the more things you will know. The more that you learn, the more places you\'ll go.");
+   sortStringCharacters(s1)
+   // s1 is now "                    \',,..TTaaaaacdeeeeeeeeeeegghhhhhhhiikllllllmmmmnnnooooooooooprrrrrrsstttttttuuuuwwyyyy"
+
+test 27 :: sortStringCharacters(...)
+
+   char * s1 = strdup("How did it get so late so soon?");
+   sortStringCharacters(s1)
+   // s1 is now "       ?Haddeegiilnooooossstttw"
+
+test 28 :: sortStringCharacters(...)
+
+   char * s1 = strdup("Twas brillig, and the slithy toves\nDid gyre and gimble in the wabe:\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n\nBeware the Jabberwock, my son!\nThe jaws that bite, the claws that catch!\nBeware the Jubjub bird, and shun\nThe frumious Bandersnatch!\n\nHe took his vorpal sword in hand:\nLong time the manxome foe he sought --\nSo rested he by the Tumtum tree,\nAnd stood awhile in thought.\n\nAnd, as in uffish thought he stood,\nThe Jabberwock, with eyes of flame,\nCame whiffling through the tulgey wood,\nAnd burbled as it came!\n\nOne, two! One, two! And through and through\nThe vorpal blade went snicker-snack!\nHe left it dead, and with its head\nHe went galumphing back.\n\nAnd, has thou slain the Jabberwock?\nCome to my arms, my beamish boy!\nO frabjous day! Callooh! Callay!\nHe chortled in his joy.\n\nTwas brillig, and the slithy toves\nDid gyre and gimble in the wabe;\nAll mimsy were the borogoves,\nAnd the mome raths outgrabe.\n");
+   sortStringCharacters(s1)
+   // s1 is now "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n                                                                                                                                           !!!!!!!!!!!,,,,,,,,,,,,,,,,,,---.....::;?AAAAAAAAABBBCCCCDDHHHHJJJJLOOOSTTTTTTTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccdddddddddddddddddddddddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeffffffffffggggggggggggggggggggghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiijjjjkkkkkkklllllllllllllllllllllllllllllmmmmmmmmmmmmmmmmmmmmmmmmmmnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnooooooooooooooooooooooooooooooooooooooooooooooooooppprrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrssssssssssssssssssssssssssssssssssssstttttttttttttttttttttttttttttttttttttttttttttttttttttttttttuuuuuuuuuuuuuuuuuuuuuvvvvvvwwwwwwwwwwwwwwwwwwwwwwwxyyyyyyyyyyyyyyyy"
+
+test 29 :: sortStringCharacters(...)
+
+   char * s1 = strdup("");
+   sortStringCharacters(s1)
+   // s1 is now ""
+
+test 30 :: destroyStringArray(...)
+
+   int len = 3
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("lady");
+   strArr[1] = strdup("beatle");
+   strArr[2] = strdup("brew");
+   destroyStringArray(strArr, len);
+   // Pass conditional on no memory errors
+
+test 31 :: destroyStringArray(...)
+
+   int len = 1
+   char * * strArr = malloc(len * sizeof(char*));
+   strArr[0] = strdup("");
+   destroyStringArray(strArr, len);
+   // Pass conditional on no memory errors
+
+test 32 :: destroyStringArray(...)
+
+   destroyStringArray(NULL, 0);
+   // Pass conditional on no memory errors
+
+
+23/32 testcases passed.
+Overall mark is a FAIL.
+]0;~/ECE264/solutions/demo/PA03
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA03[0m
+$ exit
+exit
+
+Script done on Sun 28 Sep 2014 08:52:01 PM EDT
