@@ -1,0 +1,501 @@
+Script started on Thu 02 Oct 2014 04:21:07 AM EDT
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ./tester echo-lite.c grep0[K-lite.c cat-lite.c
+   ---------------------------------------------------------------------------
+   Welcome to the PA04 testing program. This program takes a _long_ time
+   to execute. There is a reason for this. You should not rely on this
+   program to test your code as you go. Instead, you should think about
+   what your code should be doing, and what inputs should produce what
+   outputs for each of your functions.
+   
+        YOU SHOULD THEN TEST EVERY PIECE OF CODE AS YOU WRITE IT 
+   
+                                 AND 
+   
+                        FIX MISTAKES AS YOU GO.
+   
+   When you are convinced that you have the entire assignment 100% correct,
+   then you can use this testing program to test it. 
+   
+   This will give you your mark assuming that you submit it correctly, and 
+   there are no other irregularities.
+   ---------------------------------------------------------------------------
+gcc -Wall -Wshadow -g echo-lite.c -o echo-lite
+Compilation successful.
+
+gcc -Wall -Wshadow -g cat-lite.c -o cat-lite
+Compilation successful.
+
+gcc -Wall -Wshadow -g grep-lite.c -o grep-lite
+Compilation successful.
+
+
+Testcase 1
+   ./echo-lite Say cheese
+   Say cheese Testcase passed.
+
+Testcase 2
+   ./echo-lite
+   
+Testcase passed.
+
+Testcase 3
+   ./echo-lite a b c
+   a b c Testcase passed.
+
+Testcase 4
+   ./echo-lite note that    multiple space becomes 1.
+   note that multiple space becomes 1. Testcase passed.
+
+Testcase 5
+   ./echo-lite but you can use " quotes " to pass along spaces.
+   but you can use  quotes  to pass along spaces. Testcase passed.
+
+Testcase 6
+   ./cat-lite --help
+   Usage: cat-lite [--help] [FILE]...
+   With no FILE, or when FILE is -, read standard input.
+   
+   Examples:
+   cat-lite README   Print the file README to standard output.
+   cat-lite f - g    Print f's contents, then standard input,
+    then g's contents.
+   cat-lite          Copy standard input to standard output.
+Testcase passed.
+
+Testcase 7
+   ./cat-lite --help still happens if trailing arguments
+   Usage: cat-lite [--help] [FILE]...
+   With no FILE, or when FILE is -, read standard input.
+   
+   Examples:
+   cat-lite README   Print the file README to standard output.
+   cat-lite f - g    Print f's contents, then standard input,
+    then g's contents.
+   cat-lite          Copy standard input to standard output.
+Testcase passed.
+
+Testcase 8
+   ./cat-lite testcases/file1
+   meow
+Testcase passed.
+
+Testcase 9
+   ./cat-lite testcases/file2
+   
+Testcase passed.
+
+Testcase 10
+   ./cat-lite testcases/file1 testcases/file1
+   meow
+   meow
+Testcase passed.
+
+Testcase 11
+   ./cat-lite testcases/file3 testcases/file4
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like green eggs and ham.
+   I do not like them, Sam-I-Am.
+   Say! I like green eggs and ham!
+   I do! I like them, Sam-I-Am!
+   And I would eat them in a boat.
+   And I would eat them with a goat...
+   And I will eat them, in the rain.
+   And in the dark. And on a train.
+   And in a car. And in a tree.
+   They are so good, so good, you see!
+   So I will eat them in a box.
+   And I will eat them with a fox.
+   And I will eat them in a house.
+   And I will eat them with a mouse.
+   And I will eat them here and there.
+   Say! I will eat them anywhere!
+   I do so like green eggs and ham!
+   Thank you! Thank you, Sam-I-Am.
+Testcase passed.
+
+Testcase 12
+   echo stdin | ./cat-lite
+   stdin
+Testcase passed.
+
+Testcase 13
+   echo stdin | ./cat-lite -
+   stdin
+Testcase passed.
+
+Testcase 14
+   echo ... | ./cat-lite testcases/file3 - testcases/file4
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like green eggs and ham.
+   I do not like them, Sam-I-Am.
+   ...
+   Say! I like green eggs and ham!
+   I do! I like them, Sam-I-Am!
+   And I would eat them in a boat.
+   And I would eat them with a goat...
+   And I will eat them, in the rain.
+   And in the dark. And on a train.
+   And in a car. And in a tree.
+   They are so good, so good, you see!
+   So I will eat them in a box.
+   And I will eat them with a fox.
+   And I will eat them in a house.
+   And I will eat them with a mouse.
+   And I will eat them here and there.
+   Say! I will eat them anywhere!
+   I do so like green eggs and ham!
+   Thank you! Thank you, Sam-I-Am.
+Testcase passed.
+
+Testcase 15
+   cat testcases/file3 | ./grep-lite ham
+   
+   
+    Q = 0 V =  0 N = 0
+   
+   I do not like green eggs and ham.
+ERROR in stdout output. Expected:
+   I do not like green eggs and ham.
+Testcase FAILED
+
+Testcase 16
+   cat testcases/file3 | ./grep-lite -v ham
+   
+   
+    Q = 0 V =  1 N = 0
+   
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+Testcase FAILED
+
+Testcase 17
+   cat testcases/file3 | ./grep-lite -n ham
+   
+   
+    Q = 0 V =  0 N = 1
+   
+   3:I do not like green eggs and ham.
+ERROR in stdout output. Expected:
+   3:I do not like green eggs and ham.
+Testcase FAILED
+
+Testcase 18
+   cat testcases/file3 | ./grep-lite -n -v ham
+   
+   
+    Q = 0 V =  1 N = 1
+   
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+Testcase FAILED
+
+Testcase 19
+   cat testcases/file3 | ./grep-lite -v -n ham
+   
+   
+    Q = 0 V =  1 N = 1
+   
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+Testcase FAILED
+
+Testcase 20
+   cat testcases/file3 | ./grep-lite -q ham
+   
+   
+    Q = 1 V =  0 N = 0
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 21
+   cat testcases/file3 | ./grep-lite -q -n ham
+   
+   
+    Q = 1 V =  0 N = 1
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 22
+   cat testcases/file3 | ./grep-lite -n -q ham
+   
+   
+    Q = 1 V =  0 N = 1
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 23
+   cat testcases/file3 | ./grep-lite -q -v ham
+   
+   
+    Q = 1 V =  1 N = 0
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 24
+   cat testcases/file3 | ./grep-lite -v -v ham
+cat testcases/file3 | ./grep-lite --line-number --invert-match ham^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$    
+   
+    Q = 0 V =  1 N = 0
+   
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+Testcase FAILED
+^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ./tester echo-lite.c grep-lite.c cat-lite.c
+Testcase 25
+   cat testcases/file3 | ./grep-lite ham
+[C[Cpico grep-lite.c[K   
+   
+    Q = 0 V =  0 N = 0
+   
+   I do not like green eggs and ham.
+ERROR in stdout output. Expected:
+   I do not like green eggs and ham.
+Testcase FAILED
+[C[C./tester echo-lite.c grep-lite.c cat-lite.c[C[C[K
+Testcase 26
+   cat testcases/file3 | ./grep-lite --invert-match ham
+   
+   
+    Q = 0 V =  1 N = 0
+   
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+Testcase FAILED
+
+Testcase 27
+   cat testcases/file3 | ./grep-lite --line-number ham
+   
+   
+    Q = 0 V =  0 N = 1
+   
+   3:I do not like green eggs and ham.
+ERROR in stdout output. Expected:
+   3:I do not like green eggs and ham.
+Testcase FAILED
+
+Testcase 28
+   cat testcases/file3 | ./grep-lite --line-number --invert-match ham
+   
+   
+    Q = 0 V =  1 N = 1
+   
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+Testcase FAILED
+
+Testcase 29
+   cat testcases/file3 | ./grep-lite --invert-match --line-number ham
+   
+   
+    Q = 0 V =  1 N = 1
+   
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   1:I would not like them here or there.
+   2:I would not like them anywhere.
+   4:I do not like them, Sam-I-Am.
+Testcase FAILED
+
+Testcase 30
+   cat testcases/file3 | ./grep-lite --quiet ham
+   
+   
+    Q = 1 V =  0 N = 0
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 31
+   cat testcases/file3 | ./grep-lite --quiet --line-number ham
+   
+   
+    Q = 1 V =  0 N = 1
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 32
+   cat testcases/file3 | ./grep-lite --line-number --quiet ham
+   
+   
+    Q = 1 V =  0 N = 1
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 33
+   cat testcases/file3 | ./grep-lite --quiet --invert-match ham
+   
+   
+    Q = 1 V =  1 N = 0
+   
+ERROR in stdout output. Expected:
+Testcase FAILED
+
+Testcase 34
+   cat testcases/file3 | ./grep-lite --invert-match --invert-match ham
+   
+   
+    Q = 0 V =  1 N = 0
+   
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+ERROR in stdout output. Expected:
+   I would not like them here or there.
+   I would not like them anywhere.
+   I do not like them, Sam-I-Am.
+Testcase FAILED
+
+
+14/34 testcases passed.
+Overall mark is a FAIL.
+./tester echo-lite.c grep-lite.c cat-lite.c[C[C[K
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ./tester echo-lite.c grep-lite.c cat-lite.c[C[Cpico grep-lite.c[K
+[1;1H[J[7m   UW PICO(tm) 4.10                      New Buffer                                           [m[41;1H[K[42;1H[K[41;1H[7m^[m[7mG[m Get Help    [7m^[m[7mO[m WriteOut    [7m^[m[7mR[m Read File   [7m^[m[7mY[m Prev Pg     [7m^[m[7mK[m Cut Text    [7m^[m[7mC[m Cur Pos     [K[42;1H[7m^[m[7mX[m Exit        [7m^[m[7mJ[m Justify     [7m^[m[7mW[m Where is    [7m^[m[7mV[m Next Pg     [7m^[m[7mU[m UnCut Text  [7m^[m[7mT[m To Spell    [K[3;1H[40;1H[K[40;40H[7m[ Reading file ][m[40;1H[K[40;37H[7m[ File has long line ][m[40;1H[K[40;39H[7m[ Read 112 lines ][m[1;42H[7mFile: grep-lite.c[m[3;1H#include <stdio.h>[4;1H#include <stdlib.h>[5;1H#include <string.h>[7;1Hint main(int argc, char * * argv)[9;1H{[11;5Hchar buffer[2000];[13;1H/*--------------------------HELP STATEMENT---------------------------------*/[15;5Hint I = 1, HELPSTATEMENT = 0;    // Help statement identifier[16;5Hwhile( I < argc)[17;9H{[18;9Hif (strcmp(argv[I], "--help") == 0) {[19;12Hprintf("Search for PATTERN in standard input. PATTERN is a\nstring. grep-lite will$[20;12HHELPSTATEMENT = 1;[21;12H}[23;9HI++;[24;10H}[25;5Hif (HELPSTATEMENT ==1) { return EXIT_SUCCESS;}[27;1H/*---------------------------ERRONEOUS ARGUMENTS------------*/[29;5HI = 1;[31;5Hwhile ( I < (argc-1) )[32;9H{[33;9Hif ( (strcmp(argv[I], "-q") !=0) && (strcmp(argv[I], "--quiet") !=0) && (strcmp(argv[$[34;13H{[35;13HFILE * fp1 = stderr;[36;13Hstrcpy(buffer, "Error with commandline arguments for grep-lite\n");[37;13Hfputs(buffer, fp1);[38;13Hfclose(fp1);[39;13Hreturn 2;[3;1H[4;1H[5;1H[6;1H[7;1H[8;1H[9;1H[10;1H[11;1H[12;1H[13;1H[14;1H[15;1H[16;1H[17;1H[18;1H[19;1H[20;1H[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[27;1H[28;1H[40;1H[K[29;1H[30;1H[31;1H[32;1H[33;1H[34;1H[35;1H[36;1H[37;1H[38;1H[39;1H[3;1H[K[4;1H        I++;[K[5;1H         }[K[6;5Hif (HELPSTATEMENT ==1) { return EXIT_SUCCESS;}[7;1H[K[8;1H/*---------------------------ERRONEOUS ARGUMENTS------------*/[9;1H [10;5HI = 1;[11;5H[K[12;5Hwhile ( I < (argc-1) )[13;1H        {[K[14;9Hif ( (strcmp(argv[I], "-q") !=0) && (strcmp(argv[I], "--quiet") !=0) && (strcmp(argv[$[15;5H        {[K[16;5H        FILE * fp1 = stderr;[17;9H    strcpy(buffer, "Error with commandline arguments for grep-lite\n");[18;9H    fputs(buffer, fp1);[K[19;12H fclose(fp1);[K[20;12H return 2;[K[21;12H }[22;9HI++;[23;9H}   [24;10H [25;9Hargv[argc-1][0] == '-')[K[26;9H{[27;1H        FILE * fp1 = stderr;[K[28;9Hstrcpy(buffer, "Error with commandline arguments for grep-lite\n");[29;5H    fputs(buffer, fp1);[30;9Hfclose(fp1);[31;5H    return 2;[K[32;9H}[33;9H[K[34;1H/*-----------------------COMMAND LINE ARGUMENT IDENTIFICATION--------------------*/[35;13H[K[36;13H[K[37;1Hint Q = 0, N = 0, V = 0;[K[38;1HI = 1;[K[39;13H[K[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[27;1H[28;1H[29;1H[30;1H[31;1H[32;1H[33;1H[34;1H[35;1H[36;1H[37;1H[38;1H[39;1H[3;9HI++;[4;9H}   [5;10H [6;9Hargv[argc-1][0] == '-')[K[7;9H{[8;1H        FILE * fp1 = stderr;[K[9;9Hstrcpy(buffer, "Error with commandline arguments for grep-lite\n");[10;5H    fputs(buffer, fp1);[11;9Hfclose(fp1);[12;5H    return 2;[K[13;9H}[14;9H[K[15;1H/*-----------------------COMMAND LINE ARGUMENT IDENTIFICATION--------------------*/[16;13H[K[17;13H[K[18;1Hint Q = 0, N = 0, V = 0;[K[19;1HI = 1;[K[20;13H[K[21;2Hwhile ( I < (argc-1) )[22;9H{   [23;9Hif ( (strcmp(argv[I], "-q") == 0 ) || (strcmp(argv[I], "--quiet") == 0))[24;13H{[25;5H        Q = 1;[K[26;9H    }[27;9Hif ( (strcmp(argv[I], "-n") == 0 ) || (strcmp(argv[I], "--line-number") == 0))[28;9H    {[K[29;9H    N = 1;[K[30;9H    }[K[31;9H if ( (strcmp(argv[I], "-v") == 0 ) || (strcmp(argv[I], "--invert-match") == 0))[32;9H    {[33;13HV = 1;[34;1H            }[K[35;9HI++;[36;9H}[37;1H[K[38;1H       printf("\n\n Q = %d V =  %d N = %d\n\n", Q,V,N);[39;1H/*-----------------------------OUTPUTS-----------------------------*/[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[25;1H[24;1H[23;1H[22;1H[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[27;1H[28;1H[29;1H[30;1H[31;1H[32;1H[33;1H[34;1H[35;1H[36;1H[37;1H[38;1H[1;84H[7mModified[m[38;1H/*-----------------------------OUTPUTS-----------------------------*/[39;1H    int Matches = 0, LineCounter = 0;[K[38;1H[40;1H[K[7mFile Name to write :                                                                          [40;22H[m[7mgrep-lite.c[m[41;17H[7mT[m  To Files                                                               [K[42;2H[7mC[m Cancel      [7mT[m[7mA[m[7mB[m Complete                                                               [K[7m[40;33H[m[40;1H[K[40;41H[7m[ Writing... ][m[40;1H[K[40;38H[7m[ Wrote 111 lines ][m[1;84H[7m        [m[41;1H[K[42;1H[K[41;1H[7m^[m[7mG[m Get Help    [7m^[m[7mO[m WriteOut    [7m^[m[7mR[m Read File   [7m^[m[7mY[m Prev Pg     [7m^[m[7mK[m Cut Text    [7m^[m[7mC[m Cur Pos     [K[42;1H[7m^[m[7mX[m Exit        [7m^[m[7mJ[m Justify     [7m^[m[7mW[m Where is    [7m^[m[7mV[m Next Pg     [7m^[m[7mU[m UnCut Text  [7m^[m[7mT[m To Spell    [K[38;1H[41;1H[K[42;1H[K]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ pico grep-lite.c[C[C./tester echo-lite.c grep-lite.c cat-lite.c[C[Cpico grep-lite.c[K[C[Cgcc -Wall -Wshadow -g  grep-lite.c -o grep-lite
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ gcc -Wall -Wshadow -g  grep-lite.c -o grep-lite[C[Cpico grep-lite.c[K
+[1;1H[J[7m   UW PICO(tm) 4.10                      New Buffer                                           [m[41;1H[K[42;1H[K[41;1H[7m^[m[7mG[m Get Help    [7m^[m[7mO[m WriteOut    [7m^[m[7mR[m Read File   [7m^[m[7mY[m Prev Pg     [7m^[m[7mK[m Cut Text    [7m^[m[7mC[m Cur Pos     [K[42;1H[7m^[m[7mX[m Exit        [7m^[m[7mJ[m Justify     [7m^[m[7mW[m Where is    [7m^[m[7mV[m Next Pg     [7m^[m[7mU[m UnCut Text  [7m^[m[7mT[m To Spell    [K[3;1H[40;1H[K[40;40H[7m[ Reading file ][m[40;1H[K[40;37H[7m[ File has long line ][m[40;1H[K[40;39H[7m[ Read 111 lines ][m[1;42H[7mFile: grep-lite.c[m[3;1H#include <stdio.h>[4;1H#include <stdlib.h>[5;1H#include <string.h>[7;1Hint main(int argc, char * * argv)[9;1H{[11;5Hchar buffer[2000];[13;1H/*--------------------------HELP STATEMENT---------------------------------*/[15;5Hint I = 1, HELPSTATEMENT = 0;    // Help statement identifier[16;5Hwhile( I < argc)[17;9H{[18;9Hif (strcmp(argv[I], "--help") == 0) {[19;12Hprintf("Search for PATTERN in standard input. PATTERN is a\nstring. grep-lite will$[20;12HHELPSTATEMENT = 1;[21;12H}[23;9HI++;[24;10H}[25;5Hif (HELPSTATEMENT ==1) { return EXIT_SUCCESS;}[27;1H/*---------------------------ERRONEOUS ARGUMENTS------------*/[29;5HI = 1;[31;5Hwhile ( I < (argc-1) )[32;9H{[33;9Hif ( (strcmp(argv[I], "-q") !=0) && (strcmp(argv[I], "--quiet") !=0) && (strcmp(argv[$[34;13H{[35;13HFILE * fp1 = stderr;[36;13Hstrcpy(buffer, "Error with commandline arguments for grep-lite\n");[37;13Hfputs(buffer, fp1);[38;13Hfclose(fp1);[39;13Hreturn 2;[3;1H[4;1H[5;1H[6;1H[7;1H[8;1H[9;1H[10;1H[11;1H[12;1H[13;1H[14;1H[15;1H[16;1H[17;1H[18;1H[19;1H[20;1H[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[27;1H[28;1H[40;1H[K[29;1H[30;1H[31;1H[32;1H[33;1H[34;1H[35;1H[36;1H[37;1H[38;1H[39;1H[3;1H[K[4;1H        I++;[K[5;1H         }[K[6;5Hif (HELPSTATEMENT ==1) { return EXIT_SUCCESS;}[7;1H[K[8;1H/*---------------------------ERRONEOUS ARGUMENTS------------*/[9;1H [10;5HI = 1;[11;5H[K[12;5Hwhile ( I < (argc-1) )[13;1H        {[K[14;9Hif ( (strcmp(argv[I], "-q") !=0) && (strcmp(argv[I], "--quiet") !=0) && (strcmp(argv[$[15;5H        {[K[16;5H        FILE * fp1 = stderr;[17;9H    strcpy(buffer, "Error with commandline arguments for grep-lite\n");[18;9H    fputs(buffer, fp1);[K[19;12H fclose(fp1);[K[20;12H return 2;[K[21;12H }[22;9HI++;[23;9H}   [24;10H [25;9Hargv[argc-1][0] == '-')[K[26;9H{[27;1H        FILE * fp1 = stderr;[K[28;9Hstrcpy(buffer, "Error with commandline arguments for grep-lite\n");[29;5H    fputs(buffer, fp1);[30;9Hfclose(fp1);[31;5H    return 2;[K[32;9H}[33;9H[K[34;1H/*-----------------------COMMAND LINE ARGUMENT IDENTIFICATION--------------------*/[35;13H[K[36;13H[K[37;1Hint Q = 0, N = 0, V = 0;[K[38;1HI = 1;[K[39;13H[K[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[27;1H[28;1H[29;1H[30;1H[31;1H[32;1H[33;1H[34;1H[35;1H[36;1H[37;1H[38;1H[39;1H[3;9HI++;[4;9H}   [5;10H [6;9Hargv[argc-1][0] == '-')[K[7;9H{[8;1H        FILE * fp1 = stderr;[K[9;9Hstrcpy(buffer, "Error with commandline arguments for grep-lite\n");[10;5H    fputs(buffer, fp1);[11;9Hfclose(fp1);[12;5H    return 2;[K[13;9H}[14;9H[K[15;1H/*-----------------------COMMAND LINE ARGUMENT IDENTIFICATION--------------------*/[16;13H[K[17;13H[K[18;1Hint Q = 0, N = 0, V = 0;[K[19;1HI = 1;[K[20;13H[K[21;2Hwhile ( I < (argc-1) )[22;9H{   [23;9Hif ( (strcmp(argv[I], "-q") == 0 ) || (strcmp(argv[I], "--quiet") == 0))[24;13H{[25;5H        Q = 1;[K[26;9H    }[27;9Hif ( (strcmp(argv[I], "-n") == 0 ) || (strcmp(argv[I], "--line-number") == 0))[28;9H    {[K[29;9H    N = 1;[K[30;9H    }[K[31;9H if ( (strcmp(argv[I], "-v") == 0 ) || (strcmp(argv[I], "--invert-match") == 0))[32;9H    {[33;13HV = 1;[34;1H            }[K[35;9HI++;[36;9H}[37;1H[K[38;1H/*-----------------------------OUTPUTS-----------------------------*/[39;5Hint Matches = 0, LineCounter = 0;[21;1H[22;1H[23;1H[24;1H[25;1H[26;1H[27;1H[28;1H[29;1H[30;1H[31;1H[32;1H[40;1H[K[7mFile Name to write :                                                                          [40;22H[m[7mgrep-lite.c[m[41;17H[7mT[m  To Files                                                               [K[42;2H[7mC[m Cancel      [7mT[m[7mA[m[7mB[m Complete                                                               [K[7m[40;33H[m[40;1H[K[40;41H[7m[ Writing... ][m[40;1H[K[40;38H[7m[ Wrote 111 lines ][m[41;1H[K[42;1H[K[41;1H[7m^[m[7mG[m Get Help    [7m^[m[7mO[m WriteOut    [7m^[m[7mR[m Read File   [7m^[m[7mY[m Prev Pg     [7m^[m[7mK[m Cut Text    [7m^[m[7mC[m Cur Pos     [K[42;1H[7m^[m[7mX[m Exit        [7m^[m[7mJ[m Justify     [7m^[m[7mW[m Where is    [7m^[m[7mV[m Next Pg     [7m^[m[7mU[m UnCut Text  [7m^[m[7mT[m To Spell    [K[32;1H[41;1H[K[42;1H[K]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ 
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ pico grep-lite.c[C[Cgcc -Wall -Wshadow -g  grep-lite.c -o grep-lite
+]0;~/ECE264/solutions/demo/PA04
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA04[0m
+$ ./[K[Kexit
+exit
+
+Script done on Thu 02 Oct 2014 04:28:04 AM EDT
