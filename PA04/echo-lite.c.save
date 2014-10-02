@@ -1,0 +1,21 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int argc, char * * argv)
+
+{
+
+    int I =1;
+
+    while ( I < argc )
+        {
+        printf("%s "
+        }
+
+
+
+
+
+    return EXIT_SUCCESS;
+}
