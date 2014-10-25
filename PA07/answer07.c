@@ -1,14 +1,10 @@
-
-
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "answer07.h"
 
-
 Image * Image_load(const char * filename) 
-
 {
 	FILE * fp = NULL;
 	size_t Read, Read2, Read3;
@@ -68,12 +64,10 @@ Image * Image_load(const char * filename)
 		free(Mallocd_Comment);
 		free(NewImage);
 		fclose(fp);
-		return NULL;
-				}
+		return NULL;}
 //Check if there are extra bytes
 	size_t Checkend;
     Read3 = fread (&Checkend, sizeof(uint8_t) , 1, fp);
-
 	if (Read3 != 0)   {
 		printf("Too many bytes");
 		free(NewImage->data);
@@ -81,36 +75,24 @@ Image * Image_load(const char * filename)
 		free(NewImage);
 		fclose(fp);
 		return NULL;                       }
-
 //Assigning struct member valuesT
 	NewImage->width = Header.width;
 	NewImage->height = Header.height;
 	NewImage->comment = Mallocd_Comment;
-
-
+//Closing File
 	fclose(fp);
 	return NewImage;
 
 }
 
-/**
- * Save an image to the passed filename, in ECE264 format.
- * Return TRUE if this succeeds, or 0 if there is any error.
- *
- * Hint: Please see the README for extensive hints
- */
 int Image_save(const char * filename, Image * image)
 {
-
 	FILE * fp = NULL;
 	size_t Write1, Write2, Write3;
-
 	fp = fopen(filename, "wb");
 	if (fp == NULL) { return 0;}
-
 	//Creating Header Struct
 	ImageHeader Header;
-
 	Header.magic_number = ECE264_IMAGE_MAGIC_NUMBER;
 	Header.width = image->width;
 	Header.height = image->height;
@@ -129,7 +111,6 @@ int Image_save(const char * filename, Image * image)
 		fclose(fp);
 		return 0;
 		}
-
 	size_t PixelArea = Header.height * Header.width;
 	Write3 = fwrite(image->data, sizeof(uint8_t), PixelArea, fp);
 	if(Write3 != PixelArea){
@@ -137,27 +118,28 @@ int Image_save(const char * filename, Image * image)
 		fclose(fp);
 		return 0;
 		}
-
 	fclose(fp);
 	return 1;
 }
-
-
-void Image_free(Image * image)
-
+void Image_free(Image * image) // Freeing image struct
 {
 	free (image->data);
 	free (image->comment);
 	free (image);
 }
-
-/**
- * Performs linear normalization, see README
- */
 void linearNormalization(int width, int height, uint8_t * intensity)
-
 {
+	int I = 0, Min = intensity[0], Max = intensity[0];
 
+	for (I=0; I < (width * height); I++)
+	{
+		if (intensity[I] > Max){ Max = intensity[I]; }
+		if (intensity[I] < Min){ Min = intensity[I]; }
+	}
+	for (I=0; I < (width * height); I++)
+	{
+		intensity[I] = (intensity[I] - Min) * 255.0/(Max - Min);
+	}
 }
 
 
