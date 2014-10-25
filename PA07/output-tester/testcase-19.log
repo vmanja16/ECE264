@@ -1,0 +1,12 @@
+
+/**
+ * Testcase 18 :: images/corrupt-testcases/04-height0.ee264 
+ * File header specifies 0 height, which is an error that you must check for. (Image_load should return NULL.)
+ */
+Error: failed to allocate write buffer
+Error attempting to write 'student-out-18_-'
+Attempt to read 'images/corrupt-testcases/04-height0.ee264' as .ee264 format
+Success.
+Writing out 'student-out-18_-' in .bmp format
+Image_load(...) correctly returns NULL on corrupt image
+Testcase passed.

@@ -1,0 +1,12 @@
+
+/**
+ * Testcase 15 :: images/corrupt-testcases/01-incomplete-header.ee264 
+ * File has less than 128 bytes, and thus too small to contain a complete header. (Image_load should return NULL.)
+ */
+Error: failed to allocate write buffer
+Error attempting to write 'student-out-15_-'
+Attempt to read 'images/corrupt-testcases/01-incomplete-header.ee264' as .ee264 format
+Success.
+Writing out 'student-out-15_-' in .bmp format
+Image_load(...) correctly returns NULL on corrupt image
+Testcase passed.

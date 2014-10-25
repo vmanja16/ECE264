@@ -1,0 +1,12 @@
+
+/**
+ * Testcase 19 :: images/corrupt-testcases/05-big-width-height.ee264 
+ * File header has crazy values for width and height which may cause malloc to fail. (Image_load should return NULL.)
+ */
+Error: failed to allocate write buffer
+Error attempting to write 'student-out-19_-'
+Attempt to read 'images/corrupt-testcases/05-big-width-height.ee264' as .ee264 format
+Success.
+Writing out 'student-out-19_-' in .bmp format
+Image_load(...) correctly returns NULL on corrupt image
+Testcase passed.

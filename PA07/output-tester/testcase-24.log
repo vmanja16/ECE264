@@ -1,0 +1,12 @@
+
+/**
+ * Testcase 23 :: images/corrupt-testcases/09-incomplete-image.ee264 
+ * There is data missing from the end of the file. (Image_load should return NULL.)
+ */
+Error: failed to allocate write buffer
+Error attempting to write 'student-out-23_-'
+Attempt to read 'images/corrupt-testcases/09-incomplete-image.ee264' as .ee264 format
+Success.
+Writing out 'student-out-23_-' in .bmp format
+Image_load(...) correctly returns NULL on corrupt image
+Testcase passed.

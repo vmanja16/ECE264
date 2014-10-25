@@ -1,0 +1,12 @@
+
+/**
+ * Testcase 22 :: images/corrupt-testcases/08-height-wrong.ee264 
+ * File header specifies the wrong image height, meaning that you will not find the end of file when you expect to. (Image_load should return NULL.)
+ */
+Error: failed to allocate write buffer
+Error attempting to write 'student-out-22_-'
+Attempt to read 'images/corrupt-testcases/08-height-wrong.ee264' as .ee264 format
+Success.
+Writing out 'student-out-22_-' in .bmp format
+Image_load(...) correctly returns NULL on corrupt image
+Testcase passed.
