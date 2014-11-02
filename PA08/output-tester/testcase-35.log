@@ -1,0 +1,13 @@
+
+Testcase 35
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "23" ==> "19" ==> "17" ==> "13" ==> "11" ==> NULL
+   Error: sorted solution has length 0, but it should be 5
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-35.memcheck.log.
+Testcase FAILED. Log file saved to testcase-35.log

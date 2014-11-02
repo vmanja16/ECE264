@@ -1,0 +1,70 @@
+Script started on Tue 28 Oct 2014 01:54:52 PM EDT
+]0;~/ECE264/solutions/demo/PA08
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA08[0m
+$ exit[C[C./tester
+   ---------------------------------------------------------------------------
+   Welcome to the PA08 testing program. This program takes a _long_ time
+   to execute. There is a reason for this. You should not rely on this
+   program to test your code as you go. Instead, you should think about
+   what your code should be doing, and what inputs should produce what
+   outputs for each of your functions.
+   
+        YOU SHOULD THEN TEST EVERY PIECE OF CODE AS YOU WRITE IT 
+   
+                                 AND 
+   
+                        FIX MISTAKES AS YOU GO.
+   
+   When you are convinced that you have the entire assignment 100% correct,
+   then you can use this testing program to test it. 
+   
+   This will give you your mark assuming that you submit it correctly, and 
+   there are no other irregularities.
+   ---------------------------------------------------------------------------
+
+Testcase 1
+   Testing: List_createNode("")
+Pass.
+
+Testcase 2
+   Testing: List_createNode("The quick brown Fox")
+Pass.
+
+Testcase 3
+   Testing: List_createNode("jumped over the")
+Pass.
+
+Testcase 4
+   Testing: List_createNode("lazy dog.")
+Pass.
+
+Testcase 5
+   Testing: List_destroyNode(list), where list is: "single node" ==> NULL
+Pass.
+
+Testcase 6
+   Testing: List_destroyNode(list), where list is: "one" ==> "two" ==> "three" ==> "four" ==> "five" ==> "six" ==> NULL
+Pass.
+
+Testcase 7
+   Testing: List_destroyNode(list), where list is: NULL
+Pass.
+
+Testcase 8
+   Testing: List_length(list) = 0, where list is: NULL
+Pass.
+
+Testcase 9
+   Testing: List_length(list) = 0, where list is: "[1]" ==> NULL
+   Error: expected length is 1
+Testcase FAILED. Log file saved to testcase-09.log
+^C
+]0;~/ECE264/solutions/demo/PA08
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA08[0m
+$ ^C
+]0;~/ECE264/solutions/demo/PA08
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA08[0m
+$ exit
+exit
+
+Script done on Tue 28 Oct 2014 01:58:06 PM EDT

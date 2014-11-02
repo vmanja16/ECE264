@@ -1,0 +1,445 @@
+Script started on Tue 28 Oct 2014 02:02:28 PM EDT
+]0;~/ECE264/solutions/demo/PA08
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA08[0m
+$ ./tester
+   ---------------------------------------------------------------------------
+   Welcome to the PA08 testing program. This program takes a _long_ time
+   to execute. There is a reason for this. You should not rely on this
+   program to test your code as you go. Instead, you should think about
+   what your code should be doing, and what inputs should produce what
+   outputs for each of your functions.
+   
+        YOU SHOULD THEN TEST EVERY PIECE OF CODE AS YOU WRITE IT 
+   
+                                 AND 
+   
+                        FIX MISTAKES AS YOU GO.
+   
+   When you are convinced that you have the entire assignment 100% correct,
+   then you can use this testing program to test it. 
+   
+   This will give you your mark assuming that you submit it correctly, and 
+   there are no other irregularities.
+   ---------------------------------------------------------------------------
+
+Testcase 1
+   Testing: List_createNode("")
+Pass.
+
+Testcase 2
+   Testing: List_createNode("The quick brown Fox")
+Pass.
+
+Testcase 3
+   Testing: List_createNode("jumped over the")
+Pass.
+
+Testcase 4
+   Testing: List_createNode("lazy dog.")
+Pass.
+
+Testcase 5
+   Testing: List_destroyNode(list), where list is: "single node" ==> NULL
+Pass.
+
+Testcase 6
+   Testing: List_destroyNode(list), where list is: "one" ==> "two" ==> "three" ==> "four" ==> "five" ==> "six" ==> NULL
+Pass.
+
+Testcase 7
+   Testing: List_destroyNode(list), where list is: NULL
+Pass.
+
+Testcase 8
+   Testing: List_length(list) = 0, where list is: NULL
+Pass.
+
+Testcase 9
+   Testing: List_length(list) = 1, where list is: "[1]" ==> NULL
+Pass.
+
+Testcase 10
+   Testing: List_length(list) = 2, where list is: "[1]" ==> "[2]" ==> NULL
+Pass.
+
+Testcase 11
+   Testing: List_length(list) = 3, where list is: "[1]" ==> "[2]" ==> "[3]" ==> NULL
+Pass.
+
+Testcase 12
+   Testing: List_length(list) = 4, where list is: "[1]" ==> "[2]" ==> "[3]" ==> "[4]" ==> NULL
+Pass.
+
+Testcase 13
+   Testing: List_length(list) = 5, where list is: "[1]" ==> "[2]" ==> "[3]" ==> "[4]" ==> "[5]" ==> NULL
+Pass.
+
+Testcase 14
+   Testing: List_length(list) = 6, where list is: "[1]" ==> "[2]" ==> "[3]" ==> "[4]" ==> "[5]" ==> "[6]" ==> NULL
+Pass.
+
+Testcase 15
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: NULL
+   + rhs is: NULL
+   
+   merged is  : NULL
+   solution is: NULL
+Pass.
+
+Testcase 16
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: "b" ==> "d" ==> "f" ==> NULL
+   + rhs is: NULL
+   
+   merged is  : NULL
+   solution is: "b" ==> "d" ==> "f" ==> NULL
+   Error: merged solution has length 0, but it should be 3
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-16.memcheck.log.
+Testcase FAILED. Log file saved to testcase-16.log
+
+Testcase 17
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: NULL
+   + rhs is: "b" ==> "d" ==> "f" ==> NULL
+   
+   merged is  : NULL
+   solution is: "b" ==> "d" ==> "f" ==> NULL
+   Error: merged solution has length 0, but it should be 3
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-17.memcheck.log.
+Testcase FAILED. Log file saved to testcase-17.log
+
+Testcase 18
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: "b" ==> "d" ==> "f" ==> NULL
+   + rhs is: "a" ==> "c" ==> "e" ==> "g" ==> "h" ==> "i" ==> "j" ==> NULL
+   
+   merged is  : NULL
+   solution is: "a" ==> "b" ==> "c" ==> "d" ==> "e" ==> "f" ==> "g" ==> "h" ==> "i" ==> "j" ==> NULL
+   Error: merged solution has length 0, but it should be 10
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-18.memcheck.log.
+Testcase FAILED. Log file saved to testcase-18.log
+
+Testcase 19
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + lhs is: "f" ==> "d" ==> "b" ==> NULL
+   + rhs is: "j" ==> "i" ==> "h" ==> "g" ==> "e" ==> "c" ==> "a" ==> NULL
+   
+   merged is  : NULL
+   solution is: "j" ==> "i" ==> "h" ==> "g" ==> "f" ==> "e" ==> "d" ==> "c" ==> "b" ==> "a" ==> NULL
+   Error: merged solution has length 0, but it should be 10
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-19.memcheck.log.
+Testcase FAILED. Log file saved to testcase-19.log
+
+Testcase 20
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   + rhs is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   merged is  : NULL
+   solution is: "11" ==> "13" ==> "17" ==> "19" ==> "2" ==> "23" ==> "3" ==> "5" ==> "7" ==> NULL
+   Error: merged solution has length 0, but it should be 9
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-20.memcheck.log.
+Testcase FAILED. Log file saved to testcase-20.log
+
+Testcase 21
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + lhs is: "7" ==> "5" ==> "3" ==> "2" ==> NULL
+   + rhs is: "23" ==> "19" ==> "17" ==> "13" ==> "11" ==> NULL
+   
+   merged is  : NULL
+   solution is: "7" ==> "5" ==> "3" ==> "23" ==> "2" ==> "19" ==> "17" ==> "13" ==> "11" ==> NULL
+   Error: merged solution has length 0, but it should be 9
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-21.memcheck.log.
+Testcase FAILED. Log file saved to testcase-21.log
+
+Testcase 22
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return atoi(a) - atoi(b)
+   + lhs is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   + rhs is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   merged is  : NULL
+   solution is: "2" ==> "3" ==> "5" ==> "7" ==> "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   Error: merged solution has length 0, but it should be 9
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-22.memcheck.log.
+Testcase FAILED. Log file saved to testcase-22.log
+
+Testcase 23
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: "2010" ==> NULL
+   + rhs is: "Continue" ==> "Doctor" ==> "Hello" ==> "Name" ==> "Tomorrow" ==> "Yesterday" ==> NULL
+   
+   merged is  : NULL
+   solution is: "2010" ==> "Continue" ==> "Doctor" ==> "Hello" ==> "Name" ==> "Tomorrow" ==> "Yesterday" ==> NULL
+   Error: merged solution has length 0, but it should be 7
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-23.memcheck.log.
+Testcase FAILED. Log file saved to testcase-23.log
+
+Testcase 24
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + lhs is: "2010" ==> NULL
+   + rhs is: "Yesterday" ==> "Tomorrow" ==> "Name" ==> "Hello" ==> "Doctor" ==> "Continue" ==> NULL
+   
+   merged is  : NULL
+   solution is: "Yesterday" ==> "Tomorrow" ==> "Name" ==> "Hello" ==> "Doctor" ==> "Continue" ==> "2010" ==> NULL
+   Error: merged solution has length 0, but it should be 7
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-24.memcheck.log.
+Testcase FAILED. Log file saved to testcase-24.log
+
+Testcase 25
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strlen(a) - strlen(b)
+   + lhs is: "a" ==> "be" ==> "sea" ==> NULL
+   + rhs is: "deee" ==> NULL
+   
+   merged is  : NULL
+   solution is: "a" ==> "be" ==> "sea" ==> "deee" ==> NULL
+   Error: merged solution has length 0, but it should be 4
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-25.memcheck.log.
+Testcase FAILED. Log file saved to testcase-25.log
+
+Testcase 26
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: NULL
+   
+   sorted is  : NULL
+   solution is: NULL
+Pass.
+
+Testcase 27
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: "b" ==> "d" ==> "f" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "b" ==> "d" ==> "f" ==> NULL
+   Error: sorted solution has length 0, but it should be 3
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-27.memcheck.log.
+Testcase FAILED. Log file saved to testcase-27.log
+
+Testcase 28
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "b" ==> "d" ==> "f" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "f" ==> "d" ==> "b" ==> NULL
+   Error: sorted solution has length 0, but it should be 3
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-28.memcheck.log.
+Testcase FAILED. Log file saved to testcase-28.log
+
+Testcase 29
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: "a" ==> "c" ==> "e" ==> "g" ==> "h" ==> "i" ==> "j" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "a" ==> "c" ==> "e" ==> "g" ==> "h" ==> "i" ==> "j" ==> NULL
+   Error: sorted solution has length 0, but it should be 7
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-29.memcheck.log.
+Testcase FAILED. Log file saved to testcase-29.log
+
+Testcase 30
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "a" ==> "c" ==> "e" ==> "g" ==> "h" ==> "i" ==> "j" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "j" ==> "i" ==> "h" ==> "g" ==> "e" ==> "c" ==> "a" ==> NULL
+   Error: sorted solution has length 0, but it should be 7
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-30.memcheck.log.
+Testcase FAILED. Log file saved to testcase-30.log
+
+Testcase 31
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   Error: sorted solution has length 0, but it should be 4
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-31.memcheck.log.
+Testcase FAILED. Log file saved to testcase-31.log
+
+Testcase 32
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "7" ==> "5" ==> "3" ==> "2" ==> NULL
+   Error: sorted solution has length 0, but it should be 4
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-32.memcheck.log.
+Testcase FAILED. Log file saved to testcase-32.log
+
+Testcase 33
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return atoi(a) - atoi(b)
+   + list is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   Error: sorted solution has length 0, but it should be 4
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-33.memcheck.log.
+Testcase FAILED. Log file saved to testcase-33.log
+
+Testcase 34
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   Error: sorted solution has length 0, but it should be 5
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-34.memcheck.log.
+Testcase FAILED. Log file saved to testcase-34.log
+
+Testcase 35
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "23" ==> "19" ==> "17" ==> "13" ==> "11" ==> NULL
+   Error: sorted solution has length 0, but it should be 5
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-35.memcheck.log.
+Testcase FAILED. Log file saved to testcase-35.log
+
+Testcase 36
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return atoi(a) - atoi(b)
+   + list is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   Error: sorted solution has length 0, but it should be 5
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-36.memcheck.log.
+Testcase FAILED. Log file saved to testcase-36.log
+
+Testcase 37
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: "2010" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "2010" ==> NULL
+   Error: sorted solution has length 0, but it should be 1
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-37.memcheck.log.
+Testcase FAILED. Log file saved to testcase-37.log
+
+Testcase 38
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "2010" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "2010" ==> NULL
+   Error: sorted solution has length 0, but it should be 1
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-38.memcheck.log.
+Testcase FAILED. Log file saved to testcase-38.log
+
+Testcase 39
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + list is: "Hello" ==> "Doctor" ==> "Name" ==> "Continue" ==> "Yesterday" ==> "Tomorrow" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "Continue" ==> "Doctor" ==> "Hello" ==> "Name" ==> "Tomorrow" ==> "Yesterday" ==> NULL
+   Error: sorted solution has length 0, but it should be 6
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-39.memcheck.log.
+Testcase FAILED. Log file saved to testcase-39.log
+
+Testcase 40
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + list is: "Hello" ==> "Doctor" ==> "Name" ==> "Continue" ==> "Yesterday" ==> "Tomorrow" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "Yesterday" ==> "Tomorrow" ==> "Name" ==> "Hello" ==> "Doctor" ==> "Continue" ==> NULL
+   Error: sorted solution has length 0, but it should be 6
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-40.memcheck.log.
+Testcase FAILED. Log file saved to testcase-40.log
+
+Testcase 41
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return strlen(a) - strlen(b)
+   + list is: "sea" ==> "a" ==> "be" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "a" ==> "be" ==> "sea" ==> NULL
+   Error: sorted solution has length 0, but it should be 3
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-41.memcheck.log.
+Testcase FAILED. Log file saved to testcase-41.log
+
+
+16/41 testcases passed.
+Overall mark is a FAIL.
+]0;~/ECE264/solutions/demo/PA08
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA08[0m
+$ exit
+exit
+
+Script done on Tue 28 Oct 2014 02:09:11 PM EDT

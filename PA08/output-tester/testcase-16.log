@@ -1,0 +1,14 @@
+
+Testcase 16
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return strcmp(a, b)
+   + lhs is: "b" ==> "d" ==> "f" ==> NULL
+   + rhs is: NULL
+   
+   merged is  : NULL
+   solution is: "b" ==> "d" ==> "f" ==> NULL
+   Error: merged solution has length 0, but it should be 3
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-16.memcheck.log.
+Testcase FAILED. Log file saved to testcase-16.log

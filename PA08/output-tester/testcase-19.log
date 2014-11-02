@@ -1,0 +1,14 @@
+
+Testcase 19
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return -strcmp(a, b)
+   + lhs is: "f" ==> "d" ==> "b" ==> NULL
+   + rhs is: "j" ==> "i" ==> "h" ==> "g" ==> "e" ==> "c" ==> "a" ==> NULL
+   
+   merged is  : NULL
+   solution is: "j" ==> "i" ==> "h" ==> "g" ==> "f" ==> "e" ==> "d" ==> "c" ==> "b" ==> "a" ==> NULL
+   Error: merged solution has length 0, but it should be 10
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-19.memcheck.log.
+Testcase FAILED. Log file saved to testcase-19.log

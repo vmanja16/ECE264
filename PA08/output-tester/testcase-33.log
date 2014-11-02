@@ -1,0 +1,13 @@
+
+Testcase 33
+   Testing List_sort(list, compar), where:
+   
+   + compar is: return atoi(a) - atoi(b)
+   + list is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   
+   sorted is  : NULL
+   solution is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   Error: sorted solution has length 0, but it should be 4
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-33.memcheck.log.
+Testcase FAILED. Log file saved to testcase-33.log

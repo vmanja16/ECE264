@@ -1,0 +1,14 @@
+
+Testcase 22
+   Testing List_merge(lhs, rhs, compar), where:
+   
+   + compar is: return atoi(a) - atoi(b)
+   + lhs is: "2" ==> "3" ==> "5" ==> "7" ==> NULL
+   + rhs is: "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   
+   merged is  : NULL
+   solution is: "2" ==> "3" ==> "5" ==> "7" ==> "11" ==> "13" ==> "17" ==> "19" ==> "23" ==> NULL
+   Error: merged solution has length 0, but it should be 9
+   Memory errors detected.
+   Valgrind log saved in output-tester/testcase-22.memcheck.log.
+Testcase FAILED. Log file saved to testcase-22.log
