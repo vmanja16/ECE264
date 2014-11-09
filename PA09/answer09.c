@@ -19,7 +19,7 @@ char * * explode(const char * str, const char * delims, int * arrLen)
         if ( strchr(delims, *s) != NULL) // If *s is in delims
             {
             N++;
-            printf("%c\n", *s);
+           // printf("%c\n", *s);
             }
         s++;
         } 
@@ -58,7 +58,7 @@ for( Counter = 0; Counter < *arrLen; Counter++)
     
         strArr[I][J] = ('\0'); // Adding null character
           
-        printf(" strArr[%d] is %s\n", I, strArr[I] );
+       // printf(" strArr[%d] is %s\n", I, strArr[I] );
     ++Current;
     Previous = Current;
     s++;
@@ -100,48 +100,30 @@ create_node(char * stars, char * name, char * address)
 BusinessNode *
 tree_insert(BusinessNode * node, BusinessNode * root)
 {
-    BusinessNode * pointer1 = root, * pointer2 = NULL;
+    BusinessNode * pointer1 = root;
 
-    if (strcmp(node->name, pointer1->name) <= 0)
-    {
-        while ( (strcmp(node->name, pointer1->name) <= 0) && (pointer1->left != NULL) )
-        {
-            pointer2 = pointer1;
-            pointer1 = pointer1->left;
-        }
-        if (pointer1->left == NULL) // if at bottom of tree
-        {
-            pointer1->left = node;
-            node->left = NULL;
-            node->right = NULL;
-        }
-        else
-        {
-            pointer2->left = node;
-            node->left = pointer1;
-            node->right = NULL;
-        }
-    }
+    if (root == NULL){root = node; return root;}
 
-    if (strcmp(node->name, pointer1->name) > 0)
-    {
-        while ( (strcmp(node->name, pointer1->name) > 0) && (pointer1->right != NULL) )
+   while (pointer1 != node)
+   {
+        if (strcmp(node->name, pointer1->name) <= 0)
         {
-            pointer2 = pointer1;
-            pointer1 = pointer1->right;
-        }
-        if (pointer1->right == NULL) // if at bottom of tree
+            if (pointer1->left == NULL)
+            {
+                pointer1->left = node;
+            }
+        pointer1 = pointer1->left;
+        continue;
+         }
+
+         if (strcmp(node->name, pointer1->name) > 0)
         {
-            pointer1->right = node;
-            node->left = NULL;
-            node->right = NULL;
-        }
-        else
-        {
-            pointer2->right = node;
-            node->right = pointer1;
-            node->left = NULL;
-        }
+            if (pointer1->right == NULL)
+            {
+                pointer1->right = node;
+            }
+        pointer1 = pointer1->right;
+         }
 
     }
 return root;
@@ -159,18 +141,25 @@ load_tree_from_file(char * filename)
 	FILE * fp = fopen(filename, "r");
     if ( fp == NULL){ return NULL;}
 	char buffer[9000];
+    const char * Buffer = buffer;
 	 char ** Line = NULL;
+     int n;
+     BusinessNode * NewNode;
+     BusinessNode * root = NULL;
 
 	while(feof(fp) ==0)
 	{
 		fgets(buffer, 900,fp);
-		
-
+        if (feof(fp) != 0){break;}
+        Line = explode(Buffer, "\t", &n);
+        NewNode = create_node( Line[0], Line[1], Line[2] ) ;
+        root = tree_insert(NewNode, root);
+        free(Line);
 	}
 
 
 	fclose(fp);
-	return NULL;
+	return root;
 }
 
 
@@ -183,6 +172,26 @@ BusinessNode *
 tree_search_name(char * name, BusinessNode * root)
 
 {
+    if (root = NULL){return NULL;}
+
+    if (strcmp(name, root->name) == 0)
+    {
+        return root;
+    }
+
+    if (strcmp(name, root->name) < 0)
+    {
+        tree_search_name(name, root->right);
+    }
+
+    if (strcmp(name, root->name) > 0)
+    {
+        tree_search_name(name, root->right);
+    }
+
+
+
+
 return root;
 }/* Print out a single node: name, address, and stars
  * The format can be similar to this:

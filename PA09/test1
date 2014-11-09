@@ -1,0 +1,272 @@
+Script started on Sun 09 Nov 2014 12:36:53 AM EST
+]0;~/ECE264/solutions/demo/PA09
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA09[0m
+$ ./tester
+answer09.c: In function ‘load_tree_from_file’:
+answer09.c:162: warning: unused variable ‘Line’
+   ---------------------------------------------------------------------------
+   Welcome to the PA09 testing program. This program takes a _long_ time
+   to execute. There is a reason for this. You should not rely on this
+   program to test your code as you go. Instead, you should think about
+   what your code should be doing, and what inputs should produce what
+   outputs for each of your functions.
+   
+        YOU SHOULD THEN TEST EVERY PIECE OF CODE AS YOU WRITE IT 
+   
+                                 AND 
+   
+                        FIX MISTAKES AS YOU GO.
+   
+   When you are convinced that you have the entire assignment 100%% correct,
+   then you can use this testing program to test it. 
+   
+   This will give you your mark assuming that you submit it correctly, and 
+   there are no other irregularities.
+   ---------------------------------------------------------------------------
+
+test 1 :: passing incorrect filename to load_tree_from_file()
+
+	char * filename = "carzyfilename";
+	BusinessNode * root;
+	root = load_tree_from_file(filename);
+
+   (pass.)
+
+test 2 :: testing destroy_tree()
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	destroy_tree(root);
+
+   (pass.)
+
+test 3 :: testing destroy_tree() when root is NULL
+
+	BusinessNode * root = NULL
+	destroy_tree(root);
+
+   (pass.)
+
+test 4 :: testing whether the tree is built correctly
+
+	BusinessNode * tree = load_tree_from_file("yelp_businesses.tsv");
+	compare_trees(tree, sol_tree);
+Compare found one tree had children that the other tree did not!
+Found NULL in students tree when expecting node:
+Eric Goldberg, MD
+=================
+Stars:
+   3.5
+Address:
+   4840 E Indian School Rd, Ste 101, Phoenix, AZ 85018
+
+
+   // Error, Tree is not built correctly.
+	Check the README for instructions on how to build the tree correctly.
+
+	destroy_tree(tree);
+
+   Testcase FAILED
+
+test 5 :: testing the create_node function.
+
+	BusinessNode * node = create_node(strdup("5.0"), strdup("Purdue University Electrical Engineering"), strdup("465 Northwestern Avenue")
+   (pass.)
+
+test 6 :: testing the tree_insert function.
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = create_node(strdup("5.0"),strdup("test node"),strdup("no address"));
+	BusinessNode * root = tree_insert(node,root);
+Compare found difference between nodes.
++ Expected [name='zpizza' addr='53 W Thomas Rd, Phoenix, AZ 85013
+' stars='3.5']
++ Got      [name='test node' addr='no address' stars='5.0']
+   // Error, Insert at wrong position
+
+   Testcase FAILED
+
+test 7 :: testing the tree_insert function: insert to NULL root.
+
+	BusinessNode * root = NULL;
+	BusinessNode * node = create_node(strdup("5.0"),strdup("test node"),strdup("no address"));
+	BusinessNode * root = tree_insert(node,root);
+Memory errors detected, testcase failed.
+==28337== Memcheck, a memory error detector
+==28337== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==28337== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==28337== Command: /tmp/.342cua/a.out 6
+==28337== Parent PID: 28335
+==28337== 
+--28337-- 
+--28337-- Valgrind options:
+--28337--    --tool=memcheck
+--28337--    --leak-check=full
+--28337--    --verbose
+--28337--    --log-file=memcheck.log
+--28337-- Contents of /proc/version:
+--28337--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--28337-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--28337-- Page sizes: currently 4096, max supported 4096
+--28337-- Valgrind library directory: /usr/lib64/valgrind
+--28337-- Reading syms from /tmp/.342cua/a.out
+--28337-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--28337--    object doesn't have a dynamic symbol table
+--28337-- Reading syms from /lib64/ld-2.12.so
+--28337--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
+--28337--   .. build-id is valid
+--28337-- Scheduler: using generic scheduler lock implementation.
+--28337-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==28337== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-28337-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28337== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-28337-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28337== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-28337-by-vmanja-on-ecegrid-thin1.ecn.purdue.edu
+==28337== 
+==28337== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==28337== don't want to do, unless you know exactly what you're doing,
+==28337== or are doing some strange experiment):
+==28337==   /usr/lib64/valgrind/../../bin/vgdb --pid=28337 ...command...
+==28337== 
+==28337== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==28337==   /path/to/gdb /tmp/.342cua/a.out
+==28337== and then give GDB the following command
+==28337==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=28337
+==28337== --pid is optional if only one valgrind process is running
+==28337== 
+--28337-- REDIR: 0x35ff417610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--28337-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--28337-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--28337-- REDIR: 0x35ff417480 (index) redirected to 0x4a07c30 (index)
+--28337-- REDIR: 0x35ff417500 (strcmp) redirected to 0x4a08570 (strcmp)
+--28337-- Reading syms from /lib64/libc-2.12.so
+--28337--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
+--28337--   .. build-id is valid
+--28337-- REDIR: 0x35ff884cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28337-- REDIR: 0x35ff886f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--28337-- REDIR: 0x35ff882c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
+--28337-- REDIR: 0x35ff88aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
+--28337-- REDIR: 0x35ff884500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
+--28337-- REDIR: 0x35ff87b520 (free) redirected to 0x4a063a9 (free)
+--28337-- REDIR: 0x35ff881160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
+--28337-- REDIR: 0x35ff87a640 (malloc) redirected to 0x4a069ac (malloc)
+--28337-- REDIR: 0x35ff889670 (memcpy) redirected to 0x4a08b60 (memcpy)
+==28337== Invalid read of size 8
+==28337==    at 0x401EB0: tree_insert (answer09.c:105)
+==28337==    by 0x4019EF: test_insert_null (<stdin>:400)
+==28337==    by 0x401B1A: main (<stdin>:428)
+==28337==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==28337== 
+==28337== 
+==28337== Process terminating with default action of signal 11 (SIGSEGV)
+==28337==  Access not within mapped region at address 0x0
+==28337==    at 0x401EB0: tree_insert (answer09.c:105)
+==28337==    by 0x4019EF: test_insert_null (<stdin>:400)
+==28337==    by 0x401B1A: main (<stdin>:428)
+==28337==  If you believe this happened as a result of a stack
+==28337==  overflow in your program's main thread (unlikely but
+==28337==  possible), you can try to increase the size of the
+==28337==  main thread stack using the --main-stacksize= flag.
+==28337==  The main thread stack size used in this run was 10485760.
+==28337== 
+==28337== HEAP SUMMARY:
+==28337==     in use at exit: 65 bytes in 4 blocks
+==28337==   total heap usage: 4 allocs, 0 frees, 65 bytes allocated
+==28337== 
+==28337== Searching for pointers to 4 not-freed blocks
+==28337== Checked 64,744 bytes
+==28337== 
+==28337== LEAK SUMMARY:
+==28337==    definitely lost: 0 bytes in 0 blocks
+==28337==    indirectly lost: 0 bytes in 0 blocks
+==28337==      possibly lost: 0 bytes in 0 blocks
+==28337==    still reachable: 65 bytes in 4 blocks
+==28337==         suppressed: 0 bytes in 0 blocks
+==28337== Reachable blocks (those to which a pointer was found) are not shown.
+==28337== To see them, rerun with: --leak-check=full --show-reachable=yes
+==28337== 
+==28337== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==28337== 
+==28337== 1 errors in context 1 of 1:
+==28337== Invalid read of size 8
+==28337==    at 0x401EB0: tree_insert (answer09.c:105)
+==28337==    by 0x4019EF: test_insert_null (<stdin>:400)
+==28337==    by 0x401B1A: main (<stdin>:428)
+==28337==  Address 0x0 is not stack'd, malloc'd or (recently) free'd
+==28337== 
+--28337-- 
+--28337-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--28337-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==28337== 
+==28337== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+
+test 8 :: testing the tree_search_name function: Looking for: Pine Cone Restaurant
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Pine Cone Restaurant",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 9 :: testing the tree_search_name function: Looking for: Full Circle Auto Wash
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Full Circle Auto Wash",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 10 :: testing the tree_search_name function: Looking for: Oriental Supermarket
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Oriental Supermarket",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 11 :: testing the tree_search_name function: Looking for: Surfer Express Car Wash
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Surfer Express Car Wash",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 12 :: testing the tree_search_name function: Looking for: Dennis' Special Shop
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Dennis' Special Shop",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 13 :: testing the tree_search_name function: Looking for: Purdue University
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Purdue University",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 14 :: testing the tree_search_name function: Looking for: Vinny-Boy's Italian Market Place
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Vinny-Boy's Italian Market Place",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+test 15 :: testing the tree_search_name function: Looking for: Mando's Mexican Food
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Mando's Mexican Food",root);
+   // Error, Incorrect node found.
+
+   Testcase FAILED
+
+
+4/15 testcases passed.
+Overall mark is a FAIL.
+]0;~/ECE264/solutions/demo/PA09
+[32mvmanja@ecegrid-thin1 [33m~/ECE264/solutions/demo/PA09[0m
+$ exit
+exit
+
+Script done on Sun 09 Nov 2014 12:45:27 AM EST
