@@ -3,6 +3,12 @@
 #include <math.h>
 #include <string.h>
 
+
+void quickSort( int a[], int lb, int ub);
+int partition( int a[], int Left, int Right); 
+
+
+
 typedef struct Vert {
 	float ID, Age, Gender, MaritalStatus, Race, BirthPlace, Language,
 		  Occupation, Income;
@@ -19,8 +25,10 @@ int main(void)
 
 FILE * fp;
 float Users = 0, Thresh1 = 0, Thresh2 = 0, QueryNode = 0, Alpha = 0, Maximum = 0;
-int i = 0;
+int i = 0, j = 0, Query3Array1[100000], Query3Array2[100000];
+int Count31 = 0, Count32 = 0;
 Vertex * ptr1 = NULL, * ptr2 = NULL;
+
 
 
 /*-Initializing Vertex List Header-*/
@@ -69,7 +77,7 @@ for ( i = 0; i < Users-1; i++)
    	&(ptr1->Income) );
     ptr1->next = NULL;
 }
-
+                       /**/
 ptr1 = Header.next;
 for (i = 0; i < Users; i++)
 {
@@ -105,7 +113,7 @@ while (ptr1 != NULL)
 }
 
 
-/*                   CONVERTING ULAB TO LAB                                        */
+/*                   CONVERTING ULAB TO NLAB                                        */
 
 
 printf("%f\n", Maximum ); 
@@ -126,11 +134,141 @@ while(ptr1 != NULL)
 	ptr1 = ptr1->next;
 }
 
- 
+
+printf("\n");
+/*                        QUERYY 333333333                      */ 
+
+ptr1 = Header.next;
+
+for(i=1; i < QueryNode; i++)
+{
+  ptr1 = ptr1->next;         // move ptr1 to  query node
+}
+
+j=0;
+for(i = 0; i < Users; i++)
+{
+  if( (ptr1->ULAB[i] > Thresh1) && ((i+1) != QueryNode) )
+  {
+  Query3Array1[j] = i + 1;
+  j++;  
+  }
+}
+
+quickSort(Query3Array1, 0, j-1);
+Count31 = j;
+
+
+for(i = 0; i <j; i++)
+{
+  printf("%d ", Query3Array1[i]);
+} 
+
+printf("\n");
+
+
+j=0;
+for(i = 0; i < Users; i++)
+{
+  if( (ptr1->ULAB[i] > Thresh2) && ((i+1) != QueryNode) )
+  {
+  Query3Array2[j] = i + 1;
+  j++;  
+  }
+}
+
+quickSort(Query3Array2, 0, j-1);
+Count32 = j;
+
+for(i = 0; i <j; i++)
+{
+  printf("%d ", Query3Array2[i]);
+} 
+
+printf("\n");
+
+/*---------------------- QUERYY 4444444444444444444444    */
+
+/*---------------------- QUERYY 5555555555555555555555    */
+
+/*---------------------- QUERYY 6666666666666666666666    */
 
 
 fclose(fp);
 return 0;
 
-
 }
+
+
+/*                                                              */
+/*                     SORTING ALGORITHM                        */
+void quickSort( int a[], int lb, int ub)
+{
+
+  int sTack[ub - lb  + 1];   // initializing sTack
+  int index = 0;
+  int i;
+
+  sTack[0] = lb;               // push lowerbound
+  sTack[++index] = ub;        // push upperbound
+
+  while ( index >= 0) 
+  {
+    ub = sTack[ index--];
+    lb = sTack[ index--];
+
+    i = partition( a, lb, ub);
+
+    if ( (i -1) > lb)        // left
+    {
+      sTack[ ++index] = lb;
+      sTack[ ++index] = i -1;
+    }
+
+    if ( ( i + 1) < ub )     // right
+    {
+       sTack[ ++index] = i + 1;
+      sTack[ ++index] = ub;
+    }
+
+
+  }
+}
+
+
+int partition( int a[], int Left, int Right) 
+{
+   int pivot, temp, index;
+  // pivot = a[lb];
+
+   index =  Left + (Right - Left)/2 ;  // Middle pivot
+   pivot = a[index];
+
+    
+   while( Left <= Right)
+   {
+      while( (a[Left] <= pivot)  && (Left <= Right)){Left++;} // move left
+      while( (a[Right] > pivot) ) {Right--;}             // move right
+   
+    
+      if ( Right < Left){break;}
+
+      if ( Right == index) { index = Left;}
+    
+    
+      temp = a[Left];              // exchange right and left
+      a[Left] = a[Right];
+      a[Right] = temp; 
+      
+    }
+
+   //temp = pivot;         // exchange pivot w/ right
+   a[ index] = a[Right]; 
+   a[Right] = pivot;
+   return Right;      // Right is index of positioned pivot
+}
+
+
+
+
+
