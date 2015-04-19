@@ -25,7 +25,9 @@ int main(void)
 
 FILE * fp;
 float Users = 0, Thresh1 = 0, Thresh2 = 0, QueryNode = 0, Alpha = 0, Maximum = 0;
+float Count51 = 0, Count52 = 0, Minimum = 1, Count11 = 0, Count12 = 0;
 int i = 0, j = 0, Query3Array1[100000], Query3Array2[100000];
+int Query1Array1[100000], Query1Array2[100000];
 int Count31 = 0, Count32 = 0;
 Vertex * ptr1 = NULL, * ptr2 = NULL;
 
@@ -51,7 +53,7 @@ fp = fopen("input.txt", "r");
 // Scanning in First Row of values
 fscanf(fp,"%f, %f, %f, %f, %f", &Users, &Thresh1, &Thresh2, &QueryNode, &Alpha);
 
-printf("%f %f %f %f %f\n", Users, Thresh1, Thresh2, QueryNode, Alpha);
+//printf("%f %f %f %f %f\n", Users, Thresh1, Thresh2, QueryNode, Alpha);
  
 
 /*----------------CREATING LINKED LIST OF VERTICES-------------------------*/
@@ -77,7 +79,7 @@ for ( i = 0; i < Users-1; i++)
    	&(ptr1->Income) );
     ptr1->next = NULL;
 }
-                       /**/
+/*                       
 ptr1 = Header.next;
 for (i = 0; i < Users; i++)
 {
@@ -86,7 +88,7 @@ for (i = 0; i < Users; i++)
    	ptr1->BirthPlace, ptr1->Language, ptr1->Occupation, ptr1->Income);
    	ptr1 = ptr1->next;
 }
- 
+ */
  // FINISHED Linked List of Vertices 
 
 
@@ -116,18 +118,24 @@ while (ptr1 != NULL)
 /*                   CONVERTING ULAB TO NLAB                                        */
 
 
-printf("%f\n", Maximum ); 
+//printf("%f\n", Maximum ); 
 
 ptr1 = Header.next;
 
 while(ptr1 != NULL)
 {
-	printf("\n");	
+	//printf("\n");	
 	for (i = 0; i< Users; i++)
 	{
 		ptr1->ULAB[i] = 1 - (ptr1->ULAB[i] / Maximum);
-		printf("%.2f\n", ptr1->ULAB[i] ); 
-		
+    ptr1->ULAB[i] = ptr1->ULAB[i] * 100;
+    ptr1->ULAB[i] = (int) ptr1->ULAB[i]/1;   // Truncating NLAB
+    ptr1->ULAB[i] = ptr1->ULAB[i] / 100;
+
+
+		//printf("%f\n", ptr1->ULAB[i] ); 
+		if (ptr1->ULAB[i] > Thresh1){Count51++;}
+    if (ptr1->ULAB[i] > Thresh2){Count52++;}
 	}
 
 	 
@@ -136,14 +144,68 @@ while(ptr1 != NULL)
 
 
 printf("\n");
-/*                        QUERYY 333333333                      */ 
+
+/*                        QUERYY 11111111111                      */ 
+//printf("\n QUERY1 \n");
 
 ptr1 = Header.next;
 
-for(i=1; i < QueryNode; i++)
+while (ptr1->ID != QueryNode)
 {
   ptr1 = ptr1->next;         // move ptr1 to  query node
 }
+
+for(i = 0; i < Users; i++)
+{
+  if ( (ptr1->ULAB[i] > Thresh1) && (ptr1->ULAB[i] < Minimum) )
+  {
+    Minimum = ptr1->ULAB[i];
+  }
+}
+j = 0;
+for(i = 0; i < Users; i++)
+{
+  if ( (ptr1->ULAB[i] == Minimum))
+  {
+    Count11++;
+    Query1Array1[j] = i + 1;
+    j++;
+  }
+}
+printf("Query 1 is : ");
+printf("%.2f,  ", Minimum);
+quickSort(Query1Array1, 0, j-1);
+for (i = 0; i < j; i++)
+{
+  printf("%d ", Query1Array1[i] );
+}
+// Thresh 2
+Minimum = 1;
+for(i = 0; i < Users; i++)
+{
+  if ( (ptr1->ULAB[i] > Thresh2) && (ptr1->ULAB[i] < Minimum) )
+  {
+    Minimum = ptr1->ULAB[i];
+  }
+}
+j = 0;
+for(i = 0; i < Users; i++)
+{
+  if ( (ptr1->ULAB[i] == Minimum))
+  {
+    Count12++;
+    Query1Array2[j] = i + 1;
+    j++;
+  }
+}
+
+
+printf("\n");
+printf("Query 2 is : ");
+printf("\n");
+
+/*                        QUERYY 333333333                      */ 
+//printf("\n QUERY3 \n");
 
 j=0;
 for(i = 0; i < Users; i++)
@@ -158,8 +220,9 @@ for(i = 0; i < Users; i++)
 quickSort(Query3Array1, 0, j-1);
 Count31 = j;
 
-
-for(i = 0; i <j; i++)
+printf("Query 3 is : ");
+printf("%d,  ", Count31);
+for(i = 0; i <Count31; i++)
 {
   printf("%d ", Query3Array1[i]);
 } 
@@ -180,19 +243,77 @@ for(i = 0; i < Users; i++)
 quickSort(Query3Array2, 0, j-1);
 Count32 = j;
 
-for(i = 0; i <j; i++)
+
+/*---------------------- QUERYY 4444444444444444444444    */
+
+printf("Query 4 is: ");
+printf("\n");
+
+/*---------------------- QUERYY 5555555555555555555555    */
+
+//printf("\n QUERY5 \n");
+
+//printf("%f %f\n", Count51-Users, Count52-Users);
+
+Count51 = (Count51 - Users)/Users;  // getting rid of self connect
+Count52 = (Count52 - Users)/Users;  // getting rid of self connect
+
+printf("Query 5 is: %.2f\n", Count51);
+
+
+/*---------------------- QUERYY 6666666666666666666666    */
+
+printf("Query 6 is : ");
+printf("\n");
+
+/*--------------------- REPRINTS-----------------*/
+
+printf("\n");
+
+// Query1
+printf("Query 1 is : ");
+printf("%.2f,  ", Minimum);
+quickSort(Query1Array1, 0, Count12-1);
+for (i = 0; i < Count12; i++)
+{
+  printf("%d ", Query1Array2[i] );
+}
+
+printf("\n");
+// Query 2
+printf("Query 2 is : ");
+
+printf("\n");
+
+//Query3
+
+printf("Query 3 is : ");
+
+printf("%d,  ", Count32);
+
+for(i = 0; i <Count32; i++)
 {
   printf("%d ", Query3Array2[i]);
 } 
 
 printf("\n");
 
-/*---------------------- QUERYY 4444444444444444444444    */
+//Query 4
+printf ("Query 4 is : ");
 
-/*---------------------- QUERYY 5555555555555555555555    */
+printf("\n");
 
-/*---------------------- QUERYY 6666666666666666666666    */
+// Query 5
 
+printf("Query 5 is : %.2f", Count52);
+
+printf("\n");
+
+//Query 6
+
+printf("Query 6 is : ");
+
+printf("\n");
 
 fclose(fp);
 return 0;
