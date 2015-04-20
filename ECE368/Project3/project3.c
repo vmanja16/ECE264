@@ -11,7 +11,7 @@ int partition( int a[], int Left, int Right);
 
 typedef struct Vert {
 	float ID, Age, Gender, MaritalStatus, Race, BirthPlace, Language,
-		  Occupation, Income;
+		  Occupation, Income, OneHop, TwoHop;
     struct Vert * next;
     float * ULAB;
 } Vertex;
@@ -28,7 +28,9 @@ float Users = 0, Thresh1 = 0, Thresh2 = 0, QueryNode = 0, Alpha = 0, Maximum = 0
 float Count51 = 0, Count52 = 0, Minimum = 1, Count11 = 0, Count12 = 0;
 int i = 0, j = 0, Query3Array1[100000], Query3Array2[100000];
 int Query1Array1[100000], Query1Array2[100000];
-int Count31 = 0, Count32 = 0;
+int Count31 = 0, Count32 = 0, a = 0, b = 0, c = 0;
+int Count41 = 0, Count42 = 0;
+int Query4Array1[100000], Query4Array2[100000];
 Vertex * ptr1 = NULL, * ptr2 = NULL;
 
 
@@ -45,6 +47,7 @@ Header.BirthPlace = 0;		//
 Header.Language = 0;		//
 Header.Occupation = 0;		//
 Header.Income=0;            //
+Header.OneHop = 0;            //
 Header.next = NULL;         //
 /*-------------------------------*/
 
@@ -208,6 +211,7 @@ printf("\n");
 //printf("\n QUERY3 \n");
 
 j=0;
+
 for(i = 0; i < Users; i++)
 {
   if( (ptr1->ULAB[i] > Thresh1) && ((i+1) != QueryNode) )
@@ -247,7 +251,89 @@ Count32 = j;
 /*---------------------- QUERYY 4444444444444444444444    */
 
 printf("Query 4 is: ");
-printf("\n");
+
+
+ptr2 = Header.next; // start ptr2 at beginning
+for (i = 0; i < Users; i++)
+{
+  if (ptr1->ULAB[i] < Thresh1){continue;} // check if linked
+  if (i+1 == QueryNode){continue;}
+
+  while(ptr2->ID != i+1)
+  {
+    ptr2 = ptr2->next;              // move ptr2 to next linked
+  }                                 // vertex
+
+  for (j= 0; j<Users; j++)   // going through ptr2 array
+  {
+    b = 0; // clr bad flag
+    if (j + 1 == QueryNode){continue;}
+    if (j + 1 == ptr2->ID ){continue;}
+    if (ptr2->ULAB[j] > Thresh1)  // if link exists
+    {
+      for (a = 0; a < Count31; a++)
+      {
+        if(j+1 == Query3Array1[a] ){b = 1;} // set bad flag
+      }                                     // if already 1friend
+
+      for(a = 0; a < Count41; a++)
+      {
+        if(j+1 == Query4Array1[a] ){b = 1;} // set bad flag
+      }                                    // if already 2friend
+
+      if (b == 0) // if bad flag not set
+      {
+        Query4Array1[Count41] = j+1; // add node to  q4
+        Count41++;
+      }                                    
+    }    
+  }
+ 
+}
+
+
+ptr2 = Header.next; // start ptr2 at beginning
+for (i = 0; i < Users; i++)
+{
+  if (ptr1->ULAB[i] < Thresh2){continue;} // check if linked
+  if (i+1 == QueryNode){continue;}
+
+  while(ptr2->ID != i+1)
+  {
+    ptr2 = ptr2->next;              // move ptr2 to next linked
+  }                                 // vertex
+
+  for (j= 0; j<Users; j++)   // going through ptr2 array
+  {
+    b = 0; // clr bad flag
+    if (j + 1 == QueryNode){continue;}
+    if (j + 1 == ptr2->ID ){continue;}
+    if (ptr2->ULAB[j] > Thresh2)  // if link exists
+    {
+      for (a = 0; a < Count31; a++)
+      {
+        if(j+1 == Query3Array2[a] ){b = 1;} // set bad flag
+      }                                     // if already 1friend
+
+      for(a = 0; a < Count41; a++)
+      {
+        if(j+1 == Query4Array2[a] ){b = 1;} // set bad flag
+      }                                    // if already 2friend
+
+      if (b == 0) // if bad flag not set
+      {
+        Query4Array2[Count42] = j+1; // add node to  q4
+        Count42++;
+      }                                    
+    }    
+  }
+ 
+}
+
+
+ printf("%d, ", Count41);
+ for (i = 0; i < Count41; i++){printf("%d ", Query4Array1[i]);}
+ printf("\n");
 
 /*---------------------- QUERYY 5555555555555555555555    */
 
@@ -300,6 +386,12 @@ printf("\n");
 
 //Query 4
 printf ("Query 4 is : ");
+
+printf("%d, ", Count42);
+for (i = 0; i < Count42; i++)
+  {
+    printf("%d ", Query4Array2[i]);
+  }
 
 printf("\n");
 
